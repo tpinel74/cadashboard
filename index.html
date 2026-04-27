@@ -437,23 +437,13 @@
 // ============================================================
 // DATA SOURCES -- Google Sheets CSV URLs
 // ============================================================
-// Google Sheets published CSV URLs
-const SHEET_BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSkx4t0be_bBiv-EHit8bgDGHIfO8kEbokKcmgncp2h1u9YYNdlkYhQkvEA-BrmeHsaewR8I5X5n5_2/pub';
-const SHEET_URLS = {
-  members:     SHEET_BASE + '?gid=0&single=true&output=csv',
-  goals:       SHEET_BASE + '?gid=327355125&single=true&output=csv',
-  rollforward: SHEET_BASE + '?gid=490690198&single=true&output=csv',
-  pricing:     SHEET_BASE + '?gid=1683657198&single=true&output=csv',
-};
+// Data API -- Cloudflare Worker that proxies Google Sheets
+const DATA_API = 'https://ca-data.timothy-pinel.workers.dev/?sheet=';
 
-// CORS proxy -- routes requests through a proxy to avoid Google Sheets CORS blocks
-// Using allorigins which returns JSON with contents field
-async function fetchSheet(url) {
-  const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
-  const response = await fetch(proxyUrl);
-  if (!response.ok) throw new Error('fetch failed');
-  const data = await response.json();
-  return data.contents;
+async function fetchSheet(sheetName) {
+  const response = await fetch(DATA_API + sheetName);
+  if (!response.ok) throw new Error('fetch failed: ' + response.status);
+  return response.text();
 }
 
 // ============================================================
@@ -518,10 +508,10 @@ async function loadData() {
   showLoading();
   try {
     const [membersText, goalsText, rfText, pricingText] = await Promise.all([
-      fetchSheet(SHEET_URLS.members).catch(() => { throw new Error('members'); }),
-      fetchSheet(SHEET_URLS.goals).catch(() => { throw new Error('goals'); }),
-      fetchSheet(SHEET_URLS.rollforward).catch(() => { throw new Error('rollforward'); }),
-      fetchSheet(SHEET_URLS.pricing).catch(() => { throw new Error('pricing'); }),
+      fetchSheet('members').catch(() => { throw new Error('members'); }),
+      fetchSheet('goals').catch(() => { throw new Error('goals'); }),
+      fetchSheet('rollforward').catch(() => { throw new Error('rollforward'); }),
+      fetchSheet('pricing').catch(() => { throw new Error('pricing'); }),
     ]);
 
     // Parse members
