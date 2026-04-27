@@ -447,8 +447,13 @@ const SHEET_URLS = {
 };
 
 // CORS proxy -- routes requests through a proxy to avoid Google Sheets CORS blocks
-function proxyUrl(url) {
-  return 'https://corsproxy.io/?' + encodeURIComponent(url);
+// Using allorigins which returns JSON with contents field
+async function fetchSheet(url) {
+  const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
+  const response = await fetch(proxyUrl);
+  if (!response.ok) throw new Error('fetch failed');
+  const data = await response.json();
+  return data.contents;
 }
 
 // ============================================================
@@ -513,10 +518,10 @@ async function loadData() {
   showLoading();
   try {
     const [membersText, goalsText, rfText, pricingText] = await Promise.all([
-      fetch(proxyUrl(SHEET_URLS.members)).then(r => { if(!r.ok) throw new Error('members'); return r.text(); }),
-      fetch(proxyUrl(SHEET_URLS.goals)).then(r => { if(!r.ok) throw new Error('goals'); return r.text(); }),
-      fetch(proxyUrl(SHEET_URLS.rollforward)).then(r => { if(!r.ok) throw new Error('rollforward'); return r.text(); }),
-      fetch(proxyUrl(SHEET_URLS.pricing)).then(r => { if(!r.ok) throw new Error('pricing'); return r.text(); }),
+      fetchSheet(SHEET_URLS.members).catch(() => { throw new Error('members'); }),
+      fetchSheet(SHEET_URLS.goals).catch(() => { throw new Error('goals'); }),
+      fetchSheet(SHEET_URLS.rollforward).catch(() => { throw new Error('rollforward'); }),
+      fetchSheet(SHEET_URLS.pricing).catch(() => { throw new Error('pricing'); }),
     ]);
 
     // Parse members
