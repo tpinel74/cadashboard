@@ -460,6 +460,27 @@ function parseCSV(text) {
   });
 }
 
+// Normalize a date string to MM/DD/YYYY format
+// Handles: 1/6/26, 1/6/2026, 01/06/2026, 01/06/26
+function normalizeDate(d) {
+  if (!d) return '';
+  const parts = d.split('/');
+  if (parts.length !== 3) return d;
+  let [m, day, y] = parts;
+  m = m.padStart(2, '0');
+  day = day.padStart(2, '0');
+  if (y.length === 2) y = '20' + y;
+  return m + '/' + day + '/' + y;
+}
+
+// Get month key (01-12) from a normalized or raw date string
+function getMonthKey(d) {
+  if (!d) return '';
+  const parts = d.split('/');
+  if (parts.length !== 3) return '';
+  return parts[0].padStart(2, '0');
+}
+
 // ============================================================
 // LOADING STATE
 // ============================================================
@@ -514,8 +535,11 @@ async function loadData() {
       fetchSheet('pricing').catch(() => { throw new Error('pricing'); }),
     ]);
 
-    // Parse members
-    RAW_DATA = parseCSV(membersText);
+    // Parse members -- normalize dates since Google Sheets strips leading zeros
+    RAW_DATA = parseCSV(membersText).map(r => ({
+      ...r,
+      date: normalizeDate(r.date)
+    }));
 
     // Parse goals into lookup by month key (01, 02, etc)
     GOALS = {};
@@ -647,7 +671,7 @@ function buildLegend(legendId, items) {
 // MAIN RENDER -- current month + composition + membership type + rolling 3
 // ============================================================
 function render() {
-  const cmData = RAW_DATA.filter(r => r.date && r.date.startsWith(CURRENT_MONTH + '/'));
+  const cmData = RAW_DATA.filter(r => r.date && getMonthKey(r.date) === CURRENT_MONTH);
   const cmUnits = cmData.length;
   const cmCash = cmData.reduce((s,r) => s + getMemberRevenue(r), 0);
   const cmGoal = GOALS[CURRENT_MONTH] || {units:0,cash:0};
@@ -739,7 +763,7 @@ function render() {
 
   // Rolling 3 completed months
   document.getElementById('completed-panel').innerHTML = ROLLING_3.map(m => {
-    const mData = RAW_DATA.filter(r => r.date && r.date.startsWith(m+'/'));
+    const mData = RAW_DATA.filter(r => r.date && getMonthKey(r.date) === m);
     const mUnits = mData.length;
     const mCash = mData.reduce((s,r) => s + getMemberRevenue(r), 0);
     const mGoal = GOALS[m] || {units:0,cash:0};
@@ -796,7 +820,7 @@ function renderFY() {
 
   // Build FY_DATA from members sheet + goals
   const FY_DATA = FY_MONTHS.map(m => {
-    const mData = RAW_DATA.filter(r => r.date && r.date.startsWith(m+'/'));
+    const mData = RAW_DATA.filter(r => r.date && getMonthKey(r.date) === m);
     const actual = mData.length;
     const goal = GOALS[m] ? GOALS[m].units : 0;
     const isMTD = m === CURRENT_MONTH;
