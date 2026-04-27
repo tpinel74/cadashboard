@@ -239,7 +239,7 @@
     <p>Columbia Association -- Marketing &amp; Membership Intelligence</p>
   </div>
   <div class="header-right">
-    <div class="as-of">Source: Club Automation &nbsp;|&nbsp; Generated April 14, 2026</div>
+    <div class="as-of" id="as-of-date">Source: Club Automation &nbsp;|&nbsp; Loading...</div>
     <div class="fiscal">FY2025-26 &nbsp;|&nbsp; Layer 1: Sales Performance</div>
   </div>
 </div>
@@ -504,9 +504,31 @@ function showError(msg) {
 // ============================================================
 // CONSTANTS
 // ============================================================
-const CURRENT_MONTH = '04';
-const CURRENT_DAY = 14;
+// Date is derived from the latest member record in the data
+// This reflects the actual data currency rather than today's clock time
 const DAYS_IN_MONTH = {'01':31,'02':28,'03':31,'04':30,'05':31,'06':30,'07':31,'08':31,'09':30,'10':31,'11':30,'12':31};
+let CURRENT_MONTH = '04'; // defaults, overridden after data loads
+let CURRENT_DAY = 1;
+let CURRENT_YEAR = 2026;
+
+function setDateFromData() {
+  if (!RAW_DATA || RAW_DATA.length === 0) return;
+  // Find the latest date across all member records
+  var latestDate = null;
+  RAW_DATA.forEach(function(r) {
+    if (!r.date) return;
+    var normalized = normalizeDate(r.date);
+    var parts = normalized.split('/');
+    if (parts.length !== 3) return;
+    var d = new Date(parseInt(parts[2]), parseInt(parts[0])-1, parseInt(parts[1]));
+    if (!latestDate || d > latestDate) latestDate = d;
+  });
+  if (latestDate) {
+    CURRENT_MONTH = (latestDate.getMonth() + 1).toString().padStart(2, '0');
+    CURRENT_DAY = latestDate.getDate();
+    CURRENT_YEAR = latestDate.getFullYear();
+  }
+}
 const MONTH_LABELS = {'01':'January','02':'February','03':'March','04':'April','05':'May','06':'June','07':'July','08':'August','09':'September','10':'October','11':'November','12':'December'};
 const MONTH_SHORT = {'01':'Jan','02':'Feb','03':'Mar','04':'Apr','05':'May','06':'Jun','07':'Jul','08':'Aug','09':'Sep','10':'Oct','11':'Nov','12':'Dec'};
 const ROLLING_3 = ['01','02','03'];
@@ -575,6 +597,15 @@ async function loadData() {
     });
 
     hideLoading();
+    // Set date from latest record in data
+    setDateFromData();
+    // Update header to show data currency date
+    const asOfEl = document.getElementById('as-of-date');
+    if (asOfEl) {
+      const latestDateStr = new Date(CURRENT_YEAR, parseInt(CURRENT_MONTH)-1, CURRENT_DAY)
+        .toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+      asOfEl.textContent = 'Source: Club Automation  |  Data through ' + latestDateStr;
+    }
     render();
     renderFY();
     renderRF();
@@ -682,7 +713,7 @@ function render() {
   const parCash = Math.round(cmGoal.cash * elapsedFrac);
 
   // Header
-  document.getElementById('cmp-month').textContent = MONTH_LABELS[CURRENT_MONTH] + ' 2026';
+  document.getElementById('cmp-month').textContent = MONTH_LABELS[CURRENT_MONTH] + ' ' + CURRENT_YEAR;
   document.getElementById('cmp-day-badge').textContent = `Day ${CURRENT_DAY} of ${daysInMonth}`;
   document.getElementById('cmp-elapsed-pct').textContent = `${elapsedPct}% of month elapsed`;
 
