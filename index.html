@@ -437,12 +437,19 @@
 // ============================================================
 // DATA SOURCES -- Google Sheets CSV URLs
 // ============================================================
+// Google Sheets published CSV URLs
+const SHEET_BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSkx4t0be_bBiv-EHit8bgDGHIfO8kEbokKcmgncp2h1u9YYNdlkYhQkvEA-BrmeHsaewR8I5X5n5_2/pub';
 const SHEET_URLS = {
-  members:     'https://docs.google.com/spreadsheets/d/e/2PACX-1vSkx4t0be_bBiv-EHit8bgDGHIfO8kEbokKcmgncp2h1u9YYNdlkYhQkvEA-BrmeHsaewR8I5X5n5_2/pub?gid=0&single=true&output=csv',
-  goals:       'https://docs.google.com/spreadsheets/d/e/2PACX-1vSkx4t0be_bBiv-EHit8bgDGHIfO8kEbokKcmgncp2h1u9YYNdlkYhQkvEA-BrmeHsaewR8I5X5n5_2/pub?gid=327355125&single=true&output=csv',
-  rollforward: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSkx4t0be_bBiv-EHit8bgDGHIfO8kEbokKcmgncp2h1u9YYNdlkYhQkvEA-BrmeHsaewR8I5X5n5_2/pub?gid=490690198&single=true&output=csv',
-  pricing:     'https://docs.google.com/spreadsheets/d/e/2PACX-1vSkx4t0be_bBiv-EHit8bgDGHIfO8kEbokKcmgncp2h1u9YYNdlkYhQkvEA-BrmeHsaewR8I5X5n5_2/pub?gid=1683657198&single=true&output=csv',
+  members:     SHEET_BASE + '?gid=0&single=true&output=csv',
+  goals:       SHEET_BASE + '?gid=327355125&single=true&output=csv',
+  rollforward: SHEET_BASE + '?gid=490690198&single=true&output=csv',
+  pricing:     SHEET_BASE + '?gid=1683657198&single=true&output=csv',
 };
+
+// CORS proxy -- routes requests through a proxy to avoid Google Sheets CORS blocks
+function proxyUrl(url) {
+  return 'https://corsproxy.io/?' + encodeURIComponent(url);
+}
 
 // ============================================================
 // CSV PARSER
@@ -506,10 +513,10 @@ async function loadData() {
   showLoading();
   try {
     const [membersText, goalsText, rfText, pricingText] = await Promise.all([
-      fetch(SHEET_URLS.members).then(r => { if(!r.ok) throw new Error('members'); return r.text(); }),
-      fetch(SHEET_URLS.goals).then(r => { if(!r.ok) throw new Error('goals'); return r.text(); }),
-      fetch(SHEET_URLS.rollforward).then(r => { if(!r.ok) throw new Error('rollforward'); return r.text(); }),
-      fetch(SHEET_URLS.pricing).then(r => { if(!r.ok) throw new Error('pricing'); return r.text(); }),
+      fetch(proxyUrl(SHEET_URLS.members)).then(r => { if(!r.ok) throw new Error('members'); return r.text(); }),
+      fetch(proxyUrl(SHEET_URLS.goals)).then(r => { if(!r.ok) throw new Error('goals'); return r.text(); }),
+      fetch(proxyUrl(SHEET_URLS.rollforward)).then(r => { if(!r.ok) throw new Error('rollforward'); return r.text(); }),
+      fetch(proxyUrl(SHEET_URLS.pricing)).then(r => { if(!r.ok) throw new Error('pricing'); return r.text(); }),
     ]);
 
     // Parse members
