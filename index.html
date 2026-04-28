@@ -720,9 +720,11 @@ function render() {
   // Units track
   const unitDiff = cmUnits - parUnits;
   const unitParStatusEl = document.getElementById('units-par-status');
-  if (unitDiff > 0) { unitParStatusEl.textContent = `+${fmt(unitDiff)} units ahead of PAR`; unitParStatusEl.className = 'cmp-track-par-status ahead'; }
-  else if (unitDiff < 0) { unitParStatusEl.textContent = `${fmt(Math.abs(unitDiff))} units behind PAR`; unitParStatusEl.className = 'cmp-track-par-status behind'; }
-  else { unitParStatusEl.textContent = 'Exactly at PAR'; unitParStatusEl.className = 'cmp-track-par-status on-track'; }
+  const unitParPct = parUnits > 0 ? Math.round(cmUnits / parUnits * 100) : 0;
+  const unitParPctStr = unitParPct + '% of PAR';
+  if (unitDiff > 0) { unitParStatusEl.textContent = `+${fmt(unitDiff)} units ahead of PAR  (${unitParPctStr})`; unitParStatusEl.className = 'cmp-track-par-status ahead'; }
+  else if (unitDiff < 0) { unitParStatusEl.textContent = `${fmt(Math.abs(unitDiff))} units behind PAR  (${unitParPctStr})`; unitParStatusEl.className = 'cmp-track-par-status behind'; }
+  else { unitParStatusEl.textContent = `Exactly at PAR  (${unitParPctStr})`; unitParStatusEl.className = 'cmp-track-par-status on-track'; }
   document.getElementById('units-actual').textContent = fmt(cmUnits);
   document.getElementById('units-goal-val').textContent = fmt(cmGoal.units);
   document.getElementById('units-scale-right').textContent = `PAR ${fmt(parUnits)}  |  goal: ${fmt(cmGoal.units)}`;
@@ -735,9 +737,11 @@ function render() {
   // Cash track
   const cashDiff = cmCash - parCash;
   const cashParStatusEl = document.getElementById('cash-par-status');
-  if (cashDiff > 0) { cashParStatusEl.textContent = `+${fmtCash(cashDiff)} ahead of PAR`; cashParStatusEl.className = 'cmp-track-par-status ahead'; }
-  else if (cashDiff < 0) { cashParStatusEl.textContent = `${fmtCash(Math.abs(cashDiff))} behind PAR`; cashParStatusEl.className = 'cmp-track-par-status behind'; }
-  else { cashParStatusEl.textContent = 'Exactly at PAR'; cashParStatusEl.className = 'cmp-track-par-status on-track'; }
+  const cashParPct = parCash > 0 ? Math.round(cmCash / parCash * 100) : 0;
+  const cashParPctStr = cashParPct + '% of PAR';
+  if (cashDiff > 0) { cashParStatusEl.textContent = `+${fmtCash(cashDiff)} ahead of PAR  (${cashParPctStr})`; cashParStatusEl.className = 'cmp-track-par-status ahead'; }
+  else if (cashDiff < 0) { cashParStatusEl.textContent = `${fmtCash(Math.abs(cashDiff))} behind PAR  (${cashParPctStr})`; cashParStatusEl.className = 'cmp-track-par-status behind'; }
+  else { cashParStatusEl.textContent = `Exactly at PAR  (${cashParPctStr})`; cashParStatusEl.className = 'cmp-track-par-status on-track'; }
   document.getElementById('cash-actual').textContent = fmtCash(cmCash);
   document.getElementById('cash-goal-val').textContent = fmtCash(cmGoal.cash);
   document.getElementById('cash-scale-right').textContent = `PAR ${fmtCash(parCash)}  |  goal: ${fmtCash(cmGoal.cash)}`;
