@@ -531,7 +531,18 @@ function setDateFromData() {
 }
 const MONTH_LABELS = {'01':'January','02':'February','03':'March','04':'April','05':'May','06':'June','07':'July','08':'August','09':'September','10':'October','11':'November','12':'December'};
 const MONTH_SHORT = {'01':'Jan','02':'Feb','03':'Mar','04':'Apr','05':'May','06':'Jun','07':'Jul','08':'Aug','09':'Sep','10':'Oct','11':'Nov','12':'Dec'};
-const ROLLING_3 = ['01','02','03'];
+// ROLLING_3 is calculated dynamically after CURRENT_MONTH is set
+// Returns the 3 months immediately preceding the current month
+function getRolling3() {
+  var result = [];
+  var m = parseInt(CURRENT_MONTH);
+  for (var i = 3; i >= 1; i--) {
+    var prev = m - i;
+    if (prev <= 0) prev += 12;
+    result.push(prev.toString().padStart(2, '0'));
+  }
+  return result;
+}
 const L1_ORDER = ['Fit&Play','1Fit','Play','Golf'];
 const L1_COLORS = {'Fit&Play':'var(--navy)','1Fit':'var(--green)','Play':'var(--gold)','Golf':'#888'};
 const AVG_UNIT_VALUE = 101;
@@ -797,7 +808,7 @@ function render() {
   }).join('');
 
   // Rolling 3 completed months
-  document.getElementById('completed-panel').innerHTML = ROLLING_3.map(m => {
+  document.getElementById('completed-panel').innerHTML = getRolling3().map(m => {
     const mData = RAW_DATA.filter(r => r.date && getMonthKey(r.date) === m);
     const mUnits = mData.length;
     const mCash = mData.reduce((s,r) => s + getMemberRevenue(r), 0);
