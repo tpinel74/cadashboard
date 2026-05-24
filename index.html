@@ -1161,11 +1161,17 @@ function parseCSV(text) {
 }
 
 function findSection(rows, n) {
-  const marker = 'SECTION ' + n;
+  // Find the LAST occurrence of the section marker
+  // Duplicate header rows from CSV import are handled by taking the last match
+  const marker = 'SECTION ' + n + ' ';
+  const markerShort = 'SECTION ' + n;
+  let found = -1;
   for (let i = 0; i < rows.length; i++) {
-    if (rows[i][0] && rows[i][0].startsWith(marker)) return i;
+    if (rows[i][0] && (rows[i][0].startsWith(marker) || rows[i][0] === markerShort)) {
+      found = i;
+    }
   }
-  return -1;
+  return found;
 }
 
 function getSectionRows(rows, sectionIdx) {
