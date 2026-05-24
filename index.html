@@ -763,18 +763,19 @@ function buildMonthView() {
   const labels = Array.from({length: m.days_in_month}, (_,i) => i+1);
   // Build cumulative actuals from Section 4 data
   // daily_mtd is now array of {day, leads_day, cumulative, par}
+  // Only plot cumulative up to days_elapsed -- null beyond that stops the line
   const cumActuals = labels.map(dayNum => {
+    if (dayNum > m.days_elapsed) return null;
     const entry = D.daily_mtd.find(d => d.day === dayNum);
-    if (entry && entry.cumulative > 0) return entry.cumulative;
-    if (entry && dayNum <= m.days_elapsed) return entry.cumulative; // could be 0 on slow day
+    if (entry) return entry.cumulative;
     return null;
   });
-  // Fill any gaps up to days_elapsed using last known cumulative
+  // Fill any zero gaps within elapsed days using last known value
   let lastKnown = 0;
   for (let i = 0; i < m.days_elapsed; i++) {
-    if (cumActuals[i] !== null) {
+    if (cumActuals[i] !== null && cumActuals[i] > 0) {
       lastKnown = cumActuals[i];
-    } else {
+    } else if (cumActuals[i] === null || cumActuals[i] === 0) {
       cumActuals[i] = lastKnown;
     }
   }
