@@ -1173,8 +1173,11 @@ function getSectionRows(rows, sectionIdx) {
   let i = sectionIdx + 1;
   while (i < rows.length) {
     const row = rows[i];
-    if (!row || (row.length <= 1 && !row[0])) break;
+    // Stop on truly empty row -- all cells empty (handles Google Sheets CSV blank rows)
+    if (!row || row.every(cell => !cell || cell.trim() === '')) break;
     const first = (row[0] || '').trim();
+    // Stop on next section marker regardless of blank rows
+    if (first.startsWith('SECTION ')) break;
     if (!first || skip.some(p => first.startsWith(p))) { i++; continue; }
     data.push(row);
     i++;
@@ -1255,7 +1258,7 @@ function parseSummaries(rows) {
     let i = s7idx + 2;
     while (i < rows.length) {
       const r = rows[i];
-      if (!r[0] || r[0].startsWith('SECTION')) break;
+      if (!r[0] || r[0].startsWith('SECTION') || r.every(c => !c || c.trim()==='')) break;
       const ch = str(r[0]);
       if (ch && !ch.startsWith('NOTE') && !ch.startsWith('FORMULA') && !ch.startsWith('This')) {
         LD.channel_rolling[ch] = r.slice(3, 15).map(v => num(v));
@@ -1275,7 +1278,7 @@ function parseSummaries(rows) {
     let i = s9idx + 2;
     while (i < rows.length) {
       const r = rows[i];
-      if (!r[0] || r[0].startsWith('SECTION')) break;
+      if (!r[0] || r[0].startsWith('SECTION') || r.every(c => !c || c.trim()==='')) break;
       const fac = str(r[0]);
       if (fac && !fac.startsWith('NOTE') && !fac.startsWith('FORMULA')) {
         LD.facility_rolling[fac] = r.slice(1, 13).map(v => num(v));
@@ -1320,7 +1323,7 @@ function parseSummaries(rows) {
   const s12rows = getSectionRows(rows, findSection(rows, 12));
   s12rows.forEach(r => {
     const fy = str(r[0]);
-    if (!fy || fy.startsWith('NOTE') || fy.startsWith('Build')) return;
+    if (!fy || fy.startsWith('NOTE') || fy.startsWith('Build') || fy.startsWith('SECTION')) return;
     if (!LD.fy[fy]) LD.fy[fy] = [];
     LD.fy[fy].push({
       seq:num(r[1]), ym:str(r[2]), label:str(r[3]),
