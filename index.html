@@ -760,20 +760,22 @@ function buildMonthView() {
 
   // Daily cumulative pacing chart
   dc('pace');
-  const days = D.daily_mtd.length;
   const labels = Array.from({length: m.days_in_month}, (_,i) => i+1);
-  // Cumulative actuals (only for days we have)
-  const cumActuals = [];
-  let running = 0;
-  for (let i = 0; i < m.days_in_month; i++) {
-    if (i < D.daily_mtd.length && D.daily_mtd[i] > 0) {
-      running += D.daily_mtd[i];
-      cumActuals.push(running);
-    } else if (i < m.days_elapsed) {
-      running += 0;
-      cumActuals.push(running);
+  // Build cumulative actuals from Section 4 data
+  // daily_mtd is now array of {day, leads_day, cumulative, par}
+  const cumActuals = labels.map(dayNum => {
+    const entry = D.daily_mtd.find(d => d.day === dayNum);
+    if (entry && entry.cumulative > 0) return entry.cumulative;
+    if (entry && dayNum <= m.days_elapsed) return entry.cumulative; // could be 0 on slow day
+    return null;
+  });
+  // Fill any gaps up to days_elapsed using last known cumulative
+  let lastKnown = 0;
+  for (let i = 0; i < m.days_elapsed; i++) {
+    if (cumActuals[i] !== null) {
+      lastKnown = cumActuals[i];
     } else {
-      cumActuals.push(null);
+      cumActuals[i] = lastKnown;
     }
   }
   // Linear PAR line (full month)
@@ -1222,10 +1224,17 @@ function parseSummaries(rows) {
   };
 
   // SECTION 4 -- Daily MTD
+  // col A=day_num, B=date, C=leads_on_day, D=cumulative_leads, E=par_cumulative, F=vs_par
+  // Only include rows where day_num > 0 and cumulative > 0 (i.e. days with data)
   const s4rows = getSectionRows(rows, findSection(rows, 4));
   LD.daily_mtd = s4rows
-    .filter(r => num(r[0]) > 0 && str(r[1]) !== '')
-    .map(r => num(r[2]));
+    .filter(r => num(r[0]) > 0)  // day number exists
+    .map(r => ({
+      day:        num(r[0]),
+      leads_day:  num(r[2]),   // daily count
+      cumulative: num(r[3]),   // cumulative count -- used for pacing chart
+      par:        num(r[4]),   // linear par
+    }));
 
   // SECTION 5 -- Rolling 12
   const s5rows = getSectionRows(rows, findSection(rows, 5));
