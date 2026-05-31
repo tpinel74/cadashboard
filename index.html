@@ -840,23 +840,42 @@ function buildMonthView() {
   });
 
   // Channel table — colors now come from parsed data
-  const chMax = Math.max(...D.channels_mtd.map(c => c.leads));
-  document.getElementById('ch-mtd-wrap').innerHTML = `
-    <table class="ch-table">
-      <thead><tr>
-        <th>Channel</th>
-        <th class="r">Leads</th>
-        <th style="min-width:80px">Share</th>
-      </tr></thead>
-      <tbody>
-        ${D.channels_mtd.sort((a,b)=>b.leads-a.leads).map(c => `
+  const CATEGORY_TAG_COLORS = {
+  'Search':                         { bg: '#E8F0FE', text: '#1A56B0' },
+  'Social':                         { bg: '#FEF0E8', text: '#B03A1A' },
+  'Email & SMS':                    { bg: '#FFF8E1', text: '#916A00' },
+  'Offline & Physical':             { bg: '#FDF3E0', text: '#7A5200' },
+  'Referral & Partnerships':        { bg: '#EEF3FF', text: '#1C3A6E' },
+  'Direct, Untracked & Unresolved': { bg: '#F2F5F9', text: '#5A6E82' },
+};
+
+const chMax = Math.max(...D.channels_mtd.map(c => c.leads));
+document.getElementById('ch-mtd-wrap').innerHTML = `
+  <table class="ch-table">
+    <thead><tr>
+      <th>Channel</th>
+      <th>Category</th>
+      <th class="r">Leads</th>
+      <th style="min-width:80px">Share</th>
+    </tr></thead>
+    <tbody>
+      ${D.channels_mtd.sort((a,b)=>b.leads-a.leads).map(c => {
+        const tc = CATEGORY_TAG_COLORS[c.category] || { bg: '#F2F5F9', text: '#5A6E82' };
+        const tag = `<span style="
+          display:inline-block;padding:2px 8px;border-radius:10px;
+          font-size:10px;font-family:'DM Mono',monospace;font-weight:500;
+          background:${tc.bg};color:${tc.text};white-space:nowrap;
+        ">${c.category}</span>`;
+        return `
           <tr>
             <td><span class="ch-dot" style="background:${c.color}"></span>${c.channel}</td>
+            <td>${tag}</td>
             <td class="r">${c.leads}</td>
             <td><span class="bar-mini" style="width:${Math.round(c.leads/chMax*80)}px;background:${c.color};opacity:.7"></span></td>
-          </tr>`).join('')}
-      </tbody>
-    </table>`;
+          </tr>`;
+      }).join('')}
+    </tbody>
+  </table>`;
 
   // Facility table
   document.getElementById('fac-mtd-wrap').innerHTML = `
