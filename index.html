@@ -191,13 +191,6 @@ body {
 .pace-stat-val.behind { color: var(--behind); }
 .pace-stat-lbl { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--mid); margin-top: 2px; }
 
-/* ── DAILY PACING CHART ── */
-.daily-note {
-  display: flex; gap: 16px; margin-bottom: 12px;
-}
-.dn-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-family: 'DM Mono', monospace; color: var(--mid); }
-.dn-dot { width: 10px; height: 3px; border-radius: 2px; }
-
 /* ── CHANNEL TABLE ── */
 .ch-table { width: 100%; border-collapse: collapse; }
 .ch-table th {
@@ -223,8 +216,6 @@ body {
 .comp-table td { padding: 12px 14px; border-bottom: 1px solid var(--light); font-size: 13px; }
 .comp-table td.r { text-align: right; font-family: 'DM Mono', monospace; }
 .comp-table tr.highlight td { background: #EEF3FF; font-weight: 600; }
-.goal-bar-wrap { background: var(--light); border-radius: 4px; height: 8px; position: relative; overflow: hidden; }
-.goal-bar-fill { height: 100%; border-radius: 4px; background: var(--navy); }
 
 /* ── SPEND PANEL ── */
 .spend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
@@ -599,9 +590,52 @@ body {
 
 <script>
 // ============================================================
-// DATA
-// Replace this object when connecting to Google Sheets API
-// Each section maps directly to a named range in the summaries tab
+// COLOR SYSTEM — category + medium driven
+// ============================================================
+const CATEGORY_COLORS = {
+  'Search': {
+    cpc:     '#4285F4',
+    organic: '#34A853',
+    default: '#4285F4'
+  },
+  'Social': {
+    cpc:     '#E44D26',
+    organic: '#FA7A4A',
+    social:  '#FA7A4A',
+    default: '#E44D26'
+  },
+  'Email & SMS': {
+    email:   '#16A085',
+    sms:     '#E8A020',
+    app:     '#0077B6',
+    default: '#E8A020'
+  },
+  'Offline & Physical': {
+    default: '#8B6914'
+  },
+  'Referral & Partnerships': {
+    referral: '#1C3A6E',
+    email:    '#3A5A9E',
+    qr:       '#2E4A8E',
+    unknown:  '#4A6AAE',
+    web:      '#5A7ABE',
+    default:  '#1C3A6E'
+  },
+  'Direct, Untracked & Unresolved': {
+    direct:  '#7A8FA8',
+    chatbot: '#9B59B6',
+    unknown: '#95A5A6',
+    default: '#95A5A6'
+  },
+};
+
+function channelColor(category, medium) {
+  const cat = CATEGORY_COLORS[category] || { default: '#95A5A6' };
+  return cat[(medium || '').toLowerCase()] || cat.default;
+}
+
+// ============================================================
+// FALLBACK DATA (used if sheet fetch fails)
 // ============================================================
 const D = {
   meta: {
@@ -616,7 +650,7 @@ const D = {
     pct_of_goal: 33.5,
     projected_month_total: 614
   },
-  daily_mtd: [8,11,9,15,15,28,6,12,16,18,27,12,17,14,19,20,15,63,51,33,26,0],
+  daily_mtd: [],
   rolling_12: [
     {yearmo:'2025-05',label:'May 25', actuals:0,   goal:1470},
     {yearmo:'2025-06',label:'Jun 25', actuals:0,   goal:1900},
@@ -633,26 +667,18 @@ const D = {
     {yearmo:'2026-05',label:'May 26*',actuals:435, goal:1300, partial:true},
   ],
   channels_mtd: [
-    {channel:'Google Organic', leads:130, color:'#34A853'},
-    {channel:'Direct',         leads:57,  color:'#3A7D3A'},
-    {channel:'Chatbot',        leads:73,  color:'#9B59B6'},
-    {channel:'CRM - SMS',      leads:52,  color:'#E8A020'},
-    {channel:'Google Paid',    leads:55,  color:'#4285F4'},
-    {channel:'Meta Paid',      leads:28,  color:'#E44D26'},
-    {channel:'CRM - Email',    leads:14,  color:'#16A085'},
-    {channel:'Member Referral',leads:6,   color:'#1C3A6E'},
-    {channel:'Bing Organic',   leads:5,   color:'#00B4D8'},
-    {channel:'Unknown',        leads:10,  color:'#95A5A6'},
+    {channel:'google organic', source:'google', medium:'organic', leads:130, category:'Search',                         color: channelColor('Search','organic')},
+    {channel:'direct direct',  source:'direct', medium:'direct',  leads:57,  category:'Direct, Untracked & Unresolved', color: channelColor('Direct, Untracked & Unresolved','direct')},
+    {channel:'prospect_wizard chatbot', source:'prospect_wizard', medium:'chatbot', leads:73, category:'Direct, Untracked & Unresolved', color: channelColor('Direct, Untracked & Unresolved','chatbot')},
+    {channel:'crm sms',        source:'crm',    medium:'sms',     leads:52,  category:'Email & SMS',                    color: channelColor('Email & SMS','sms')},
+    {channel:'google cpc',     source:'google', medium:'cpc',     leads:55,  category:'Search',                         color: channelColor('Search','cpc')},
+    {channel:'meta cpc',       source:'meta',   medium:'cpc',     leads:28,  category:'Social',                         color: channelColor('Social','cpc')},
+    {channel:'crm email',      source:'crm',    medium:'email',   leads:14,  category:'Email & SMS',                    color: channelColor('Email & SMS','email')},
+    {channel:'member referral',source:'member', medium:'referral',leads:6,   category:'Referral & Partnerships',        color: channelColor('Referral & Partnerships','referral')},
+    {channel:'bing organic',   source:'bing',   medium:'organic', leads:5,   category:'Search',                         color: channelColor('Search','organic')},
+    {channel:'unknown unknown',source:'unknown',medium:'unknown', leads:10,  category:'Direct, Untracked & Unresolved', color: channelColor('Direct, Untracked & Unresolved','unknown')},
   ],
-  channel_rolling: {
-    'Google Paid':    [0,0,0,0,0,0,0,0,233,233,129,48,55],
-    'Meta Paid':      [0,0,0,0,0,0,0,0,78,114,73,94,28],
-    'Direct':         [0,0,0,0,0,0,0,0,157,118,105,106,57],
-    'Chatbot':        [0,0,0,0,0,0,0,0,110,82,54,88,73],
-    'CRM - SMS':      [0,0,0,0,0,0,0,0,40,40,123,113,52],
-    'Google Organic': [0,0,0,0,0,0,0,0,1,3,1,73,130],
-    'Unknown':        [0,0,0,0,0,0,0,0,59,39,64,93,10],
-  },
+  channel_rolling: {},
   facilities_mtd: [
     {facility:'Supreme Sports Club',    leads:127},
     {facility:'Columbia Athletic Club', leads:121},
@@ -677,18 +703,18 @@ const D = {
       {seq:1, ym:'2026-05', label:'May 26', goal:1300, actuals:435, cum_goal:1300, cum_actuals:435, partial:true},
     ],
     FY2026: [
-      {seq:1, ym:'2025-05', label:'May 25', goal:1470, actuals:0,   cum_goal:1470,  cum_actuals:0},
-      {seq:2, ym:'2025-06', label:'Jun 25', goal:1900, actuals:0,   cum_goal:3370,  cum_actuals:0},
-      {seq:3, ym:'2025-07', label:'Jul 25', goal:1100, actuals:0,   cum_goal:4470,  cum_actuals:0},
-      {seq:4, ym:'2025-08', label:'Aug 25', goal:740,  actuals:0,   cum_goal:5210,  cum_actuals:0},
-      {seq:5, ym:'2025-09', label:'Sep 25', goal:550,  actuals:0,   cum_goal:5760,  cum_actuals:0},
-      {seq:6, ym:'2025-10', label:'Oct 25', goal:500,  actuals:0,   cum_goal:6260,  cum_actuals:0},
-      {seq:7, ym:'2025-11', label:'Nov 25', goal:630,  actuals:0,   cum_goal:6890,  cum_actuals:0},
-      {seq:8, ym:'2025-12', label:'Dec 25', goal:600,  actuals:0,   cum_goal:7490,  cum_actuals:0},
-      {seq:9, ym:'2026-01', label:'Jan 26', goal:750,  actuals:704, cum_goal:8240,  cum_actuals:704},
-      {seq:10,ym:'2026-02', label:'Feb 26', goal:660,  actuals:646, cum_goal:8900,  cum_actuals:1350},
-      {seq:11,ym:'2026-03', label:'Mar 26', goal:710,  actuals:559, cum_goal:9610,  cum_actuals:1909},
-      {seq:12,ym:'2026-04', label:'Apr 26', goal:970,  actuals:653, cum_goal:10580, cum_actuals:2562},
+      {seq:1,  ym:'2025-05', label:'May 25', goal:1470, actuals:0,   cum_goal:1470,  cum_actuals:0},
+      {seq:2,  ym:'2025-06', label:'Jun 25', goal:1900, actuals:0,   cum_goal:3370,  cum_actuals:0},
+      {seq:3,  ym:'2025-07', label:'Jul 25', goal:1100, actuals:0,   cum_goal:4470,  cum_actuals:0},
+      {seq:4,  ym:'2025-08', label:'Aug 25', goal:740,  actuals:0,   cum_goal:5210,  cum_actuals:0},
+      {seq:5,  ym:'2025-09', label:'Sep 25', goal:550,  actuals:0,   cum_goal:5760,  cum_actuals:0},
+      {seq:6,  ym:'2025-10', label:'Oct 25', goal:500,  actuals:0,   cum_goal:6260,  cum_actuals:0},
+      {seq:7,  ym:'2025-11', label:'Nov 25', goal:630,  actuals:0,   cum_goal:6890,  cum_actuals:0},
+      {seq:8,  ym:'2025-12', label:'Dec 25', goal:600,  actuals:0,   cum_goal:7490,  cum_actuals:0},
+      {seq:9,  ym:'2026-01', label:'Jan 26', goal:750,  actuals:704, cum_goal:8240,  cum_actuals:704},
+      {seq:10, ym:'2026-02', label:'Feb 26', goal:660,  actuals:646, cum_goal:8900,  cum_actuals:1350},
+      {seq:11, ym:'2026-03', label:'Mar 26', goal:710,  actuals:559, cum_goal:9610,  cum_actuals:1909},
+      {seq:12, ym:'2026-04', label:'Apr 26', goal:970,  actuals:653, cum_goal:10580, cum_actuals:2562},
     ],
   },
   spend_mtd: {
@@ -730,7 +756,6 @@ function switchView(id, btn) {
 function buildMonthView() {
   const m = D.meta;
 
-  // KPIs
   document.getElementById('k-leads').textContent    = m.leads_to_date.toLocaleString();
   document.getElementById('k-goal').textContent     = m.current_goal.toLocaleString();
   document.getElementById('k-par').textContent      = m.par_to_date.toLocaleString();
@@ -741,7 +766,6 @@ function buildMonthView() {
   document.getElementById('k-goal-pct').textContent = `${m.pct_of_goal}% achieved`;
   document.getElementById('pace-month-label').textContent = m.current_month_label;
 
-  // Pacing bar
   const fillPct = Math.min(100, m.leads_to_date / m.current_goal * 100);
   const parPct  = Math.min(100, m.par_to_date / m.current_goal * 100);
   const fill = document.getElementById('pace-fill');
@@ -751,7 +775,6 @@ function buildMonthView() {
   document.getElementById('pace-par-lbl').textContent = `PAR ${m.par_to_date.toLocaleString()}`;
   document.getElementById('pace-goal-lbl').textContent = `Goal ${m.current_goal.toLocaleString()}`;
 
-  // Pace stats
   document.getElementById('ps-leads').textContent  = m.leads_to_date.toLocaleString();
   document.getElementById('ps-vspar').textContent  = (m.vs_par >= 0 ? '+' : '') + m.vs_par.toLocaleString();
   document.getElementById('ps-vspar').className    = 'pace-stat-val ' + (m.vs_par >= 0 ? 'ahead' : 'behind');
@@ -761,16 +784,12 @@ function buildMonthView() {
   // Daily cumulative pacing chart
   dc('pace');
   const labels = Array.from({length: m.days_in_month}, (_,i) => i+1);
-  // Build cumulative actuals from Section 4 data
-  // daily_mtd is now array of {day, leads_day, cumulative, par}
-  // Only plot cumulative up to days_elapsed -- null beyond that stops the line
   const cumActuals = labels.map(dayNum => {
     if (dayNum > m.days_elapsed) return null;
     const entry = D.daily_mtd.find(d => d.day === dayNum);
     if (entry) return entry.cumulative;
     return null;
   });
-  // Fill any zero gaps within elapsed days using last known value
   let lastKnown = 0;
   for (let i = 0; i < m.days_elapsed; i++) {
     if (cumActuals[i] !== null && cumActuals[i] > 0) {
@@ -779,7 +798,6 @@ function buildMonthView() {
       cumActuals[i] = lastKnown;
     }
   }
-  // Linear PAR line (full month)
   const parLine = labels.map(d => Math.round(m.current_goal * d / m.days_in_month));
 
   const ctx = document.getElementById('chartPace').getContext('2d');
@@ -821,7 +839,7 @@ function buildMonthView() {
     }
   });
 
-  // Channel table
+  // Channel table — colors now come from parsed data
   const chMax = Math.max(...D.channels_mtd.map(c => c.leads));
   document.getElementById('ch-mtd-wrap').innerHTML = `
     <table class="ch-table">
@@ -841,7 +859,6 @@ function buildMonthView() {
     </table>`;
 
   // Facility table
-  const facMax = Math.max(...D.facilities_mtd.map(f => f.leads));
   document.getElementById('fac-mtd-wrap').innerHTML = `
     <table class="ch-table">
       <thead><tr><th>Facility</th><th class="r">Leads</th></tr></thead>
@@ -861,7 +878,6 @@ function buildMonthView() {
 function buildRollingView() {
   const labels = D.rolling_12.map(d => d.label);
 
-  // Leads vs goal
   dc('rolling');
   const ctx = document.getElementById('chartRolling').getContext('2d');
   charts['rolling'] = new Chart(ctx, {
@@ -893,18 +909,21 @@ function buildRollingView() {
     }
   });
 
-  // Channel stacked
+  // Channel stacked — colors from channel_rolling object
   dc('chrolling');
-  const chKeys = ['Google Paid','Meta Paid','Direct','Chatbot','CRM - SMS','Google Organic','Unknown'];
-  const chColors = {'Google Paid':'#4285F4','Meta Paid':'#E44D26','Direct':'#3A7D3A','Chatbot':'#9B59B6','CRM - SMS':'#E8A020','Google Organic':'#34A853','Unknown':'#95A5A6'};
+  const chKeys = Object.keys(D.channel_rolling).filter(k =>
+    D.channel_rolling[k].data && D.channel_rolling[k].data.some(v => v > 0)
+  );
   const ctx2 = document.getElementById('chartChRolling').getContext('2d');
   charts['chrolling'] = new Chart(ctx2, {
     type: 'bar',
     data: {
       labels,
       datasets: chKeys.map(k => ({
-        label: k, data: D.channel_rolling[k] || Array(13).fill(0),
-        backgroundColor: chColors[k], borderRadius: 2,
+        label: k,
+        data: D.channel_rolling[k].data,
+        backgroundColor: D.channel_rolling[k].color,
+        borderRadius: 2,
       }))
     },
     options: {
@@ -964,7 +983,6 @@ function renderFYChart() {
   const cumGoal    = current.map(d => d.cum_goal);
   const cumActuals = current.map(d => d.cum_actuals);
 
-  // Pad to 12 for display
   const padTo12 = (arr) => {
     const out = [...arr];
     while(out.length < 12) out.push(null);
@@ -1009,11 +1027,10 @@ function renderFYChart() {
   document.getElementById('fy-chart-title').textContent =
     `${activeFY} — Cumulative Leads vs Cumulative Goal`;
 
-  // Table
   const rows = current.map(d => `
     <tr>
       <td>${d.label}</td>
-      <td class="r">${d.monthly_goal !== undefined ? d.goal.toLocaleString() : '—'}</td>
+      <td class="r">${d.goal.toLocaleString()}</td>
       <td class="r">${d.actuals > 0 ? d.actuals.toLocaleString() : d.partial ? d.actuals.toLocaleString() : '<span style="color:var(--mid)">—</span>'}</td>
       <td class="r">${d.cum_goal.toLocaleString()}</td>
       <td class="r">${d.cum_actuals > 0 || d.partial ? d.cum_actuals.toLocaleString() : '<span style="color:var(--mid)">—</span>'}</td>
@@ -1071,7 +1088,6 @@ function buildYOYView() {
     }
   });
 
-  // Table
   document.getElementById('yoy-table-wrap').innerHTML = `
     <table class="comp-table">
       <thead><tr>
@@ -1106,14 +1122,23 @@ function buildSpendView() {
 
   dc('paidrolling');
   const labels = D.rolling_12.map(d => d.label);
+
+  // Pull google cpc and meta cpc from channel_rolling if available
+  const googleData = D.channel_rolling['google cpc'] ? D.channel_rolling['google cpc'].data :
+                     D.channel_rolling['Google Paid'] ? D.channel_rolling['Google Paid'].data :
+                     Array(13).fill(0);
+  const metaData   = D.channel_rolling['meta cpc']   ? D.channel_rolling['meta cpc'].data :
+                     D.channel_rolling['Meta Paid']   ? D.channel_rolling['Meta Paid'].data :
+                     Array(13).fill(0);
+
   const ctx = document.getElementById('chartPaidRolling').getContext('2d');
   charts['paidrolling'] = new Chart(ctx, {
     type: 'bar',
     data: {
       labels,
       datasets: [
-        { label:'Google Paid', data: D.channel_rolling['Google Paid'], backgroundColor:'#4285F4', borderRadius:4 },
-        { label:'Meta Paid',   data: D.channel_rolling['Meta Paid'],   backgroundColor:'#E44D26', borderRadius:4 },
+        { label:'Google CPC', data: googleData, backgroundColor: channelColor('Search','cpc'),  borderRadius:4 },
+        { label:'Meta CPC',   data: metaData,   backgroundColor: channelColor('Social','cpc'),  borderRadius:4 },
       ]
     },
     options: {
@@ -1162,8 +1187,6 @@ function parseCSV(text) {
 }
 
 function findSection(rows, n) {
-  // Find the LAST occurrence of the section marker
-  // Duplicate header rows from CSV import are handled by taking the last match
   const marker = 'SECTION ' + n + ' ';
   const markerShort = 'SECTION ' + n;
   let found = -1;
@@ -1182,10 +1205,8 @@ function getSectionRows(rows, sectionIdx) {
   let i = sectionIdx + 1;
   while (i < rows.length) {
     const row = rows[i];
-    // Stop on truly empty row -- all cells empty (handles Google Sheets CSV blank rows)
     if (!row || row.every(cell => !cell || cell.trim() === '')) break;
     const first = (row[0] || '').trim();
-    // Stop on next section marker regardless of blank rows
     if (first.startsWith('SECTION ')) break;
     if (!first || skip.some(p => first.startsWith(p))) { i++; continue; }
     data.push(row);
@@ -1203,7 +1224,7 @@ function str(v) { return (v||'').toString().trim(); }
 function parseSummaries(rows) {
   const LD = {};
 
-  // SECTION 3 -- Current Month Pacing (key-value pairs)
+  // SECTION 3 -- Current Month Pacing
   const s3idx = findSection(rows, 3);
   const s3kv = {};
   if (s3idx >= 0) {
@@ -1231,16 +1252,14 @@ function parseSummaries(rows) {
   };
 
   // SECTION 4 -- Daily MTD
-  // col A=day_num, B=date, C=leads_on_day, D=cumulative_leads, E=par_cumulative, F=vs_par
-  // Only include rows where day_num > 0 and cumulative > 0 (i.e. days with data)
   const s4rows = getSectionRows(rows, findSection(rows, 4));
   LD.daily_mtd = s4rows
-    .filter(r => num(r[0]) > 0)  // day number exists
+    .filter(r => num(r[0]) > 0)
     .map(r => ({
       day:        num(r[0]),
-      leads_day:  num(r[2]),   // daily count
-      cumulative: num(r[3]),   // cumulative count -- used for pacing chart
-      par:        num(r[4]),   // linear par
+      leads_day:  num(r[2]),
+      cumulative: num(r[3]),
+      par:        num(r[4]),
     }));
 
   // SECTION 5 -- Rolling 12
@@ -1254,20 +1273,22 @@ function parseSummaries(rows) {
   }));
 
   // SECTION 6 -- Channels MTD
-  const CH_COLORS = {
-    'Google Paid':'#4285F4','Meta Paid':'#E44D26','Meta Social':'#FA7A4A',
-    'Google Organic':'#34A853','Direct':'#3A7D3A','Chatbot':'#9B59B6',
-    'CRM - SMS':'#E8A020','CRM - Email':'#16A085','CRM - App':'#0077B6',
-    'Newsletter':'#1C3A6E','Member Referral':'#8A9BB5','Bing Organic':'#00B4D8',
-    'Unknown':'#95A5A6','Offline':'#BDC3C7',
-  };
+  // cols: A=channel, B=source, C=medium, D=leads_mtd, E=category
   const s6rows = getSectionRows(rows, findSection(rows, 6));
   LD.channels_mtd = s6rows
-    .map(r => ({ channel:str(r[0]), leads:num(r[3]), color:CH_COLORS[str(r[0])]||'#95A5A6' }))
+    .map(r => ({
+      channel:  str(r[0]),
+      source:   str(r[1]),
+      medium:   str(r[2]),
+      leads:    num(r[3]),
+      category: str(r[4]),
+      color:    channelColor(str(r[4]), str(r[2]))
+    }))
     .filter(c => c.leads > 0)
     .sort((a,b) => b.leads - a.leads);
 
   // SECTION 7 -- Channel rolling 12
+  // cols: A=channel, B=source, C=medium, D-O=12 monthly counts, P=category
   const s7idx = findSection(rows, 7);
   LD.channel_rolling = {};
   if (s7idx >= 0) {
@@ -1277,7 +1298,14 @@ function parseSummaries(rows) {
       if (!r[0] || r[0].startsWith('SECTION') || r.every(c => !c || c.trim()==='')) break;
       const ch = str(r[0]);
       if (ch && !ch.startsWith('NOTE') && !ch.startsWith('FORMULA') && !ch.startsWith('This')) {
-        LD.channel_rolling[ch] = r.slice(3, 15).map(v => num(v));
+        const category = str(r[15] || '');
+        const medium   = str(r[2]  || '');
+        LD.channel_rolling[ch] = {
+          data:     r.slice(3, 15).map(v => num(v)),
+          category: category,
+          medium:   medium,
+          color:    channelColor(category, medium),
+        };
       }
       i++;
     }
