@@ -31,8 +31,6 @@ body {
   font-size: 14px;
   line-height: 1.4;
 }
-
-/* ── HEADER ── */
 .hdr {
   background: var(--navy2);
   padding: 16px 28px;
@@ -65,8 +63,6 @@ body {
   color: var(--mid);
 }
 .hdr-badge b { color: var(--gold); font-weight: 500; }
-
-/* ── NAV TABS ── */
 .nav {
   background: var(--white);
   border-bottom: 1px solid var(--border);
@@ -88,16 +84,12 @@ body {
 }
 .nav-tab:hover { color: var(--navy); }
 .nav-tab.on { color: var(--navy); border-bottom-color: var(--navy); }
-
-/* ── LAYOUT ── */
 .main { max-width: 1560px; margin: 0 auto; padding: 24px 28px 48px; }
 .grid-2   { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
 .grid-3   { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 18px; }
 .grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; margin-bottom: 18px; }
 .grid-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: 18px; margin-bottom: 18px; }
 .mb { margin-bottom: 18px; }
-
-/* ── SECTION LABEL ── */
 .sec-label {
   font-size: 10px; font-weight: 700;
   letter-spacing: 1.4px; text-transform: uppercase;
@@ -105,11 +97,7 @@ body {
   margin-bottom: 12px; margin-top: 28px;
   display: flex; align-items: center; gap: 10px;
 }
-.sec-label::after {
-  content: ''; flex: 1; height: 1px; background: var(--border);
-}
-
-/* ── CARD ── */
+.sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 .card {
   background: var(--white);
   border: 1px solid var(--border);
@@ -126,8 +114,6 @@ body {
   color: var(--mid); margin-bottom: 16px;
 }
 .chart-wrap { position: relative; }
-
-/* ── KPI CARDS ── */
 .kpi-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 18px; }
 .kpi {
   background: var(--white);
@@ -136,135 +122,58 @@ body {
   padding: 18px 20px;
   position: relative; overflow: hidden;
 }
-.kpi-accent {
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: var(--navy);
-}
+.kpi-accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--navy); }
 .kpi-accent.green  { background: var(--green); }
 .kpi-accent.gold   { background: var(--gold); }
 .kpi-accent.red    { background: var(--red); }
-.kpi-accent.google { background: var(--google); }
-.kpi-accent.meta   { background: var(--meta); }
 .kpi-lbl { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--mid); margin-bottom: 8px; }
 .kpi-val { font-size: 30px; font-weight: 800; color: var(--navy); line-height: 1; }
 .kpi-val.ahead { color: var(--ahead); }
 .kpi-val.behind { color: var(--behind); }
 .kpi-foot { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--mid); margin-top: 5px; }
-
-/* ── PACING BAR ── */
 .pace-wrap { margin: 18px 0 10px; }
-.pace-track {
-  height: 12px; background: var(--light);
-  border-radius: 6px; position: relative; overflow: visible;
-}
-.pace-fill {
-  height: 100%; border-radius: 6px;
-  background: var(--navy);
-  transition: width .4s ease;
-  position: relative;
-}
+.pace-track { height: 12px; background: var(--light); border-radius: 6px; position: relative; overflow: visible; }
+.pace-fill { height: 100%; border-radius: 6px; background: var(--navy); transition: width .4s ease; position: relative; }
 .pace-fill.ahead { background: var(--green); }
 .pace-fill.behind { background: var(--red); }
-.pace-par-marker {
-  position: absolute; top: -4px;
-  width: 2px; height: 20px;
-  background: var(--gold);
-  border-radius: 1px;
-}
-.pace-labels {
-  display: flex; justify-content: space-between;
-  font-family: 'DM Mono', monospace; font-size: 10px;
-  color: var(--mid); margin-top: 6px;
-}
-.pace-stats {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
-  margin-top: 20px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
-}
-.pace-stat {
-  padding: 12px 16px;
-  border-right: 1px solid var(--border);
-  text-align: center;
-}
+.pace-par-marker { position: absolute; top: -4px; width: 2px; height: 20px; background: var(--gold); border-radius: 1px; }
+.pace-labels { display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--mid); margin-top: 6px; }
+.pace-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 20px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.pace-stat { padding: 12px 16px; border-right: 1px solid var(--border); text-align: center; }
 .pace-stat:last-child { border-right: none; }
 .pace-stat-val { font-size: 22px; font-weight: 800; color: var(--navy); }
 .pace-stat-val.ahead { color: var(--ahead); }
 .pace-stat-val.behind { color: var(--behind); }
 .pace-stat-lbl { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--mid); margin-top: 2px; }
-
-/* ── CHANNEL TABLE ── */
 .ch-table { width: 100%; border-collapse: collapse; }
-.ch-table th {
-  font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-  color: var(--mid); padding: 6px 10px; text-align: left;
-  border-bottom: 2px solid var(--border);
-}
+.ch-table th { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mid); padding: 6px 10px; text-align: left; border-bottom: 2px solid var(--border); }
 .ch-table th.r { text-align: right; }
 .ch-table td { padding: 9px 10px; border-bottom: 1px solid var(--light); }
 .ch-table td.r { text-align: right; font-family: 'DM Mono', monospace; font-size: 12px; }
 .ch-table tr:hover td { background: var(--light); }
 .ch-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 7px; }
 .bar-mini { height: 5px; border-radius: 3px; display: inline-block; vertical-align: middle; }
-
-/* ── COMPARISON TABLE ── */
 .comp-table { width: 100%; border-collapse: collapse; }
-.comp-table th {
-  font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-  color: var(--mid); padding: 8px 14px; text-align: left;
-  border-bottom: 2px solid var(--border);
-}
+.comp-table th { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mid); padding: 8px 14px; text-align: left; border-bottom: 2px solid var(--border); }
 .comp-table th.r { text-align: right; }
 .comp-table td { padding: 12px 14px; border-bottom: 1px solid var(--light); font-size: 13px; }
 .comp-table td.r { text-align: right; font-family: 'DM Mono', monospace; }
 .comp-table tr.highlight td { background: #EEF3FF; font-weight: 600; }
-
-/* ── SPEND PANEL ── */
 .spend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-.spend-plat {
-  border: 1px solid var(--border); border-radius: 10px; padding: 18px;
-  display: flex; gap: 16px; align-items: flex-start;
-}
-.spend-logo {
-  width: 36px; height: 36px; border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 800; flex-shrink: 0;
-}
+.spend-plat { border: 1px solid var(--border); border-radius: 10px; padding: 18px; display: flex; gap: 16px; align-items: flex-start; }
+.spend-logo { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; flex-shrink: 0; }
 .spend-logo.g { background: #E8F0FE; color: var(--google); }
 .spend-logo.m { background: #FEF0E8; color: var(--meta); }
 .spend-val { font-size: 22px; font-weight: 800; color: var(--navy); }
 .spend-lbl { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--mid); margin-top: 2px; }
 .spend-pending { color: var(--mid); font-style: italic; font-size: 13px; }
-.spend-await {
-  border: 2px dashed var(--border); border-radius: 8px;
-  padding: 20px; text-align: center;
-  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--mid);
-  margin-top: 10px;
-}
-
-/* ── FY PROGRESS ── */
+.spend-await { border: 2px dashed var(--border); border-radius: 8px; padding: 20px; text-align: center; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--mid); margin-top: 10px; }
 .fy-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
-.fy-tab {
-  background: var(--light); border: 1.5px solid var(--border);
-  border-radius: 20px; padding: 5px 14px;
-  font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 600;
-  color: var(--mid); cursor: pointer; transition: all .15s;
-}
+.fy-tab { background: var(--light); border: 1.5px solid var(--border); border-radius: 20px; padding: 5px 14px; font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 600; color: var(--mid); cursor: pointer; transition: all .15s; }
 .fy-tab.on { background: var(--navy); border-color: var(--navy); color: white; }
-
-/* ── TAB CONTENT ── */
 .view { display: none; }
 .view.on { display: block; }
-
-/* ── UTILITY ── */
 .mono { font-family: 'DM Mono', monospace; }
-.tag {
-  display: inline-block; padding: 2px 8px; border-radius: 10px;
-  font-size: 10px; font-family: 'DM Mono', monospace; font-weight: 500;
-}
-.tag-green { background: #E8F5E9; color: #1B5E20; }
-.tag-red   { background: #FEECEC; color: #B71C1C; }
-.tag-gold  { background: #FFF8E1; color: #E65100; }
-.tag-gray  { background: var(--light); color: var(--mid); }
-
 @media (max-width: 1100px) {
   .kpi-strip { grid-template-columns: repeat(3, 1fr); }
   .grid-2-1, .grid-1-2 { grid-template-columns: 1fr; }
@@ -279,16 +188,13 @@ body {
 </head>
 <body>
 
-<!-- LOADING OVERLAY -->
 <div id="loading-overlay" style="position:fixed;inset:0;background:rgba(14,31,61,.85);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
   <div style="width:36px;height:36px;border:3px solid rgba(255,255,255,.2);border-top-color:#E8A020;border-radius:50%;animation:spin .8s linear infinite"></div>
   <div style="color:#fff;font-family:'Barlow',sans-serif;font-size:14px;font-weight:600">Loading live data from Google Sheets...</div>
 </div>
-<!-- DATA BANNER -->
 <div id="data-banner" style="display:none;background:#FFF8E1;border-bottom:1px solid #E8A020;padding:8px 28px;font-family:'DM Mono',monospace;font-size:11px;color:#795548"></div>
 <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 
-<!-- HEADER -->
 <header class="hdr">
   <div class="hdr-left">
     <div class="ca-mark">CA</div>
@@ -301,26 +207,10 @@ body {
     <div class="hdr-badge">Current month: <b id="hdr-month">May 2026</b></div>
     <div class="hdr-badge">Day <b id="hdr-day">22</b> of <b id="hdr-dim">31</b></div>
     <div class="hdr-badge">FY <b id="hdr-fy">2027</b></div>
-    <a href="sales.html" style="
-      display:inline-flex;align-items:center;gap:6px;
-      background:rgba(255,255,255,.07);
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:8px;
-      padding:6px 14px;
-      font-family:'Barlow',sans-serif;
-      font-size:12px;font-weight:600;
-      color:rgba(255,255,255,.65);
-      text-decoration:none;
-      letter-spacing:.3px;
-      transition:all .15s;
-    " onmouseover="this.style.background='rgba(255,255,255,.13)';this.style.color='#fff'"
-       onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.color='rgba(255,255,255,.65)'">
-      Sales Dashboard →
-    </a>
+    <a href="sales.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:6px 14px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;color:rgba(255,255,255,.65);text-decoration:none;letter-spacing:.3px;transition:all .15s;" onmouseover="this.style.background='rgba(255,255,255,.13)';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.color='rgba(255,255,255,.65)'">Sales Dashboard →</a>
   </div>
 </header>
 
-<!-- NAV -->
 <nav class="nav">
   <button class="nav-tab on"  onclick="switchView('month',this)">This Month</button>
   <button class="nav-tab"     onclick="switchView('rolling',this)">Rolling 12 Months</button>
@@ -331,55 +221,20 @@ body {
 
 <div class="main">
 
-<!-- ════════════════════════════════════════════════════
-     VIEW: THIS MONTH
-════════════════════════════════════════════════════ -->
 <div class="view on" id="view-month">
-
   <div class="sec-label">Current Month Pacing — <span id="pace-month-label">May 2026</span></div>
-
-  <!-- KPI STRIP -->
   <div class="kpi-strip">
-    <div class="kpi">
-      <div class="kpi-accent green"></div>
-      <div class="kpi-lbl">Leads to Date</div>
-      <div class="kpi-val" id="k-leads">435</div>
-      <div class="kpi-foot" id="k-leads-foot">Day 22 of 31</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent gold"></div>
-      <div class="kpi-lbl">Monthly Goal</div>
-      <div class="kpi-val" id="k-goal">1,300</div>
-      <div class="kpi-foot" id="k-goal-pct">33.5% achieved</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent"></div>
-      <div class="kpi-lbl">Linear PAR</div>
-      <div class="kpi-val" id="k-par">923</div>
-      <div class="kpi-foot" id="k-par-foot">expected at day 22</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent red"></div>
-      <div class="kpi-lbl">vs PAR</div>
-      <div class="kpi-val behind" id="k-vspar">−488</div>
-      <div class="kpi-foot">behind pace</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent"></div>
-      <div class="kpi-lbl">Projected Total</div>
-      <div class="kpi-val" id="k-proj">614</div>
-      <div class="kpi-foot">at current rate</div>
-    </div>
+    <div class="kpi"><div class="kpi-accent green"></div><div class="kpi-lbl">Leads to Date</div><div class="kpi-val" id="k-leads">435</div><div class="kpi-foot" id="k-leads-foot">Day 22 of 31</div></div>
+    <div class="kpi"><div class="kpi-accent gold"></div><div class="kpi-lbl">Monthly Goal</div><div class="kpi-val" id="k-goal">1,300</div><div class="kpi-foot" id="k-goal-pct">33.5% achieved</div></div>
+    <div class="kpi"><div class="kpi-accent"></div><div class="kpi-lbl">Linear PAR</div><div class="kpi-val" id="k-par">923</div><div class="kpi-foot" id="k-par-foot">expected at day 22</div></div>
+    <div class="kpi"><div class="kpi-accent red"></div><div class="kpi-lbl">vs PAR</div><div class="kpi-val behind" id="k-vspar">−488</div><div class="kpi-foot">behind pace</div></div>
+    <div class="kpi"><div class="kpi-accent"></div><div class="kpi-lbl">Projected Total</div><div class="kpi-val" id="k-proj">614</div><div class="kpi-foot">at current rate</div></div>
   </div>
-
-  <!-- PACING BAR + DAILY CHART -->
   <div class="grid-2-1">
     <div class="card">
       <div class="card-title">Daily Cumulative Pacing</div>
       <div class="card-sub">Actual leads vs linear PAR line through month end</div>
-      <div class="chart-wrap" style="height:220px">
-        <canvas id="chartPace"></canvas>
-      </div>
+      <div class="chart-wrap" style="height:220px"><canvas id="chartPace"></canvas></div>
     </div>
     <div class="card">
       <div class="card-title">Month Progress</div>
@@ -391,32 +246,18 @@ body {
         </div>
         <div class="pace-labels">
           <span>0</span>
-          <span style="position:absolute;left:70.9%;transform:translateX(-50%)" id="pace-par-lbl" class="mono" style="color:var(--gold)">PAR 923</span>
+          <span style="position:absolute;left:70.9%;transform:translateX(-50%)" id="pace-par-lbl" class="mono">PAR 923</span>
           <span id="pace-goal-lbl">Goal 1,300</span>
         </div>
       </div>
       <div class="pace-stats">
-        <div class="pace-stat">
-          <div class="pace-stat-val" id="ps-leads">435</div>
-          <div class="pace-stat-lbl">leads MTD</div>
-        </div>
-        <div class="pace-stat">
-          <div class="pace-stat-val behind" id="ps-vspar">−488</div>
-          <div class="pace-stat-lbl">vs par</div>
-        </div>
-        <div class="pace-stat">
-          <div class="pace-stat-val" id="ps-needed">865</div>
-          <div class="pace-stat-lbl">needed to goal</div>
-        </div>
-        <div class="pace-stat">
-          <div class="pace-stat-val" id="ps-daysrem">9</div>
-          <div class="pace-stat-lbl">days remaining</div>
-        </div>
+        <div class="pace-stat"><div class="pace-stat-val" id="ps-leads">435</div><div class="pace-stat-lbl">leads MTD</div></div>
+        <div class="pace-stat"><div class="pace-stat-val behind" id="ps-vspar">−488</div><div class="pace-stat-lbl">vs par</div></div>
+        <div class="pace-stat"><div class="pace-stat-val" id="ps-needed">865</div><div class="pace-stat-lbl">needed to goal</div></div>
+        <div class="pace-stat"><div class="pace-stat-val" id="ps-daysrem">9</div><div class="pace-stat-lbl">days remaining</div></div>
       </div>
     </div>
   </div>
-
-  <!-- CHANNEL + FACILITY -->
   <div class="grid-1-2">
     <div class="card">
       <div class="card-title">By Facility</div>
@@ -429,86 +270,50 @@ body {
       <div id="ch-mtd-wrap"></div>
     </div>
   </div>
+</div>
 
-</div><!-- /view-month -->
-
-
-<!-- ════════════════════════════════════════════════════
-     VIEW: ROLLING 12 MONTHS
-════════════════════════════════════════════════════ -->
 <div class="view" id="view-rolling">
-
   <div class="sec-label">Rolling 12 Months — leads vs goal</div>
-
   <div class="card mb">
     <div class="card-title">Monthly Leads vs Goal — Last 12 Months</div>
     <div class="card-sub">Bars = actual leads &nbsp;|&nbsp; Line = monthly goal &nbsp;|&nbsp; * = current partial month</div>
-    <div class="chart-wrap" style="height:260px">
-      <canvas id="chartRolling"></canvas>
-    </div>
+    <div class="chart-wrap" style="height:260px"><canvas id="chartRolling"></canvas></div>
   </div>
-
   <div class="grid-2">
     <div class="card">
       <div class="card-title">Channel Mix — Rolling 12 Months</div>
       <div class="card-sub">Stacked bars — top channels</div>
-      <div class="chart-wrap" style="height:230px">
-        <canvas id="chartChRolling"></canvas>
-      </div>
+      <div class="chart-wrap" style="height:230px"><canvas id="chartChRolling"></canvas></div>
     </div>
     <div class="card">
       <div class="card-title">Facility Volume — Rolling 12 Months</div>
       <div class="card-sub">4 main facilities</div>
-      <div class="chart-wrap" style="height:230px">
-        <canvas id="chartFacRolling"></canvas>
-      </div>
+      <div class="chart-wrap" style="height:230px"><canvas id="chartFacRolling"></canvas></div>
     </div>
   </div>
+</div>
 
-</div><!-- /view-rolling -->
-
-
-<!-- ════════════════════════════════════════════════════
-     VIEW: FISCAL YEAR
-════════════════════════════════════════════════════ -->
 <div class="view" id="view-fy">
-
   <div class="sec-label">Fiscal Year Progress — FY starts May 1</div>
-
   <div class="fy-tabs">
     <button class="fy-tab on" onclick="switchFY('FY2027',this)">FY2027 (Current)</button>
     <button class="fy-tab" onclick="switchFY('FY2026',this)">FY2026</button>
   </div>
-
   <div class="card mb">
     <div class="card-title" id="fy-chart-title">FY2027 — Cumulative Leads vs Cumulative Goal</div>
     <div class="card-sub">Cumulative actuals vs cumulative goal by FY month. FY2026 shown as reference line.</div>
-    <div class="chart-wrap" style="height:280px">
-      <canvas id="chartFY"></canvas>
-    </div>
+    <div class="chart-wrap" style="height:280px"><canvas id="chartFY"></canvas></div>
   </div>
+  <div class="card mb" id="fy-table-wrap"></div>
+</div>
 
-  <div class="card mb" id="fy-table-wrap">
-    <!-- FY table rendered by JS -->
-  </div>
-
-</div><!-- /view-fy -->
-
-
-<!-- ════════════════════════════════════════════════════
-     VIEW: YEAR-OVER-YEAR (same month)
-════════════════════════════════════════════════════ -->
 <div class="view" id="view-samemonth">
-
   <div class="sec-label" id="yoy-label">Year-over-Year — May Comparison</div>
-
   <div class="grid-2-1">
     <div class="card">
       <div class="card-title">Same Month — Actuals vs Goal</div>
       <div class="card-sub" id="yoy-sub">Comparing May across available years</div>
-      <div class="chart-wrap" style="height:230px">
-        <canvas id="chartYOY"></canvas>
-      </div>
+      <div class="chart-wrap" style="height:230px"><canvas id="chartYOY"></canvas></div>
     </div>
     <div class="card">
       <div class="card-title" id="yoy-table-title">May — Year Comparison</div>
@@ -516,35 +321,19 @@ body {
       <div id="yoy-table-wrap"></div>
     </div>
   </div>
+</div>
 
-</div><!-- /view-samemonth -->
-
-
-<!-- ════════════════════════════════════════════════════
-     VIEW: SPEND & CPL
-════════════════════════════════════════════════════ -->
 <div class="view" id="view-spend">
-
   <div class="sec-label">Paid Media Spend & Cost Per Lead — Current Month</div>
-
   <div class="spend-grid">
     <div class="spend-plat">
       <div class="spend-logo g">G</div>
       <div style="flex:1">
         <div class="card-title" style="margin-bottom:12px">Google Paid</div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-          <div>
-            <div class="spend-val" id="g-leads">55</div>
-            <div class="spend-lbl">CPC leads MTD</div>
-          </div>
-          <div>
-            <div class="spend-val spend-pending" id="g-spend">—</div>
-            <div class="spend-lbl">spend MTD</div>
-          </div>
-          <div>
-            <div class="spend-val spend-pending" id="g-cpl">—</div>
-            <div class="spend-lbl">cost per lead</div>
-          </div>
+          <div><div class="spend-val" id="g-leads">55</div><div class="spend-lbl">CPC leads MTD</div></div>
+          <div><div class="spend-val spend-pending" id="g-spend">—</div><div class="spend-lbl">spend MTD</div></div>
+          <div><div class="spend-val spend-pending" id="g-cpl">—</div><div class="spend-lbl">cost per lead</div></div>
         </div>
       </div>
     </div>
@@ -553,89 +342,96 @@ body {
       <div style="flex:1">
         <div class="card-title" style="margin-bottom:12px">Meta Paid</div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-          <div>
-            <div class="spend-val" id="m-leads">28</div>
-            <div class="spend-lbl">CPC leads MTD</div>
-          </div>
-          <div>
-            <div class="spend-val spend-pending" id="m-spend">—</div>
-            <div class="spend-lbl">spend MTD</div>
-          </div>
-          <div>
-            <div class="spend-val spend-pending" id="m-cpl">—</div>
-            <div class="spend-lbl">cost per lead</div>
-          </div>
+          <div><div class="spend-val" id="m-leads">28</div><div class="spend-lbl">CPC leads MTD</div></div>
+          <div><div class="spend-val spend-pending" id="m-spend">—</div><div class="spend-lbl">spend MTD</div></div>
+          <div><div class="spend-val spend-pending" id="m-cpl">—</div><div class="spend-lbl">cost per lead</div></div>
         </div>
       </div>
     </div>
   </div>
-
   <div class="spend-await">
     Spend data populates automatically once <b>membership_acquisition = TRUE</b> rows are present in the spend tab.<br>
     Exclude Lakefront Live and brand/awareness campaigns. CPL = monthly spend ÷ CPC leads.
   </div>
-
   <div class="sec-label" style="margin-top:24px">Paid Lead Volume — Rolling 12 Months</div>
   <div class="card">
     <div class="card-title">Google Paid vs Meta Paid — Monthly Lead Volume</div>
     <div class="card-sub">Spend CPL trend will appear here once spend data is connected</div>
-    <div class="chart-wrap" style="height:230px">
-      <canvas id="chartPaidRolling"></canvas>
-    </div>
+    <div class="chart-wrap" style="height:230px"><canvas id="chartPaidRolling"></canvas></div>
   </div>
-
-</div><!-- /view-spend -->
+</div>
 
 </div><!-- /main -->
 
 <script>
 // ============================================================
-// COLOR SYSTEM — category + medium driven
+// COLOR SYSTEM
+// Two-layer: category defines the family, source+medium picks
+// the specific shade within that family.
+// Key format: "source|medium"
 // ============================================================
-const CATEGORY_COLORS = {
-  'Search': {
-    cpc:     '#4285F4',
-    organic: '#34A853',
-    default: '#4285F4'
-  },
-  'Social': {
-    cpc:     '#E44D26',
-    organic: '#FA7A4A',
-    social:  '#FA7A4A',
-    default: '#E44D26'
-  },
-  'Email & SMS': {
-    email:   '#16A085',
-    sms:     '#E8A020',
-    app:     '#0077B6',
-    default: '#E8A020'
-  },
-  'Offline & Physical': {
-    default: '#8B6914'
-  },
-  'Referral & Partnerships': {
-    referral: '#1C3A6E',
-    email:    '#3A5A9E',
-    qr:       '#2E4A8E',
-    unknown:  '#4A6AAE',
-    web:      '#5A7ABE',
-    default:  '#1C3A6E'
-  },
-  'Direct, Untracked & Unresolved': {
-    direct:  '#7A8FA8',
-    chatbot: '#9B59B6',
-    unknown: '#95A5A6',
-    default: '#95A5A6'
-  },
+
+// Category tag colors for the pill badges
+const CATEGORY_TAG_COLORS = {
+  'Search':                         { bg: '#E8F5E9', text: '#1B5E20' },
+  'Social':                         { bg: '#FEF0E8', text: '#B03A1A' },
+  'Email & SMS':                    { bg: '#FFF8E1', text: '#916A00' },
+  'Offline & Physical':             { bg: '#FDF3E0', text: '#7A5200' },
+  'Referral & Partnerships':        { bg: '#EEF3FF', text: '#1C3A6E' },
+  'Direct, Untracked & Unresolved': { bg: '#F2F5F9', text: '#5A6E82' },
 };
 
-function channelColor(category, medium) {
-  const cat = CATEGORY_COLORS[category] || { default: '#95A5A6' };
-  return cat[(medium || '').toLowerCase()] || cat.default;
+// Per source|medium dot/bar colors — families share a hue, shades differentiate
+const CHANNEL_COLORS = {
+  // Search — Green family
+  // paid feels darker/heavier, organic lighter, other sources lightest
+  'google|cpc':          '#1A6B35',   // dark green — paid
+  'google|organic':      '#34A853',   // full green — primary organic
+  'bing|organic':        '#5FAD72',   // medium green
+  'other_search|organic':'#89C49A',   // lighter green
+  'ai|organic':          '#B2D9BC',   // lightest green — newest/smallest
+
+  // Social — Orange/Red family
+  'meta|cpc':            '#C0392B',   // dark red-orange — paid
+  'meta|organic':        '#E44D26',   // full orange
+  'tiktok|organic':      '#F0845A',   // lighter orange
+
+  // Email & SMS — Gold/Amber family
+  'crm|sms':             '#E8A020',   // full gold
+  'crm|email':           '#C47F10',   // darker amber
+  'crm|app':             '#0077B6',   // blue — app is distinct enough
+  'newsletter|email':    '#F0BA55',   // lighter gold
+
+  // Offline & Physical — Brown/Tan family
+  'offline|qr':          '#8B6914',   // darkest
+  'offline|mail':        '#A07820',   // medium
+  'offline|event':       '#B89040',   // lightest
+
+  // Referral & Partnerships — Navy family
+  'member|referral':     '#1C3A6E',   // full navy
+  'partner|email':       '#2E5299',   // medium blue
+  'partner|qr':          '#3D66B8',   // lighter blue
+  'partner|unknown':     '#5A7ED4',   // lighter still
+  'web_referral|web':    '#7A9AE0',   // lightest navy
+
+  // Direct, Untracked & Unresolved — Gray family
+  // prospect_wizard gets purple as a named tool exception
+  'direct|direct':           '#5A6E82',   // medium gray
+  'prospect_wizard|chatbot': '#9B59B6',   // purple — named tool, temporary
+  'unknown|unknown':         '#95A5A6',   // light gray
+};
+
+function channelColor(source, medium) {
+  const key = (source || '').toLowerCase().trim() + '|' + (medium || '').toLowerCase().trim();
+  return CHANNEL_COLORS[key] || '#95A5A6';
+}
+
+function categoryTagStyle(category) {
+  return CATEGORY_TAG_COLORS[category] || { bg: '#F2F5F9', text: '#5A6E82' };
 }
 
 // ============================================================
-// FALLBACK DATA (used if sheet fetch fails)
+// FALLBACK DATA
 // ============================================================
 const D = {
   meta: {
@@ -666,69 +462,23 @@ const D = {
     {yearmo:'2026-04',label:'Apr 26', actuals:653, goal:970},
     {yearmo:'2026-05',label:'May 26*',actuals:435, goal:1300, partial:true},
   ],
-  channels_mtd: [
-    {channel:'google organic', source:'google', medium:'organic', leads:130, category:'Search',                         color: channelColor('Search','organic')},
-    {channel:'direct direct',  source:'direct', medium:'direct',  leads:57,  category:'Direct, Untracked & Unresolved', color: channelColor('Direct, Untracked & Unresolved','direct')},
-    {channel:'prospect_wizard chatbot', source:'prospect_wizard', medium:'chatbot', leads:73, category:'Direct, Untracked & Unresolved', color: channelColor('Direct, Untracked & Unresolved','chatbot')},
-    {channel:'crm sms',        source:'crm',    medium:'sms',     leads:52,  category:'Email & SMS',                    color: channelColor('Email & SMS','sms')},
-    {channel:'google cpc',     source:'google', medium:'cpc',     leads:55,  category:'Search',                         color: channelColor('Search','cpc')},
-    {channel:'meta cpc',       source:'meta',   medium:'cpc',     leads:28,  category:'Social',                         color: channelColor('Social','cpc')},
-    {channel:'crm email',      source:'crm',    medium:'email',   leads:14,  category:'Email & SMS',                    color: channelColor('Email & SMS','email')},
-    {channel:'member referral',source:'member', medium:'referral',leads:6,   category:'Referral & Partnerships',        color: channelColor('Referral & Partnerships','referral')},
-    {channel:'bing organic',   source:'bing',   medium:'organic', leads:5,   category:'Search',                         color: channelColor('Search','organic')},
-    {channel:'unknown unknown',source:'unknown',medium:'unknown', leads:10,  category:'Direct, Untracked & Unresolved', color: channelColor('Direct, Untracked & Unresolved','unknown')},
-  ],
+  channels_mtd: [],
   channel_rolling: {},
-  facilities_mtd: [
-    {facility:'Supreme Sports Club',    leads:127},
-    {facility:'Columbia Athletic Club', leads:121},
-    {facility:'Columbia Gym',           leads:101},
-    {facility:"Hobbit's Glen",          leads:44},
-    {facility:'Headquarters',           leads:35},
-    {facility:'CA Parties',             leads:3},
-  ],
-  facility_rolling: {
-    'Supreme Sports Club':    [0,0,0,0,0,0,0,0,221,174,182,180,127],
-    'Columbia Athletic Club': [0,0,0,0,0,0,0,0,187,162,171,187,121],
-    'Columbia Gym':           [0,0,0,0,0,0,0,0,167,151,130,132,101],
-    "Hobbit's Glen":          [0,0,0,0,0,0,0,0,14,12,24,112,44],
-  },
-  same_month: [
-    {period:'May 2026 (MTD)', yearmo:'2026-05', actuals:435,  goal:1300, days_elapsed:22, days_in_month:31},
-    {period:'May 2025',       yearmo:'2025-05', actuals:0,    goal:1470, days_elapsed:31, days_in_month:31},
-    {period:'May 2024',       yearmo:'2024-05', actuals:0,    goal:1230, days_elapsed:31, days_in_month:31},
-  ],
-  fy: {
-    FY2027: [
-      {seq:1, ym:'2026-05', label:'May 26', goal:1300, actuals:435, cum_goal:1300, cum_actuals:435, partial:true},
-    ],
-    FY2026: [
-      {seq:1,  ym:'2025-05', label:'May 25', goal:1470, actuals:0,   cum_goal:1470,  cum_actuals:0},
-      {seq:2,  ym:'2025-06', label:'Jun 25', goal:1900, actuals:0,   cum_goal:3370,  cum_actuals:0},
-      {seq:3,  ym:'2025-07', label:'Jul 25', goal:1100, actuals:0,   cum_goal:4470,  cum_actuals:0},
-      {seq:4,  ym:'2025-08', label:'Aug 25', goal:740,  actuals:0,   cum_goal:5210,  cum_actuals:0},
-      {seq:5,  ym:'2025-09', label:'Sep 25', goal:550,  actuals:0,   cum_goal:5760,  cum_actuals:0},
-      {seq:6,  ym:'2025-10', label:'Oct 25', goal:500,  actuals:0,   cum_goal:6260,  cum_actuals:0},
-      {seq:7,  ym:'2025-11', label:'Nov 25', goal:630,  actuals:0,   cum_goal:6890,  cum_actuals:0},
-      {seq:8,  ym:'2025-12', label:'Dec 25', goal:600,  actuals:0,   cum_goal:7490,  cum_actuals:0},
-      {seq:9,  ym:'2026-01', label:'Jan 26', goal:750,  actuals:704, cum_goal:8240,  cum_actuals:704},
-      {seq:10, ym:'2026-02', label:'Feb 26', goal:660,  actuals:646, cum_goal:8900,  cum_actuals:1350},
-      {seq:11, ym:'2026-03', label:'Mar 26', goal:710,  actuals:559, cum_goal:9610,  cum_actuals:1909},
-      {seq:12, ym:'2026-04', label:'Apr 26', goal:970,  actuals:653, cum_goal:10580, cum_actuals:2562},
-    ],
-  },
+  facilities_mtd: [],
+  facility_rolling: {},
+  same_month: [],
+  fy: {},
   spend_mtd: {
-    google: {impressions:0, clicks:0, spend:0, leads:55,  cpl:null},
-    meta:   {impressions:0, clicks:0, spend:0, leads:28, cpl:null},
+    google: {impressions:0, clicks:0, spend:0, leads:0, cpl:null},
+    meta:   {impressions:0, clicks:0, spend:0, leads:0, cpl:null},
   },
 };
 
 // ============================================================
-// CHARTS registry
+// CHARTS
 // ============================================================
 const charts = {};
 function dc(id) { if(charts[id]) { charts[id].destroy(); delete charts[id]; } }
-
 const MONO = "'DM Mono', monospace";
 const SANS = "'Barlow', sans-serif";
 const baseScale = {
@@ -740,9 +490,6 @@ const basePlugins = {
   tooltip: { titleFont:{family:SANS,size:12}, bodyFont:{family:MONO,size:11} }
 };
 
-// ============================================================
-// VIEW SWITCHING
-// ============================================================
 function switchView(id, btn) {
   document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('on'));
   document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
@@ -755,186 +502,114 @@ function switchView(id, btn) {
 // ============================================================
 function buildMonthView() {
   const m = D.meta;
-
-  document.getElementById('k-leads').textContent    = m.leads_to_date.toLocaleString();
-  document.getElementById('k-goal').textContent     = m.current_goal.toLocaleString();
-  document.getElementById('k-par').textContent      = m.par_to_date.toLocaleString();
-  document.getElementById('k-vspar').textContent    = (m.vs_par >= 0 ? '+' : '') + m.vs_par.toLocaleString();
-  document.getElementById('k-vspar').className      = 'kpi-val ' + (m.vs_par >= 0 ? 'ahead' : 'behind');
-  document.getElementById('k-proj').textContent     = m.projected_month_total.toLocaleString();
+  document.getElementById('k-leads').textContent      = m.leads_to_date.toLocaleString();
+  document.getElementById('k-goal').textContent       = m.current_goal.toLocaleString();
+  document.getElementById('k-par').textContent        = m.par_to_date.toLocaleString();
+  document.getElementById('k-vspar').textContent      = (m.vs_par >= 0 ? '+' : '') + m.vs_par.toLocaleString();
+  document.getElementById('k-vspar').className        = 'kpi-val ' + (m.vs_par >= 0 ? 'ahead' : 'behind');
+  document.getElementById('k-proj').textContent       = m.projected_month_total.toLocaleString();
   document.getElementById('k-leads-foot').textContent = `Day ${m.days_elapsed} of ${m.days_in_month}`;
-  document.getElementById('k-goal-pct').textContent = `${m.pct_of_goal}% achieved`;
+  document.getElementById('k-goal-pct').textContent   = `${m.pct_of_goal}% achieved`;
   document.getElementById('pace-month-label').textContent = m.current_month_label;
 
   const fillPct = Math.min(100, m.leads_to_date / m.current_goal * 100);
-  const parPct  = Math.min(100, m.par_to_date / m.current_goal * 100);
+  const parPct  = Math.min(100, m.par_to_date  / m.current_goal * 100);
   const fill = document.getElementById('pace-fill');
   fill.style.width = fillPct + '%';
   fill.className = 'pace-fill ' + (m.vs_par >= 0 ? 'ahead' : 'behind');
-  document.getElementById('pace-par-mark').style.left = parPct + '%';
-  document.getElementById('pace-par-lbl').textContent = `PAR ${m.par_to_date.toLocaleString()}`;
-  document.getElementById('pace-goal-lbl').textContent = `Goal ${m.current_goal.toLocaleString()}`;
+  document.getElementById('pace-par-mark').style.left   = parPct + '%';
+  document.getElementById('pace-par-lbl').textContent   = `PAR ${m.par_to_date.toLocaleString()}`;
+  document.getElementById('pace-goal-lbl').textContent  = `Goal ${m.current_goal.toLocaleString()}`;
+  document.getElementById('ps-leads').textContent       = m.leads_to_date.toLocaleString();
+  document.getElementById('ps-vspar').textContent       = (m.vs_par >= 0 ? '+' : '') + m.vs_par.toLocaleString();
+  document.getElementById('ps-vspar').className         = 'pace-stat-val ' + (m.vs_par >= 0 ? 'ahead' : 'behind');
+  document.getElementById('ps-needed').textContent      = Math.max(0, m.current_goal - m.leads_to_date).toLocaleString();
+  document.getElementById('ps-daysrem').textContent     = (m.days_in_month - m.days_elapsed).toString();
 
-  document.getElementById('ps-leads').textContent  = m.leads_to_date.toLocaleString();
-  document.getElementById('ps-vspar').textContent  = (m.vs_par >= 0 ? '+' : '') + m.vs_par.toLocaleString();
-  document.getElementById('ps-vspar').className    = 'pace-stat-val ' + (m.vs_par >= 0 ? 'ahead' : 'behind');
-  document.getElementById('ps-needed').textContent = Math.max(0, m.current_goal - m.leads_to_date).toLocaleString();
-  document.getElementById('ps-daysrem').textContent = (m.days_in_month - m.days_elapsed).toString();
-
-  // Daily cumulative pacing chart
+  // Pacing chart
   dc('pace');
-  const labels = Array.from({length: m.days_in_month}, (_,i) => i+1);
+  const labels     = Array.from({length: m.days_in_month}, (_,i) => i+1);
   const cumActuals = labels.map(dayNum => {
     if (dayNum > m.days_elapsed) return null;
     const entry = D.daily_mtd.find(d => d.day === dayNum);
-    if (entry) return entry.cumulative;
-    return null;
+    return entry ? entry.cumulative : null;
   });
   let lastKnown = 0;
   for (let i = 0; i < m.days_elapsed; i++) {
-    if (cumActuals[i] !== null && cumActuals[i] > 0) {
-      lastKnown = cumActuals[i];
-    } else if (cumActuals[i] === null || cumActuals[i] === 0) {
-      cumActuals[i] = lastKnown;
-    }
+    if (cumActuals[i] > 0) { lastKnown = cumActuals[i]; }
+    else if (!cumActuals[i]) { cumActuals[i] = lastKnown; }
   }
   const parLine = labels.map(d => Math.round(m.current_goal * d / m.days_in_month));
-
   const ctx = document.getElementById('chartPace').getContext('2d');
   charts['pace'] = new Chart(ctx, {
     type: 'line',
     data: {
       labels,
       datasets: [
-        {
-          label: 'Leads (cumulative)',
-          data: cumActuals,
-          borderColor: m.vs_par >= 0 ? '#3A7D3A' : '#C0392B',
-          backgroundColor: m.vs_par >= 0 ? 'rgba(58,125,58,.08)' : 'rgba(192,57,43,.08)',
-          borderWidth: 2.5, pointRadius: 0, tension: 0.3, fill: true,
-          spanGaps: false,
-        },
-        {
-          label: 'Linear PAR',
-          data: parLine,
-          borderColor: '#E8A020',
-          borderWidth: 1.5, pointRadius: 0,
-          borderDash: [5,4],
-          tension: 0, fill: false,
-        },
-        {
-          label: 'Goal',
-          data: Array(m.days_in_month).fill(m.current_goal),
-          borderColor: 'rgba(28,58,110,.25)',
-          borderWidth: 1, pointRadius: 0,
-          borderDash: [2,4],
-          fill: false,
-        }
+        { label:'Leads (cumulative)', data:cumActuals, borderColor: m.vs_par>=0?'#3A7D3A':'#C0392B', backgroundColor: m.vs_par>=0?'rgba(58,125,58,.08)':'rgba(192,57,43,.08)', borderWidth:2.5, pointRadius:0, tension:0.3, fill:true, spanGaps:false },
+        { label:'Linear PAR', data:parLine, borderColor:'#E8A020', borderWidth:1.5, pointRadius:0, borderDash:[5,4], tension:0, fill:false },
+        { label:'Goal', data:Array(m.days_in_month).fill(m.current_goal), borderColor:'rgba(28,58,110,.25)', borderWidth:1, pointRadius:0, borderDash:[2,4], fill:false }
       ]
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { ...basePlugins, legend:{display:true,position:'top',labels:{font:{family:MONO,size:10},boxWidth:8,padding:12}} },
-      scales: baseScale,
-    }
+    options: { responsive:true, maintainAspectRatio:false, plugins:{...basePlugins,legend:{display:true,position:'top',labels:{font:{family:MONO,size:10},boxWidth:8,padding:12}}}, scales:baseScale }
   });
 
-  // Channel table — colors now come from parsed data
-  const CATEGORY_TAG_COLORS = {
-  'Search':                         { bg: '#E8F0FE', text: '#1A56B0' },
-  'Social':                         { bg: '#FEF0E8', text: '#B03A1A' },
-  'Email & SMS':                    { bg: '#FFF8E1', text: '#916A00' },
-  'Offline & Physical':             { bg: '#FDF3E0', text: '#7A5200' },
-  'Referral & Partnerships':        { bg: '#EEF3FF', text: '#1C3A6E' },
-  'Direct, Untracked & Unresolved': { bg: '#F2F5F9', text: '#5A6E82' },
-};
-
-const chMax = Math.max(...D.channels_mtd.map(c => c.leads));
-document.getElementById('ch-mtd-wrap').innerHTML = `
-  <table class="ch-table">
-    <thead><tr>
-      <th>Channel</th>
-      <th>Category</th>
-      <th class="r">Leads</th>
-      <th style="min-width:80px">Share</th>
-    </tr></thead>
-    <tbody>
-      ${D.channels_mtd.sort((a,b)=>b.leads-a.leads).map(c => {
-        const tc = CATEGORY_TAG_COLORS[c.category] || { bg: '#F2F5F9', text: '#5A6E82' };
-        const tag = `<span style="
-          display:inline-block;padding:2px 8px;border-radius:10px;
-          font-size:10px;font-family:'DM Mono',monospace;font-weight:500;
-          background:${tc.bg};color:${tc.text};white-space:nowrap;
-        ">${c.category}</span>`;
-        return `
-          <tr>
+  // Channel table — category tag + per-channel color
+  const chMax = Math.max(...D.channels_mtd.map(c => c.leads), 1);
+  document.getElementById('ch-mtd-wrap').innerHTML = `
+    <table class="ch-table">
+      <thead><tr>
+        <th>Channel</th>
+        <th>Category</th>
+        <th class="r">Leads</th>
+        <th style="min-width:80px">Share</th>
+      </tr></thead>
+      <tbody>
+        ${D.channels_mtd.map(c => {
+          const ts = categoryTagStyle(c.category);
+          const tag = `<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-family:'DM Mono',monospace;font-weight:500;background:${ts.bg};color:${ts.text};white-space:nowrap;">${c.category || '—'}</span>`;
+          return `<tr>
             <td><span class="ch-dot" style="background:${c.color}"></span>${c.channel}</td>
             <td>${tag}</td>
             <td class="r">${c.leads}</td>
-            <td><span class="bar-mini" style="width:${Math.round(c.leads/chMax*80)}px;background:${c.color};opacity:.7"></span></td>
+            <td><span class="bar-mini" style="width:${Math.round(c.leads/chMax*80)}px;background:${c.color};opacity:.8"></span></td>
           </tr>`;
-      }).join('')}
-    </tbody>
-  </table>`;
+        }).join('')}
+      </tbody>
+    </table>`;
 
   // Facility table
   document.getElementById('fac-mtd-wrap').innerHTML = `
     <table class="ch-table">
       <thead><tr><th>Facility</th><th class="r">Leads</th></tr></thead>
-      <tbody>
-        ${D.facilities_mtd.map(f => `
-          <tr>
-            <td>${f.facility}</td>
-            <td class="r">${f.leads}</td>
-          </tr>`).join('')}
-      </tbody>
+      <tbody>${D.facilities_mtd.map(f=>`<tr><td>${f.facility}</td><td class="r">${f.leads}</td></tr>`).join('')}</tbody>
     </table>`;
 }
 
 // ============================================================
-// ROLLING 12 MONTHS VIEW
+// ROLLING 12 VIEW
 // ============================================================
 function buildRollingView() {
   const labels = D.rolling_12.map(d => d.label);
 
   dc('rolling');
-  const ctx = document.getElementById('chartRolling').getContext('2d');
-  charts['rolling'] = new Chart(ctx, {
+  charts['rolling'] = new Chart(document.getElementById('chartRolling').getContext('2d'), {
     data: {
       labels,
       datasets: [
-        {
-          type: 'bar', label: 'Actual Leads',
-          data: D.rolling_12.map(d => d.actuals),
-          backgroundColor: D.rolling_12.map(d =>
-            d.partial ? 'rgba(28,58,110,.4)' :
-            d.actuals >= d.goal ? 'rgba(58,125,58,.7)' : 'rgba(28,58,110,.65)'
-          ),
-          borderRadius: 4, yAxisID: 'y',
-        },
-        {
-          type: 'line', label: 'Goal',
-          data: D.rolling_12.map(d => d.goal),
-          borderColor: '#E8A020', borderWidth: 2,
-          pointBackgroundColor: '#E8A020', pointRadius: 4,
-          tension: 0.3, fill: false, yAxisID: 'y',
-        }
+        { type:'bar', label:'Actual Leads', data:D.rolling_12.map(d=>d.actuals), backgroundColor:D.rolling_12.map(d=>d.partial?'rgba(28,58,110,.4)':d.actuals>=d.goal?'rgba(58,125,58,.7)':'rgba(28,58,110,.65)'), borderRadius:4 },
+        { type:'line', label:'Goal', data:D.rolling_12.map(d=>d.goal), borderColor:'#E8A020', borderWidth:2, pointBackgroundColor:'#E8A020', pointRadius:4, tension:0.3, fill:false }
       ]
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { ...basePlugins },
-      scales: { ...baseScale }
-    }
+    options: { responsive:true, maintainAspectRatio:false, plugins:{...basePlugins}, scales:{...baseScale} }
   });
 
-  // Channel stacked — colors from channel_rolling object
+  // Channel stacked — colors from parsed channel_rolling
   dc('chrolling');
   const chKeys = Object.keys(D.channel_rolling).filter(k =>
     D.channel_rolling[k].data && D.channel_rolling[k].data.some(v => v > 0)
   );
-  const ctx2 = document.getElementById('chartChRolling').getContext('2d');
-  charts['chrolling'] = new Chart(ctx2, {
+  charts['chrolling'] = new Chart(document.getElementById('chartChRolling').getContext('2d'), {
     type: 'bar',
     data: {
       labels,
@@ -946,35 +621,27 @@ function buildRollingView() {
       }))
     },
     options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { ...basePlugins, legend:{display:true,position:'top',labels:{font:{family:MONO,size:9},boxWidth:8,padding:8}} },
-      scales: {
-        x: { stacked:true, grid:{display:false}, ticks:{font:{family:MONO,size:9}} },
-        y: { stacked:true, grid:{color:'#E8EDF5'}, ticks:{font:{family:MONO,size:10}} }
-      }
+      responsive:true, maintainAspectRatio:false,
+      plugins:{...basePlugins, legend:{display:true,position:'top',labels:{font:{family:MONO,size:9},boxWidth:8,padding:8}}},
+      scales:{ x:{stacked:true,grid:{display:false},ticks:{font:{family:MONO,size:9}}}, y:{stacked:true,grid:{color:'#E8EDF5'},ticks:{font:{family:MONO,size:10}}} }
     }
   });
 
   // Facility lines
   dc('facrolling');
-  const facKeys = ['Supreme Sports Club','Columbia Athletic Club','Columbia Gym',"Hobbit's Glen"];
+  const facKeys   = ['Supreme Sports Club','Columbia Athletic Club','Columbia Gym',"Hobbit's Glen"];
   const facColors = ['#1C3A6E','#3A7D3A','#E8A020','#4285F4'];
-  const ctx3 = document.getElementById('chartFacRolling').getContext('2d');
-  charts['facrolling'] = new Chart(ctx3, {
+  charts['facrolling'] = new Chart(document.getElementById('chartFacRolling').getContext('2d'), {
     type: 'line',
     data: {
       labels,
       datasets: facKeys.map((k,i) => ({
-        label: k, data: D.facility_rolling[k] || Array(13).fill(0),
-        borderColor: facColors[i], backgroundColor: facColors[i]+'20',
-        borderWidth: 2.5, pointRadius: 3, tension: 0.3, fill: false,
+        label:k, data:D.facility_rolling[k]||Array(13).fill(0),
+        borderColor:facColors[i], backgroundColor:facColors[i]+'20',
+        borderWidth:2.5, pointRadius:3, tension:0.3, fill:false
       }))
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { ...basePlugins, legend:{display:true,position:'top',labels:{font:{family:MONO,size:9},boxWidth:8,padding:8}} },
-      scales: baseScale,
-    }
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{...basePlugins,legend:{display:true,position:'top',labels:{font:{family:MONO,size:9},boxWidth:8,padding:8}}}, scales:baseScale }
   });
 }
 
@@ -983,146 +650,75 @@ function buildRollingView() {
 // ============================================================
 let activeFY = 'FY2027';
 function switchFY(fy, btn) {
-  document.querySelectorAll('.fy-tab').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.fy-tab').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
   activeFY = fy;
   renderFYChart();
 }
-
 function renderFYChart() {
   dc('fy');
   const current = D.fy[activeFY] || [];
-  const compare = activeFY === 'FY2027' ? D.fy['FY2026'] : null;
-
-  const labels = Array.from({length:12},(_,i)=>{
-    const months = ['May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'];
-    return months[i];
-  });
-
-  const cumGoal    = current.map(d => d.cum_goal);
-  const cumActuals = current.map(d => d.cum_actuals);
-
-  const padTo12 = (arr) => {
-    const out = [...arr];
-    while(out.length < 12) out.push(null);
-    return out;
-  };
-
+  const compare = activeFY==='FY2027' ? D.fy['FY2026'] : null;
+  const labels  = ['May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'];
+  const padTo12 = arr => { const o=[...arr]; while(o.length<12) o.push(null); return o; };
   const datasets = [
-    {
-      type:'bar', label:`${activeFY} Actuals`,
-      data: padTo12(cumActuals),
-      backgroundColor: 'rgba(28,58,110,.55)', borderRadius: 4,
-    },
-    {
-      type:'line', label:`${activeFY} Goal`,
-      data: padTo12(cumGoal),
-      borderColor: '#E8A020', borderWidth: 2,
-      pointBackgroundColor: '#E8A020', pointRadius: 4,
-      tension: 0.3, fill: false,
-    },
+    { type:'bar',  label:`${activeFY} Actuals`, data:padTo12(current.map(d=>d.cum_actuals)), backgroundColor:'rgba(28,58,110,.55)', borderRadius:4 },
+    { type:'line', label:`${activeFY} Goal`,    data:padTo12(current.map(d=>d.cum_goal)),    borderColor:'#E8A020', borderWidth:2, pointBackgroundColor:'#E8A020', pointRadius:4, tension:0.3, fill:false },
   ];
-
-  if (compare) {
-    datasets.push({
-      type:'line', label:'FY2026 Actuals (ref)',
-      data: padTo12(compare.map(d => d.cum_actuals)),
-      borderColor: '#95A5A6', borderWidth: 1.5,
-      pointRadius: 3, borderDash: [4,3],
-      tension: 0.3, fill: false,
-    });
-  }
-
-  const ctx = document.getElementById('chartFY').getContext('2d');
-  charts['fy'] = new Chart(ctx, {
-    data: { labels, datasets },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { ...basePlugins },
-      scales: baseScale,
-    }
+  if (compare) datasets.push({ type:'line', label:'FY2026 Actuals (ref)', data:padTo12(compare.map(d=>d.cum_actuals)), borderColor:'#95A5A6', borderWidth:1.5, pointRadius:3, borderDash:[4,3], tension:0.3, fill:false });
+  charts['fy'] = new Chart(document.getElementById('chartFY').getContext('2d'), {
+    data:{ labels, datasets },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{...basePlugins}, scales:baseScale }
   });
-
-  document.getElementById('fy-chart-title').textContent =
-    `${activeFY} — Cumulative Leads vs Cumulative Goal`;
-
-  const rows = current.map(d => `
-    <tr>
-      <td>${d.label}</td>
-      <td class="r">${d.goal.toLocaleString()}</td>
-      <td class="r">${d.actuals > 0 ? d.actuals.toLocaleString() : d.partial ? d.actuals.toLocaleString() : '<span style="color:var(--mid)">—</span>'}</td>
-      <td class="r">${d.cum_goal.toLocaleString()}</td>
-      <td class="r">${d.cum_actuals > 0 || d.partial ? d.cum_actuals.toLocaleString() : '<span style="color:var(--mid)">—</span>'}</td>
-    </tr>`).join('');
+  document.getElementById('fy-chart-title').textContent = `${activeFY} — Cumulative Leads vs Cumulative Goal`;
   document.getElementById('fy-table-wrap').innerHTML = `
     <div class="card-title" style="margin-bottom:4px">${activeFY} Monthly Detail</div>
     <div class="card-sub">monthly and cumulative leads vs goal</div>
     <table class="comp-table">
-      <thead><tr>
-        <th>Month</th>
-        <th class="r">Mo. Goal</th>
-        <th class="r">Mo. Actuals</th>
-        <th class="r">Cum. Goal</th>
-        <th class="r">Cum. Actuals</th>
-      </tr></thead>
-      <tbody>${rows}</tbody>
+      <thead><tr><th>Month</th><th class="r">Mo. Goal</th><th class="r">Mo. Actuals</th><th class="r">Cum. Goal</th><th class="r">Cum. Actuals</th></tr></thead>
+      <tbody>${current.map(d=>`
+        <tr>
+          <td>${d.label}</td>
+          <td class="r">${d.goal.toLocaleString()}</td>
+          <td class="r">${d.actuals>0?d.actuals.toLocaleString():d.partial?d.actuals.toLocaleString():'<span style="color:var(--mid)">—</span>'}</td>
+          <td class="r">${d.cum_goal.toLocaleString()}</td>
+          <td class="r">${d.cum_actuals>0||d.partial?d.cum_actuals.toLocaleString():'<span style="color:var(--mid)">—</span>'}</td>
+        </tr>`).join('')}
+      </tbody>
     </table>`;
 }
 
 // ============================================================
-// SAME MONTH YEAR-OVER-YEAR VIEW
+// YEAR-OVER-YEAR VIEW
 // ============================================================
 function buildYOYView() {
   const sm = D.same_month;
   const currentMonth = D.meta.current_month_label.split(' ')[0];
-  document.getElementById('yoy-label').textContent = `Year-over-Year — ${currentMonth} Comparison`;
-  document.getElementById('yoy-sub').textContent = `Comparing ${currentMonth} across available years`;
+  document.getElementById('yoy-label').textContent       = `Year-over-Year — ${currentMonth} Comparison`;
+  document.getElementById('yoy-sub').textContent         = `Comparing ${currentMonth} across available years`;
   document.getElementById('yoy-table-title').textContent = `${currentMonth} — Year Comparison`;
-
   dc('yoy');
-  const ctx = document.getElementById('chartYOY').getContext('2d');
-  charts['yoy'] = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: sm.map(d => d.period),
-      datasets: [
-        {
-          label: 'Actuals', data: sm.map(d => d.actuals),
-          backgroundColor: ['rgba(28,58,110,.7)','rgba(28,58,110,.35)','rgba(28,58,110,.2)'],
-          borderRadius: 6,
-        },
-        {
-          label: 'Goal', data: sm.map(d => d.goal),
-          type: 'line',
-          borderColor: '#E8A020', borderWidth: 2,
-          pointBackgroundColor: '#E8A020', pointRadius: 5,
-          fill: false, tension: 0.3,
-        }
+  charts['yoy'] = new Chart(document.getElementById('chartYOY').getContext('2d'), {
+    type:'bar',
+    data:{
+      labels: sm.map(d=>d.period),
+      datasets:[
+        { label:'Actuals', data:sm.map(d=>d.actuals), backgroundColor:['rgba(28,58,110,.7)','rgba(28,58,110,.35)','rgba(28,58,110,.2)'], borderRadius:6 },
+        { label:'Goal', data:sm.map(d=>d.goal), type:'line', borderColor:'#E8A020', borderWidth:2, pointBackgroundColor:'#E8A020', pointRadius:5, fill:false, tension:0.3 }
       ]
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { ...basePlugins },
-      scales: baseScale,
-    }
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{...basePlugins}, scales:baseScale }
   });
-
   document.getElementById('yoy-table-wrap').innerHTML = `
     <table class="comp-table">
-      <thead><tr>
-        <th>Period</th>
-        <th class="r">Goal</th>
-        <th class="r">Actuals</th>
-        <th class="r">% of Goal</th>
-      </tr></thead>
-      <tbody>
-        ${sm.map((d,i) => `
-          <tr class="${i===0?'highlight':''}">
-            <td>${d.period}</td>
-            <td class="r">${d.goal.toLocaleString()}</td>
-            <td class="r">${d.actuals > 0 ? d.actuals.toLocaleString() : i===0 ? d.actuals.toLocaleString() : '<span style="color:var(--mid)">pending</span>'}</td>
-            <td class="r">${d.actuals > 0 || i===0 ? Math.round(d.actuals/d.goal*100)+'%' : '<span style="color:var(--mid)">—</span>'}</td>
-          </tr>`).join('')}
+      <thead><tr><th>Period</th><th class="r">Goal</th><th class="r">Actuals</th><th class="r">% of Goal</th></tr></thead>
+      <tbody>${sm.map((d,i)=>`
+        <tr class="${i===0?'highlight':''}">
+          <td>${d.period}</td>
+          <td class="r">${d.goal.toLocaleString()}</td>
+          <td class="r">${d.actuals>0?d.actuals.toLocaleString():i===0?d.actuals.toLocaleString():'<span style="color:var(--mid)">pending</span>'}</td>
+          <td class="r">${d.actuals>0||i===0?Math.round(d.actuals/d.goal*100)+'%':'<span style="color:var(--mid)">—</span>'}</td>
+        </tr>`).join('')}
       </tbody>
     </table>`;
 }
@@ -1133,38 +729,28 @@ function buildYOYView() {
 function buildSpendView() {
   const s = D.spend_mtd;
   document.getElementById('g-leads').textContent = s.google.leads;
-  document.getElementById('g-spend').textContent = s.google.spend > 0 ? '$'+s.google.spend.toLocaleString() : '—';
-  document.getElementById('g-cpl').textContent   = s.google.cpl ? '$'+s.google.cpl.toFixed(2) : '—';
+  document.getElementById('g-spend').textContent = s.google.spend>0?'$'+s.google.spend.toLocaleString():'—';
+  document.getElementById('g-cpl').textContent   = s.google.cpl?'$'+s.google.cpl.toFixed(2):'—';
   document.getElementById('m-leads').textContent = s.meta.leads;
-  document.getElementById('m-spend').textContent = s.meta.spend > 0 ? '$'+s.meta.spend.toLocaleString() : '—';
-  document.getElementById('m-cpl').textContent   = s.meta.cpl ? '$'+s.meta.cpl.toFixed(2) : '—';
+  document.getElementById('m-spend').textContent = s.meta.spend>0?'$'+s.meta.spend.toLocaleString():'—';
+  document.getElementById('m-cpl').textContent   = s.meta.cpl?'$'+s.meta.cpl.toFixed(2):'—';
 
   dc('paidrolling');
-  const labels = D.rolling_12.map(d => d.label);
-
-  // Pull google cpc and meta cpc from channel_rolling if available
-  const googleData = D.channel_rolling['google cpc'] ? D.channel_rolling['google cpc'].data :
-                     D.channel_rolling['Google Paid'] ? D.channel_rolling['Google Paid'].data :
-                     Array(13).fill(0);
-  const metaData   = D.channel_rolling['meta cpc']   ? D.channel_rolling['meta cpc'].data :
-                     D.channel_rolling['Meta Paid']   ? D.channel_rolling['Meta Paid'].data :
-                     Array(13).fill(0);
-
-  const ctx = document.getElementById('chartPaidRolling').getContext('2d');
-  charts['paidrolling'] = new Chart(ctx, {
-    type: 'bar',
-    data: {
+  const labels     = D.rolling_12.map(d=>d.label);
+  const googleData = D.channel_rolling['google cpc']  ? D.channel_rolling['google cpc'].data  :
+                     D.channel_rolling['Google Paid']  ? D.channel_rolling['Google Paid'].data  : Array(13).fill(0);
+  const metaData   = D.channel_rolling['meta cpc']    ? D.channel_rolling['meta cpc'].data    :
+                     D.channel_rolling['Meta Paid']    ? D.channel_rolling['Meta Paid'].data    : Array(13).fill(0);
+  charts['paidrolling'] = new Chart(document.getElementById('chartPaidRolling').getContext('2d'), {
+    type:'bar',
+    data:{
       labels,
-      datasets: [
-        { label:'Google CPC', data: googleData, backgroundColor: channelColor('Search','cpc'),  borderRadius:4 },
-        { label:'Meta CPC',   data: metaData,   backgroundColor: channelColor('Social','cpc'),  borderRadius:4 },
+      datasets:[
+        { label:'Google CPC', data:googleData, backgroundColor: channelColor('google','cpc'),  borderRadius:4 },
+        { label:'Meta CPC',   data:metaData,   backgroundColor: channelColor('meta','cpc'),    borderRadius:4 },
       ]
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { ...basePlugins },
-      scales: baseScale,
-    }
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{...basePlugins}, scales:baseScale }
   });
 }
 
@@ -1182,7 +768,7 @@ function init() {
 document.addEventListener('DOMContentLoaded', fetchAndInit);
 
 // ============================================================
-// GOOGLE SHEETS LIVE DATA FETCH
+// GOOGLE SHEETS FETCH
 // ============================================================
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQgdLBeHYJhj4FyZRjrshaisVw9azcW6ri983YV541OkBnPEayElZRoH13iVTiF8KBdB58S2XacAEtp/pub?gid=0&single=true&output=csv';
 
@@ -1191,13 +777,12 @@ function parseCSV(text) {
   const lines = text.split('\n');
   for (const line of lines) {
     if (!line.trim()) { rows.push([]); continue; }
-    const row = [];
-    let cur = '', inQuote = false;
-    for (let i = 0; i < line.length; i++) {
-      const c = line[i];
-      if (c === '"') { inQuote = !inQuote; }
-      else if (c === ',' && !inQuote) { row.push(cur.trim()); cur = ''; }
-      else { cur += c; }
+    const row = []; let cur='', inQuote=false;
+    for (let i=0;i<line.length;i++) {
+      const c=line[i];
+      if(c==='"'){inQuote=!inQuote;}
+      else if(c===','&&!inQuote){row.push(cur.trim());cur='';}
+      else{cur+=c;}
     }
     row.push(cur.trim());
     rows.push(row);
@@ -1206,124 +791,108 @@ function parseCSV(text) {
 }
 
 function findSection(rows, n) {
-  const marker = 'SECTION ' + n + ' ';
-  const markerShort = 'SECTION ' + n;
-  let found = -1;
-  for (let i = 0; i < rows.length; i++) {
-    if (rows[i][0] && (rows[i][0].startsWith(marker) || rows[i][0] === markerShort)) {
-      found = i;
-    }
+  const marker='SECTION '+n+' ', markerShort='SECTION '+n;
+  let found=-1;
+  for(let i=0;i<rows.length;i++){
+    if(rows[i][0]&&(rows[i][0].startsWith(marker)||rows[i][0]===markerShort)) found=i;
   }
   return found;
 }
 
 function getSectionRows(rows, sectionIdx) {
-  if (sectionIdx < 0) return [];
-  const skip = ['NOTE','FORMULA','PASTE','INSTRUCTIONS','col','SECTION','Google Sheets','Build','This','yearmo','channel','facility','platform','metric','period','fy','day_num'];
-  const data = [];
-  let i = sectionIdx + 1;
-  while (i < rows.length) {
-    const row = rows[i];
-    if (!row || row.every(cell => !cell || cell.trim() === '')) break;
-    const first = (row[0] || '').trim();
-    if (first.startsWith('SECTION ')) break;
-    if (!first || skip.some(p => first.startsWith(p))) { i++; continue; }
-    data.push(row);
-    i++;
+  if(sectionIdx<0) return [];
+  const skip=['NOTE','FORMULA','PASTE','INSTRUCTIONS','col','SECTION','Google Sheets','Build','This','yearmo','channel','facility','platform','metric','period','fy','day_num'];
+  const data=[]; let i=sectionIdx+1;
+  while(i<rows.length){
+    const row=rows[i];
+    if(!row||row.every(cell=>!cell||cell.trim()==='')) break;
+    const first=(row[0]||'').trim();
+    if(first.startsWith('SECTION ')) break;
+    if(!first||skip.some(p=>first.startsWith(p))){i++;continue;}
+    data.push(row); i++;
   }
   return data;
 }
 
-function num(v) {
-  const n = parseFloat((v||'').toString().replace(/[$,%]/g,'').replace(/,/g,''));
-  return isNaN(n) ? 0 : n;
-}
-function str(v) { return (v||'').toString().trim(); }
+function num(v){const n=parseFloat((v||'').toString().replace(/[$,%]/g,'').replace(/,/g,''));return isNaN(n)?0:n;}
+function str(v){return(v||'').toString().trim();}
 
 function parseSummaries(rows) {
   const LD = {};
 
   // SECTION 3 -- Current Month Pacing
-  const s3idx = findSection(rows, 3);
-  const s3kv = {};
-  if (s3idx >= 0) {
-    let i = s3idx + 2;
-    while (i < rows.length) {
-      const r = rows[i];
-      if (!r[0] || r[0].startsWith('SECTION')) break;
-      if (r[0] && !r[0].startsWith('NOTE') && !r[0].startsWith('col')) s3kv[r[0].trim()] = r[1] ? r[1].trim() : '';
+  const s3idx=findSection(rows,3); const s3kv={};
+  if(s3idx>=0){
+    let i=s3idx+2;
+    while(i<rows.length){
+      const r=rows[i];
+      if(!r[0]||r[0].startsWith('SECTION')) break;
+      if(r[0]&&!r[0].startsWith('NOTE')&&!r[0].startsWith('col')) s3kv[r[0].trim()]=r[1]?r[1].trim():'';
       i++;
     }
   }
-
-  const rawPct = num(s3kv['pct_of_goal']);
-  LD.meta = {
-    current_ym:            str(s3kv['current_yearmo'])      || '—',
-    current_month_label:   str(s3kv['current_month_label']) || '—',
-    days_in_month:         num(s3kv['days_in_month'])       || 31,
-    days_elapsed:          num(s3kv['days_elapsed'])        || 1,
-    current_goal:          num(s3kv['current_goal'])        || 0,
-    leads_to_date:         num(s3kv['leads_to_date'])       || 0,
-    par_to_date:           num(s3kv['par_to_date'])         || 0,
-    vs_par:                num(s3kv['vs_par'])              || 0,
-    pct_of_goal:           rawPct < 2 ? Math.round(rawPct * 1000) / 10 : rawPct,
-    projected_month_total: num(s3kv['projected_month_total']) || 0,
+  const rawPct=num(s3kv['pct_of_goal']);
+  LD.meta={
+    current_ym:            str(s3kv['current_yearmo'])      ||'—',
+    current_month_label:   str(s3kv['current_month_label']) ||'—',
+    days_in_month:         num(s3kv['days_in_month'])       ||31,
+    days_elapsed:          num(s3kv['days_elapsed'])        ||1,
+    current_goal:          num(s3kv['current_goal'])        ||0,
+    leads_to_date:         num(s3kv['leads_to_date'])       ||0,
+    par_to_date:           num(s3kv['par_to_date'])         ||0,
+    vs_par:                num(s3kv['vs_par'])              ||0,
+    pct_of_goal:           rawPct<2?Math.round(rawPct*1000)/10:rawPct,
+    projected_month_total: num(s3kv['projected_month_total'])||0,
   };
 
   // SECTION 4 -- Daily MTD
-  const s4rows = getSectionRows(rows, findSection(rows, 4));
-  LD.daily_mtd = s4rows
-    .filter(r => num(r[0]) > 0)
-    .map(r => ({
-      day:        num(r[0]),
-      leads_day:  num(r[2]),
-      cumulative: num(r[3]),
-      par:        num(r[4]),
-    }));
+  const s4rows=getSectionRows(rows,findSection(rows,4));
+  LD.daily_mtd=s4rows.filter(r=>num(r[0])>0).map(r=>({
+    day:num(r[0]), leads_day:num(r[2]), cumulative:num(r[3]), par:num(r[4]),
+  }));
 
   // SECTION 5 -- Rolling 12
-  const s5rows = getSectionRows(rows, findSection(rows, 5));
-  LD.rolling_12 = s5rows.map(r => ({
-    yearmo:  str(r[0]),
-    label:   str(r[1]),
-    actuals: num(r[2]),
-    goal:    num(r[3]),
-    partial: str(r[0]) === LD.meta.current_ym,
+  const s5rows=getSectionRows(rows,findSection(rows,5));
+  LD.rolling_12=s5rows.map(r=>({
+    yearmo:str(r[0]), label:str(r[1]), actuals:num(r[2]), goal:num(r[3]),
+    partial:str(r[0])===LD.meta.current_ym,
   }));
 
   // SECTION 6 -- Channels MTD
-  // cols: A=channel, B=source, C=medium, D=leads_mtd, E=category
-  const s6rows = getSectionRows(rows, findSection(rows, 6));
-  LD.channels_mtd = s6rows
-    .map(r => ({
+  // A=channel(source medium), B=source, C=medium, D=leads_mtd, E=category
+  const s6rows=getSectionRows(rows,findSection(rows,6));
+  LD.channels_mtd=s6rows
+    .map(r=>({
       channel:  str(r[0]),
       source:   str(r[1]),
       medium:   str(r[2]),
       leads:    num(r[3]),
       category: str(r[4]),
-      color:    channelColor(str(r[4]), str(r[2]))
+      color:    channelColor(str(r[1]), str(r[2])),
     }))
-    .filter(c => c.leads > 0)
-    .sort((a,b) => b.leads - a.leads);
+    .filter(c=>c.leads>0)
+    .sort((a,b)=>b.leads-a.leads);
 
   // SECTION 7 -- Channel rolling 12
-  // cols: A=channel, B=source, C=medium, D-O=12 monthly counts, P=category
-  const s7idx = findSection(rows, 7);
-  LD.channel_rolling = {};
-  if (s7idx >= 0) {
-    let i = s7idx + 2;
-    while (i < rows.length) {
-      const r = rows[i];
-      if (!r[0] || r[0].startsWith('SECTION') || r.every(c => !c || c.trim()==='')) break;
-      const ch = str(r[0]);
-      if (ch && !ch.startsWith('NOTE') && !ch.startsWith('FORMULA') && !ch.startsWith('This')) {
-        const category = str(r[15] || '');
-        const medium   = str(r[2]  || '');
-        LD.channel_rolling[ch] = {
-          data:     r.slice(3, 15).map(v => num(v)),
-          category: category,
-          medium:   medium,
-          color:    channelColor(category, medium),
+  // A=channel, B=source, C=medium, D-O=12 months, P=category
+  const s7idx=findSection(rows,7);
+  LD.channel_rolling={};
+  if(s7idx>=0){
+    let i=s7idx+2;
+    while(i<rows.length){
+      const r=rows[i];
+      if(!r[0]||r[0].startsWith('SECTION')||r.every(c=>!c||c.trim()==='')) break;
+      const ch=str(r[0]);
+      if(ch&&!ch.startsWith('NOTE')&&!ch.startsWith('FORMULA')&&!ch.startsWith('This')){
+        const source  =str(r[1]||'');
+        const medium  =str(r[2]||'');
+        const category=str(r[15]||'');
+        LD.channel_rolling[ch]={
+          data:     r.slice(3,15).map(v=>num(v)),
+          source,
+          medium,
+          category,
+          color:    channelColor(source, medium),
         };
       }
       i++;
@@ -1331,79 +900,60 @@ function parseSummaries(rows) {
   }
 
   // SECTION 8 -- Facility MTD
-  const s8rows = getSectionRows(rows, findSection(rows, 8));
-  LD.facilities_mtd = s8rows.map(r => ({ facility:str(r[0]), leads:num(r[1]) }));
+  const s8rows=getSectionRows(rows,findSection(rows,8));
+  LD.facilities_mtd=s8rows.map(r=>({facility:str(r[0]),leads:num(r[1])}));
 
   // SECTION 9 -- Facility rolling 12
-  const s9idx = findSection(rows, 9);
-  LD.facility_rolling = {};
-  if (s9idx >= 0) {
-    let i = s9idx + 2;
-    while (i < rows.length) {
-      const r = rows[i];
-      if (!r[0] || r[0].startsWith('SECTION') || r.every(c => !c || c.trim()==='')) break;
-      const fac = str(r[0]);
-      if (fac && !fac.startsWith('NOTE') && !fac.startsWith('FORMULA')) {
-        LD.facility_rolling[fac] = r.slice(1, 13).map(v => num(v));
+  const s9idx=findSection(rows,9);
+  LD.facility_rolling={};
+  if(s9idx>=0){
+    let i=s9idx+2;
+    while(i<rows.length){
+      const r=rows[i];
+      if(!r[0]||r[0].startsWith('SECTION')||r.every(c=>!c||c.trim()==='')) break;
+      const fac=str(r[0]);
+      if(fac&&!fac.startsWith('NOTE')&&!fac.startsWith('FORMULA')){
+        LD.facility_rolling[fac]=r.slice(1,13).map(v=>num(v));
       }
       i++;
     }
   }
 
   // SECTION 10 -- Spend MTD
-  const s10rows = getSectionRows(rows, findSection(rows, 10));
-  LD.spend_mtd = {
-    google: {leads:0,spend:0,impressions:0,clicks:0,cpl:null},
-    meta:   {leads:0,spend:0,impressions:0,clicks:0,cpl:null}
-  };
-  s10rows.forEach(r => {
-    const plat = str(r[0]).toLowerCase();
-    if (plat === 'google' || plat === 'meta') {
-      const spend = num(r[3]), leads = num(r[4]);
-      LD.spend_mtd[plat] = {
-        impressions: num(r[1]), clicks: num(r[2]), spend, leads,
-        cpl: (spend > 0 && leads > 0) ? Math.round(spend / leads * 100) / 100 : null,
-      };
+  const s10rows=getSectionRows(rows,findSection(rows,10));
+  LD.spend_mtd={ google:{leads:0,spend:0,impressions:0,clicks:0,cpl:null}, meta:{leads:0,spend:0,impressions:0,clicks:0,cpl:null} };
+  s10rows.forEach(r=>{
+    const plat=str(r[0]).toLowerCase();
+    if(plat==='google'||plat==='meta'){
+      const spend=num(r[3]),leads=num(r[4]);
+      LD.spend_mtd[plat]={ impressions:num(r[1]),clicks:num(r[2]),spend,leads, cpl:(spend>0&&leads>0)?Math.round(spend/leads*100)/100:null };
     }
   });
 
   // SECTION 11 -- Spend rolling 12
-  LD.spend_rolling = {};
-  const s11rows = getSectionRows(rows, findSection(rows, 11));
-  s11rows.forEach(r => {
-    const ym = str(r[0]), plat = str(r[1]).toLowerCase();
-    if (!ym || !plat) return;
-    if (!LD.spend_rolling[ym]) LD.spend_rolling[ym] = {};
-    const spend = num(r[4]), leads = num(r[5]);
-    LD.spend_rolling[ym][plat] = {
-      impressions:num(r[2]), clicks:num(r[3]), spend, leads,
-      cpl: (spend > 0 && leads > 0) ? Math.round(spend / leads * 100) / 100 : null,
-    };
+  LD.spend_rolling={};
+  const s11rows=getSectionRows(rows,findSection(rows,11));
+  s11rows.forEach(r=>{
+    const ym=str(r[0]),plat=str(r[1]).toLowerCase();
+    if(!ym||!plat) return;
+    if(!LD.spend_rolling[ym]) LD.spend_rolling[ym]={};
+    const spend=num(r[4]),leads=num(r[5]);
+    LD.spend_rolling[ym][plat]={ impressions:num(r[2]),clicks:num(r[3]),spend,leads, cpl:(spend>0&&leads>0)?Math.round(spend/leads*100)/100:null };
   });
 
   // SECTION 12 -- FY Cumulative
-  LD.fy = {};
-  const s12rows = getSectionRows(rows, findSection(rows, 12));
-  s12rows.forEach(r => {
-    const fy = str(r[0]);
-    if (!fy || fy.startsWith('NOTE') || fy.startsWith('Build') || fy.startsWith('SECTION')) return;
-    if (!LD.fy[fy]) LD.fy[fy] = [];
-    LD.fy[fy].push({
-      seq:num(r[1]), ym:str(r[2]), label:str(r[3]),
-      goal:num(r[4]), actuals:num(r[5]),
-      cum_goal:num(r[6]), cum_actuals:num(r[7]),
-      partial: str(r[2]) === LD.meta.current_ym,
-    });
+  LD.fy={};
+  const s12rows=getSectionRows(rows,findSection(rows,12));
+  s12rows.forEach(r=>{
+    const fy=str(r[0]);
+    if(!fy||fy.startsWith('NOTE')||fy.startsWith('Build')||fy.startsWith('SECTION')) return;
+    if(!LD.fy[fy]) LD.fy[fy]=[];
+    LD.fy[fy].push({ seq:num(r[1]),ym:str(r[2]),label:str(r[3]),goal:num(r[4]),actuals:num(r[5]),cum_goal:num(r[6]),cum_actuals:num(r[7]),partial:str(r[2])===LD.meta.current_ym });
   });
 
-  // SECTION 13 -- Same month prior year
-  const s13rows = getSectionRows(rows, findSection(rows, 13));
-  LD.same_month = s13rows.map(r => ({
-    period:str(r[0]), yearmo:str(r[1]), label:str(r[2]),
-    actuals:num(r[3]), goal:num(r[4]),
-    days_elapsed: LD.meta.days_elapsed,
-    days_in_month: LD.meta.days_in_month,
-  }));
+  // SECTION 13 -- Same month YOY
+  const s13rows=getSectionRows(rows,findSection(rows,13));
+  LD.same_month=s13rows.map(r=>({ period:str(r[0]),yearmo:str(r[1]),label:str(r[2]),actuals:num(r[3]),goal:num(r[4]),days_elapsed:LD.meta.days_elapsed,days_in_month:LD.meta.days_in_month }));
 
   return LD;
 }
@@ -1411,40 +961,32 @@ function parseSummaries(rows) {
 async function fetchAndInit() {
   showLoading(true);
   try {
-    const res = await fetch(SHEET_URL + '&t=' + Date.now());
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const text = await res.text();
-    const rows = parseCSV(text);
-    const live = parseSummaries(rows);
-    Object.assign(D, live);
+    const res=await fetch(SHEET_URL+'&t='+Date.now());
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const text=await res.text();
+    const rows=parseCSV(text);
+    const live=parseSummaries(rows);
+    Object.assign(D,live);
     updateHeaderMeta();
     showLoading(false);
     init();
   } catch(err) {
-    console.warn('Live fetch failed, using demo data:', err);
+    console.warn('Live fetch failed, using demo data:',err);
     showLoading(false);
-    showBanner('⚠ Demo data — sheet not yet connected or published. (' + err.message + ')');
+    showBanner('⚠ Demo data — sheet not yet connected or published. ('+err.message+')');
     init();
   }
 }
 
-function showLoading(on) {
-  document.getElementById('loading-overlay').style.display = on ? 'flex' : 'none';
-}
-
-function showBanner(msg) {
-  const b = document.getElementById('data-banner');
-  b.textContent = msg;
-  b.style.display = 'block';
-}
-
-function updateHeaderMeta() {
-  document.getElementById('hdr-month').textContent = D.meta.current_month_label || '—';
-  document.getElementById('hdr-day').textContent   = D.meta.days_elapsed || '—';
-  document.getElementById('hdr-dim').textContent   = D.meta.days_in_month || '—';
-  if (D.meta.current_ym && D.meta.current_ym !== '—') {
-    const [y, m] = D.meta.current_ym.split('-').map(Number);
-    document.getElementById('hdr-fy').textContent = m >= 5 ? y + 1 : y;
+function showLoading(on){ document.getElementById('loading-overlay').style.display=on?'flex':'none'; }
+function showBanner(msg){ const b=document.getElementById('data-banner'); b.textContent=msg; b.style.display='block'; }
+function updateHeaderMeta(){
+  document.getElementById('hdr-month').textContent=D.meta.current_month_label||'—';
+  document.getElementById('hdr-day').textContent  =D.meta.days_elapsed||'—';
+  document.getElementById('hdr-dim').textContent  =D.meta.days_in_month||'—';
+  if(D.meta.current_ym&&D.meta.current_ym!=='—'){
+    const[y,m]=D.meta.current_ym.split('-').map(Number);
+    document.getElementById('hdr-fy').textContent=m>=5?y+1:y;
   }
 }
 </script>
