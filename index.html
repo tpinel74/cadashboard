@@ -63,6 +63,64 @@ body {
   color: var(--mid);
 }
 .hdr-badge b { color: var(--gold); font-weight: 500; }
+
+/* ── MONTH PICKER ── */
+.month-picker-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 8px;
+  padding: 5px 12px;
+}
+.month-picker-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--mid);
+  white-space: nowrap;
+}
+#month-select {
+  background: transparent;
+  border: none;
+  font-family: 'Barlow', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold);
+  cursor: pointer;
+  outline: none;
+  /* Make the dropdown arrow visible on dark bg */
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 18px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23E8A020'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0 center;
+}
+#month-select option {
+  background: #1C2B3A;
+  color: #fff;
+  font-weight: 600;
+}
+#month-select option.is-current {
+  color: var(--gold);
+}
+
+/* ── PRIOR MONTH INDICATOR ── */
+.prior-month-banner {
+  display: none;
+  background: #FFF8E1;
+  border-bottom: 2px solid var(--gold);
+  padding: 8px 28px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: #795548;
+  align-items: center;
+  gap: 10px;
+}
+.prior-month-banner.show { display: flex; }
+.prior-month-banner strong { color: #4A3000; }
+
 .nav {
   background: var(--white);
   border-bottom: 1px solid var(--border);
@@ -180,6 +238,8 @@ body {
   .main { padding: 16px; }
   .kpi-strip { grid-template-columns: 1fr 1fr; }
   .grid-2 { grid-template-columns: 1fr; }
+  .hdr-right { gap: 6px; }
+  .month-picker-wrap { padding: 4px 8px; }
 }
 </style>
 </head>
@@ -192,6 +252,13 @@ body {
 <div id="data-banner" style="display:none;background:#FFF8E1;border-bottom:1px solid #E8A020;padding:8px 28px;font-family:'DM Mono',monospace;font-size:11px;color:#795548"></div>
 <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 
+<!-- ── PRIOR MONTH INDICATOR BANNER ── -->
+<div class="prior-month-banner" id="prior-banner">
+  <span>📅</span>
+  <span>Viewing <strong id="prior-banner-month"></strong> — historical month. Pacing cards show final totals.</span>
+  <span style="margin-left:auto;cursor:pointer;color:#C47F10;font-weight:700" onclick="jumpToCurrentMonth()">← Back to current month</span>
+</div>
+
 <header class="hdr">
   <div class="hdr-left">
     <div class="ca-mark">CA</div>
@@ -201,9 +268,15 @@ body {
     </div>
   </div>
   <div class="hdr-right">
-    <div class="hdr-badge">Current month: <b id="hdr-month">May 2026</b></div>
-    <div class="hdr-badge">Day <b id="hdr-day">22</b> of <b id="hdr-dim">31</b></div>
-    <div class="hdr-badge">FY <b id="hdr-fy">2027</b></div>
+    <!-- Month picker — lives in header -->
+    <div class="month-picker-wrap">
+      <span class="month-picker-label">Viewing:</span>
+      <select id="month-select" onchange="onMonthChange(this.value)">
+        <!-- Populated by JS after data load -->
+      </select>
+    </div>
+    <div class="hdr-badge">Day <b id="hdr-day">—</b> of <b id="hdr-dim">—</b></div>
+    <div class="hdr-badge">FY <b id="hdr-fy">—</b></div>
     <a href="sales.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:6px 14px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;color:rgba(255,255,255,.65);text-decoration:none;letter-spacing:.3px;transition:all .15s;" onmouseover="this.style.background='rgba(255,255,255,.13)';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.color='rgba(255,255,255,.65)'">Sales Dashboard →</a>
   </div>
 </header>
@@ -221,13 +294,13 @@ body {
 <!-- ════════ VIEW: THIS MONTH ════════ -->
 <div class="view on" id="view-month">
 
-  <div class="sec-label">Current Month Pacing — <span id="pace-month-label">May 2026</span></div>
+  <div class="sec-label">Month Pacing — <span id="pace-month-label">—</span></div>
 
   <!-- 6-card KPI strip -->
   <div class="kpi-strip">
     <div class="kpi">
       <div class="kpi-accent green"></div>
-      <div class="kpi-lbl">Leads to Date</div>
+      <div class="kpi-lbl" id="k-leads-lbl">Leads to Date</div>
       <div class="kpi-val" id="k-leads">—</div>
       <div class="kpi-foot" id="k-leads-foot">—</div>
     </div>
@@ -239,25 +312,25 @@ body {
     </div>
     <div class="kpi">
       <div class="kpi-accent"></div>
-      <div class="kpi-lbl">Linear PAR</div>
+      <div class="kpi-lbl" id="k-par-lbl">Linear PAR</div>
       <div class="kpi-val" id="k-par">—</div>
       <div class="kpi-foot" id="k-par-foot">—</div>
     </div>
     <div class="kpi">
       <div class="kpi-accent red"></div>
-      <div class="kpi-lbl">vs PAR</div>
+      <div class="kpi-lbl" id="k-vspar-lbl">vs PAR</div>
       <div class="kpi-val" id="k-vspar">—</div>
       <div class="kpi-foot" id="k-vspar-foot">—</div>
     </div>
     <div class="kpi">
       <div class="kpi-accent"></div>
-      <div class="kpi-lbl">Projected Total</div>
+      <div class="kpi-lbl" id="k-proj-lbl">Projected Total</div>
       <div class="kpi-val" id="k-proj">—</div>
-      <div class="kpi-foot">at current rate</div>
+      <div class="kpi-foot" id="k-proj-foot">at current rate</div>
     </div>
     <div class="kpi">
       <div class="kpi-accent gold"></div>
-      <div class="kpi-lbl">Needed to Goal</div>
+      <div class="kpi-lbl" id="k-needed-lbl">Needed to Goal</div>
       <div class="kpi-val" id="k-needed">—</div>
       <div class="kpi-foot" id="k-needed-foot">—</div>
     </div>
@@ -266,7 +339,7 @@ body {
   <!-- Full-width pacing chart -->
   <div class="card mb">
     <div class="card-title">Daily Cumulative Pacing</div>
-    <div class="card-sub">Actual leads vs linear PAR line through month end</div>
+    <div class="card-sub" id="pace-chart-sub">Actual leads vs linear PAR line through month end</div>
     <div class="chart-wrap" style="height:240px">
       <canvas id="chartPace"></canvas>
     </div>
@@ -276,12 +349,12 @@ body {
   <div class="grid-1-2">
     <div class="card">
       <div class="card-title">By Facility</div>
-      <div class="card-sub">leads this month</div>
+      <div class="card-sub" id="fac-sub">leads this month</div>
       <div id="fac-mtd-wrap"></div>
     </div>
     <div class="card">
       <div class="card-title">By Channel</div>
-      <div class="card-sub">leads this month — all sources</div>
+      <div class="card-sub" id="ch-sub">leads this month — all sources</div>
       <div id="ch-mtd-wrap"></div>
     </div>
   </div>
@@ -441,8 +514,9 @@ function categoryTagStyle(category) {
 }
 
 // ============================================================
-// FALLBACK DATA
+// STATE
 // ============================================================
+// D holds ALL multi-month data keyed by yearmo where applicable
 const D = {
   meta: {
     current_ym: '2026-05', current_month_label: 'May 2026',
@@ -451,7 +525,12 @@ const D = {
     par_to_date: 923, vs_par: -488,
     pct_of_goal: 33.5, projected_month_total: 614
   },
-  daily_mtd: [],
+  // daily_all: array of {yearmo, day, leads_day, cumulative, par}
+  daily_all: [],
+  // channels_all: array of {yearmo, channel, source, medium, leads, category, color}
+  channels_all: [],
+  // facilities_all: array of {yearmo, facility, leads}
+  facilities_all: [],
   rolling_12: [
     {yearmo:'2025-05',label:'May 25',actuals:0,   goal:1470},
     {yearmo:'2025-06',label:'Jun 25',actuals:0,   goal:1900},
@@ -467,14 +546,137 @@ const D = {
     {yearmo:'2026-04',label:'Apr 26',actuals:653, goal:970},
     {yearmo:'2026-05',label:'May 26*',actuals:435,goal:1300,partial:true},
   ],
-  channels_mtd: [], channel_rolling: {},
-  facilities_mtd: [], facility_rolling: {},
+  channel_rolling: {},
+  facility_rolling: {},
   same_month: [], fy: {},
   spend_mtd: {
     google: {impressions:0,clicks:0,spend:0,leads:0,cpl:null},
     meta:   {impressions:0,clicks:0,spend:0,leads:0,cpl:null},
   },
 };
+
+// Selected yearmo — defaults to current month after load
+let selectedYM = '';
+
+// ============================================================
+// MONTH PICKER HELPERS
+// ============================================================
+function ymToLabel(ym) {
+  if (!ym) return '—';
+  const [y, m] = ym.split('-').map(Number);
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[m-1]} ${String(y).slice(2)}`;
+}
+
+function ymToFullLabel(ym) {
+  if (!ym) return '—';
+  const [y, m] = ym.split('-').map(Number);
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return `${months[m-1]} ${y}`;
+}
+
+function populateMonthPicker() {
+  const sel = document.getElementById('month-select');
+  sel.innerHTML = '';
+  // rolling_12 in reverse order (most recent first), filter out zero-actuals except current
+  const months = [...D.rolling_12].reverse();
+  months.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m.yearmo;
+    opt.textContent = ymToFullLabel(m.yearmo) + (m.yearmo === D.meta.current_ym ? ' (current)' : '');
+    if (m.yearmo === D.meta.current_ym) opt.className = 'is-current';
+    if (m.yearmo === selectedYM) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function onMonthChange(ym) {
+  selectedYM = ym;
+  const isCurrent = ym === D.meta.current_ym;
+
+  // Show/hide prior month banner
+  const banner = document.getElementById('prior-banner');
+  if (!isCurrent) {
+    banner.classList.add('show');
+    document.getElementById('prior-banner-month').textContent = ymToFullLabel(ym);
+  } else {
+    banner.classList.remove('show');
+  }
+
+  // Update header day badges — only meaningful for current month
+  if (isCurrent) {
+    document.getElementById('hdr-day').textContent = D.meta.days_elapsed;
+    document.getElementById('hdr-dim').textContent = D.meta.days_in_month;
+  } else {
+    const row = D.rolling_12.find(r => r.yearmo === ym);
+    const dim = daysInMonth(ym);
+    document.getElementById('hdr-day').textContent = dim; // completed month
+    document.getElementById('hdr-dim').textContent = dim;
+  }
+
+  // Switch to month view if not already there
+  const monthTab = document.querySelector('.nav-tab');
+  if (!monthTab.classList.contains('on')) {
+    switchView('month', monthTab);
+  }
+
+  buildMonthView();
+}
+
+function jumpToCurrentMonth() {
+  const sel = document.getElementById('month-select');
+  sel.value = D.meta.current_ym;
+  onMonthChange(D.meta.current_ym);
+}
+
+function daysInMonth(ym) {
+  const [y, m] = ym.split('-').map(Number);
+  return new Date(y, m, 0).getDate();
+}
+
+// ============================================================
+// DATA ACCESSORS — filter multi-month arrays by selectedYM
+// ============================================================
+function getMonthMeta(ym) {
+  if (ym === D.meta.current_ym) return D.meta;
+  // Build a synthetic meta from rolling_12 for prior months
+  const row = D.rolling_12.find(r => r.yearmo === ym) || {};
+  const dim = daysInMonth(ym);
+  const actuals = row.actuals || 0;
+  const goal    = row.goal    || 0;
+  return {
+    current_ym:            ym,
+    current_month_label:   ymToFullLabel(ym),
+    days_in_month:         dim,
+    days_elapsed:          dim,           // completed month — all days elapsed
+    current_goal:          goal,
+    leads_to_date:         actuals,
+    par_to_date:           goal,          // for completed month, PAR = goal
+    vs_par:                actuals - goal, // vs goal (not vs daily PAR)
+    pct_of_goal:           goal > 0 ? Math.round(actuals / goal * 1000) / 10 : 0,
+    projected_month_total: actuals,       // final — projection = actuals
+  };
+}
+
+function getDailyMTD(ym) {
+  // If we have per-month daily rows, use them; otherwise empty
+  return D.daily_all.filter(r => r.yearmo === ym);
+}
+
+function getChannelsMTD(ym) {
+  const rows = D.channels_all.filter(r => r.yearmo === ym);
+  if (rows.length > 0) return rows;
+  // Fallback: legacy single-month array kept for backward compat
+  if (ym === D.meta.current_ym && D.channels_mtd && D.channels_mtd.length > 0) return D.channels_mtd;
+  return [];
+}
+
+function getFacilitiesMTD(ym) {
+  const rows = D.facilities_all.filter(r => r.yearmo === ym);
+  if (rows.length > 0) return rows;
+  if (ym === D.meta.current_ym && D.facilities_mtd && D.facilities_mtd.length > 0) return D.facilities_mtd;
+  return [];
+}
 
 // ============================================================
 // CHARTS
@@ -500,44 +702,82 @@ function switchView(id, btn) {
 }
 
 // ============================================================
-// THIS MONTH VIEW
+// THIS MONTH VIEW — now fully driven by selectedYM
 // ============================================================
 function buildMonthView() {
-  const m = D.meta;
-  const needed = Math.max(0, m.current_goal - m.leads_to_date);
-  const daysRem = m.days_in_month - m.days_elapsed;
+  const ym       = selectedYM || D.meta.current_ym;
+  const isCurrent = ym === D.meta.current_ym;
+  const m        = getMonthMeta(ym);
+  const daily    = getDailyMTD(ym);
+  const channels = getChannelsMTD(ym);
+  const facilities = getFacilitiesMTD(ym);
 
+  // Section label
   document.getElementById('pace-month-label').textContent = m.current_month_label;
 
-  // KPI cards
-  document.getElementById('k-leads').textContent      = m.leads_to_date.toLocaleString();
-  document.getElementById('k-leads-foot').textContent = `Day ${m.days_elapsed} of ${m.days_in_month}`;
+  // ── KPI CARD LABELS (adapt for prior vs current month) ──
+  if (isCurrent) {
+    document.getElementById('k-leads-lbl').textContent  = 'Leads to Date';
+    document.getElementById('k-leads-foot').textContent = `Day ${m.days_elapsed} of ${m.days_in_month}`;
+    document.getElementById('k-par-lbl').textContent    = 'Linear PAR';
+    document.getElementById('k-par-foot').textContent   = `expected at day ${m.days_elapsed}`;
+    document.getElementById('k-vspar-lbl').textContent  = 'vs PAR';
+    document.getElementById('k-proj-lbl').textContent   = 'Projected Total';
+    document.getElementById('k-proj-foot').textContent  = 'at current rate';
+    document.getElementById('k-needed-lbl').textContent = 'Needed to Goal';
+    const needed   = Math.max(0, m.current_goal - m.leads_to_date);
+    const daysRem  = m.days_in_month - m.days_elapsed;
+    document.getElementById('k-needed').textContent      = needed.toLocaleString();
+    document.getElementById('k-needed-foot').textContent = daysRem > 0
+      ? `${Math.ceil(needed / daysRem).toLocaleString()}/day needed`
+      : 'last day of month';
+    document.getElementById('k-vspar-foot').textContent  = m.vs_par >= 0 ? 'ahead of pace' : 'behind pace';
+  } else {
+    // Prior (completed) month — relabeled cards
+    document.getElementById('k-leads-lbl').textContent  = 'Final Total';
+    document.getElementById('k-leads-foot').textContent = `${m.days_in_month}-day month`;
+    document.getElementById('k-par-lbl').textContent    = 'Monthly Goal';  // redundant but useful
+    document.getElementById('k-par-foot').textContent   = 'full month target';
+    document.getElementById('k-vspar-lbl').textContent  = 'vs Goal';
+    document.getElementById('k-proj-lbl').textContent   = 'Goal Attainment';
+    document.getElementById('k-proj-foot').textContent  = 'final result';
+    document.getElementById('k-needed-lbl').textContent = 'Over / Under';
+    const diff = m.leads_to_date - m.current_goal;
+    document.getElementById('k-needed').textContent      = (diff >= 0 ? '+' : '') + diff.toLocaleString();
+    document.getElementById('k-needed-foot').textContent = diff >= 0 ? 'over goal' : 'under goal';
+    document.getElementById('k-vspar-foot').textContent  = m.vs_par >= 0 ? 'above goal' : 'below goal';
+  }
 
+  // ── KPI VALUES (shared logic) ──
+  document.getElementById('k-leads').textContent      = m.leads_to_date.toLocaleString();
   document.getElementById('k-goal').textContent       = m.current_goal.toLocaleString();
   document.getElementById('k-goal-pct').textContent   = `${m.pct_of_goal}% achieved`;
-
-  document.getElementById('k-par').textContent        = m.par_to_date.toLocaleString();
-  document.getElementById('k-par-foot').textContent   = `expected at day ${m.days_elapsed}`;
-
+  document.getElementById('k-par').textContent        = isCurrent ? m.par_to_date.toLocaleString() : m.current_goal.toLocaleString();
   document.getElementById('k-vspar').textContent      = (m.vs_par >= 0 ? '+' : '') + m.vs_par.toLocaleString();
   document.getElementById('k-vspar').className        = 'kpi-val ' + (m.vs_par >= 0 ? 'ahead' : 'behind');
-  document.getElementById('k-vspar-foot').textContent = m.vs_par >= 0 ? 'ahead of pace' : 'behind pace';
+  document.getElementById('k-proj').textContent       = isCurrent
+    ? m.projected_month_total.toLocaleString()
+    : m.pct_of_goal + '%';
 
-  document.getElementById('k-proj').textContent       = m.projected_month_total.toLocaleString();
+  // ── CHART subtitle ──
+  document.getElementById('pace-chart-sub').textContent = isCurrent
+    ? 'Actual leads vs linear PAR line through month end'
+    : 'Final daily cumulative — completed month';
 
-  document.getElementById('k-needed').textContent     = needed.toLocaleString();
-  document.getElementById('k-needed-foot').textContent = daysRem > 0
-    ? `${Math.ceil(needed / daysRem).toLocaleString()}/day needed`
-    : 'last day of month';
+  // ── CHANNEL / FACILITY table subtitles ──
+  const subLabel = isCurrent ? 'leads this month' : `leads — ${m.current_month_label}`;
+  document.getElementById('ch-sub').textContent  = subLabel + ' — all sources';
+  document.getElementById('fac-sub').textContent = subLabel;
 
-  // Pacing chart — full width
+  // ── PACING CHART ──
   dc('pace');
   const labels     = Array.from({length: m.days_in_month}, (_,i) => i+1);
   const cumActuals = labels.map(dayNum => {
     if (dayNum > m.days_elapsed) return null;
-    const entry = D.daily_mtd.find(d => d.day === dayNum);
+    const entry = daily.find(d => d.day === dayNum);
     return entry ? entry.cumulative : null;
   });
+  // Fill forward any missing days with last known value
   let lastKnown = 0;
   for (let i = 0; i < m.days_elapsed; i++) {
     if (cumActuals[i] > 0) { lastKnown = cumActuals[i]; }
@@ -545,17 +785,30 @@ function buildMonthView() {
   }
   const parLine = labels.map(d => Math.round(m.current_goal * d / m.days_in_month));
 
+  // For prior months with no daily data, draw a flat "final total" line
+  const hasDaily = daily.length > 0;
+  const actualDataset = hasDaily
+    ? {
+        label: 'Leads (cumulative)', data: cumActuals,
+        borderColor: m.vs_par >= 0 ? '#3A7D3A' : '#C0392B',
+        backgroundColor: m.vs_par >= 0 ? 'rgba(58,125,58,.08)' : 'rgba(192,57,43,.08)',
+        borderWidth: 2.5, pointRadius: 0, tension: 0.3, fill: true, spanGaps: false,
+      }
+    : {
+        // No daily breakdown — draw a horizontal line at final total
+        label: 'Final Total (no daily data)',
+        data: labels.map(() => m.leads_to_date),
+        borderColor: m.vs_par >= 0 ? '#3A7D3A' : '#C0392B',
+        backgroundColor: 'transparent',
+        borderWidth: 2, pointRadius: 0, borderDash: [6, 3], tension: 0, fill: false,
+      };
+
   charts['pace'] = new Chart(document.getElementById('chartPace').getContext('2d'), {
     type: 'line',
     data: {
       labels,
       datasets: [
-        {
-          label: 'Leads (cumulative)', data: cumActuals,
-          borderColor: m.vs_par >= 0 ? '#3A7D3A' : '#C0392B',
-          backgroundColor: m.vs_par >= 0 ? 'rgba(58,125,58,.08)' : 'rgba(192,57,43,.08)',
-          borderWidth: 2.5, pointRadius: 0, tension: 0.3, fill: true, spanGaps: false,
-        },
+        actualDataset,
         {
           label: 'Linear PAR', data: parLine,
           borderColor: '#E8A020', borderWidth: 1.5, pointRadius: 0,
@@ -575,9 +828,9 @@ function buildMonthView() {
     }
   });
 
-  // Channel table
-  const chMax = Math.max(...D.channels_mtd.map(c=>c.leads), 1);
-  document.getElementById('ch-mtd-wrap').innerHTML = `
+  // ── CHANNEL TABLE ──
+  const chMax = Math.max(...channels.map(c=>c.leads), 1);
+  document.getElementById('ch-mtd-wrap').innerHTML = channels.length > 0 ? `
     <table class="ch-table">
       <thead><tr>
         <th>Channel</th>
@@ -586,7 +839,7 @@ function buildMonthView() {
         <th style="min-width:80px">Share</th>
       </tr></thead>
       <tbody>
-        ${D.channels_mtd.map(c => {
+        ${channels.map(c => {
           const ts = categoryTagStyle(c.category);
           const tag = `<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-family:'DM Mono',monospace;font-weight:500;background:${ts.bg};color:${ts.text};white-space:nowrap;">${c.category||'—'}</span>`;
           return `<tr>
@@ -597,18 +850,18 @@ function buildMonthView() {
           </tr>`;
         }).join('')}
       </tbody>
-    </table>`;
+    </table>` : `<div style="color:var(--mid);font-family:'DM Mono',monospace;font-size:12px;padding:16px 0">No channel data for this month yet.</div>`;
 
-  // Facility table
-  document.getElementById('fac-mtd-wrap').innerHTML = `
+  // ── FACILITY TABLE ──
+  document.getElementById('fac-mtd-wrap').innerHTML = facilities.length > 0 ? `
     <table class="ch-table">
       <thead><tr><th>Facility</th><th class="r">Leads</th></tr></thead>
-      <tbody>${D.facilities_mtd.map(f=>`<tr><td>${f.facility}</td><td class="r">${f.leads}</td></tr>`).join('')}</tbody>
-    </table>`;
+      <tbody>${facilities.map(f=>`<tr><td>${f.facility}</td><td class="r">${f.leads}</td></tr>`).join('')}</tbody>
+    </table>` : `<div style="color:var(--mid);font-family:'DM Mono',monospace;font-size:12px;padding:16px 0">No facility data for this month yet.</div>`;
 }
 
 // ============================================================
-// ROLLING 12 VIEW
+// ROLLING 12 VIEW — unchanged
 // ============================================================
 function buildRollingView() {
   const labels = D.rolling_12.map(d=>d.label);
@@ -667,7 +920,7 @@ function buildRollingView() {
 }
 
 // ============================================================
-// FISCAL YEAR VIEW
+// FISCAL YEAR VIEW — unchanged
 // ============================================================
 let activeFY = 'FY2027';
 function switchFY(fy, btn) {
@@ -714,7 +967,7 @@ function renderFYChart() {
 }
 
 // ============================================================
-// YEAR-OVER-YEAR VIEW
+// YEAR-OVER-YEAR VIEW — unchanged
 // ============================================================
 function buildYOYView() {
   const sm = D.same_month;
@@ -749,7 +1002,7 @@ function buildYOYView() {
 }
 
 // ============================================================
-// SPEND VIEW
+// SPEND VIEW — unchanged
 // ============================================================
 function buildSpendView() {
   const s = D.spend_mtd;
@@ -783,6 +1036,9 @@ function buildSpendView() {
 // INIT
 // ============================================================
 function init() {
+  selectedYM = D.meta.current_ym;
+  populateMonthPicker();
+  updateHeaderMeta();
   buildMonthView();
   buildRollingView();
   renderFYChart();
@@ -869,11 +1125,25 @@ function parseSummaries(rows){
     projected_month_total: num(s3kv['projected_month_total'])||0,
   };
 
-  // SECTION 4
-  const s4rows=getSectionRows(rows,findSection(rows,4));
-  LD.daily_mtd=s4rows.filter(r=>num(r[0])>0).map(r=>({
-    day:num(r[0]),leads_day:num(r[2]),cumulative:num(r[3]),par:num(r[4]),
-  }));
+  // ── SECTION 4 — now multi-month: A=yearmo, B=day_num, C=leads_day, D=cumulative, E=par ──
+  // Backward compat: if col A looks like a day number (no dash), treat as old single-month format
+  const s4rows = getSectionRows(rows, findSection(rows, 4));
+  LD.daily_all = [];
+  LD.daily_mtd = []; // kept for legacy references
+  s4rows.forEach(r => {
+    const firstCell = str(r[0]);
+    if (!firstCell) return;
+    if (firstCell.includes('-')) {
+      // New format: yearmo | day | leads_day | cumulative | par
+      const entry = { yearmo: firstCell, day: num(r[1]), leads_day: num(r[2]), cumulative: num(r[3]), par: num(r[4]) };
+      LD.daily_all.push(entry);
+      if (entry.yearmo === LD.meta.current_ym) LD.daily_mtd.push(entry);
+    } else {
+      // Old format: day | ? | leads_day | cumulative | par
+      const entry = { yearmo: LD.meta.current_ym, day: num(r[0]), leads_day: num(r[2]), cumulative: num(r[3]), par: num(r[4]) };
+      if (entry.day > 0) { LD.daily_all.push(entry); LD.daily_mtd.push(entry); }
+    }
+  });
 
   // SECTION 5
   const s5rows=getSectionRows(rows,findSection(rows,5));
@@ -882,21 +1152,41 @@ function parseSummaries(rows){
     partial:str(r[0])===LD.meta.current_ym,
   }));
 
-  // SECTION 6 — A=channel, B=source, C=medium, D=leads_mtd, E=category
-  const s6rows=getSectionRows(rows,findSection(rows,6));
-  LD.channels_mtd=s6rows
-    .map(r=>({
-      channel:  str(r[0]),
-      source:   str(r[1]),
-      medium:   str(r[2]),
-      leads:    num(r[3]),
-      category: str(r[4]),
-      color:    channelColor(str(r[1]),str(r[2])),
-    }))
-    .filter(c=>c.leads>0)
-    .sort((a,b)=>b.leads-a.leads);
+  // ── SECTION 6 — now multi-month: A=yearmo, B=channel, C=source, D=medium, E=leads_mtd, F=category ──
+  // Backward compat: if col A looks like a channel name (no dash), use old format
+  const s6rows = getSectionRows(rows, findSection(rows, 6));
+  LD.channels_all = [];
+  LD.channels_mtd = [];
+  s6rows.forEach(r => {
+    const firstCell = str(r[0]);
+    if (!firstCell) return;
+    if (firstCell.includes('-') && firstCell.length === 7) {
+      // New format: yearmo | channel | source | medium | leads | category
+      const entry = {
+        yearmo:   firstCell,
+        channel:  str(r[1]), source: str(r[2]), medium: str(r[3]),
+        leads:    num(r[4]), category: str(r[5]),
+        color:    channelColor(str(r[2]), str(r[3])),
+      };
+      if (entry.leads > 0) {
+        LD.channels_all.push(entry);
+        if (entry.yearmo === LD.meta.current_ym) LD.channels_mtd.push(entry);
+      }
+    } else {
+      // Old format: channel | source | medium | leads | category
+      const entry = {
+        yearmo:   LD.meta.current_ym,
+        channel:  firstCell, source: str(r[1]), medium: str(r[2]),
+        leads:    num(r[3]), category: str(r[4]),
+        color:    channelColor(str(r[1]), str(r[2])),
+      };
+      if (entry.leads > 0) { LD.channels_all.push(entry); LD.channels_mtd.push(entry); }
+    }
+  });
+  // Sort current-month channels by leads desc
+  LD.channels_mtd.sort((a,b) => b.leads - a.leads);
 
-  // SECTION 7 — A=channel, B=source, C=medium, D-O=12 months, P=category
+  // SECTION 7 — unchanged (A=channel, B=source, C=medium, D-O=12 months, P=category)
   const s7idx=findSection(rows,7);
   LD.channel_rolling={};
   if(s7idx>=0){
@@ -917,11 +1207,27 @@ function parseSummaries(rows){
     }
   }
 
-  // SECTION 8
-  const s8rows=getSectionRows(rows,findSection(rows,8));
-  LD.facilities_mtd=s8rows.map(r=>({facility:str(r[0]),leads:num(r[1])}));
+  // ── SECTION 8 — now multi-month: A=yearmo, B=facility, C=leads ──
+  const s8rows = getSectionRows(rows, findSection(rows, 8));
+  LD.facilities_all = [];
+  LD.facilities_mtd = [];
+  s8rows.forEach(r => {
+    const firstCell = str(r[0]);
+    if (!firstCell) return;
+    if (firstCell.includes('-') && firstCell.length === 7) {
+      // New format: yearmo | facility | leads
+      const entry = { yearmo: firstCell, facility: str(r[1]), leads: num(r[2]) };
+      LD.facilities_all.push(entry);
+      if (entry.yearmo === LD.meta.current_ym) LD.facilities_mtd.push(entry);
+    } else {
+      // Old format: facility | leads
+      const entry = { yearmo: LD.meta.current_ym, facility: firstCell, leads: num(r[1]) };
+      LD.facilities_all.push(entry);
+      LD.facilities_mtd.push(entry);
+    }
+  });
 
-  // SECTION 9
+  // SECTION 9 — unchanged
   const s9idx=findSection(rows,9);
   LD.facility_rolling={};
   if(s9idx>=0){
@@ -937,7 +1243,7 @@ function parseSummaries(rows){
     }
   }
 
-  // SECTION 10
+  // SECTION 10 — unchanged
   const s10rows=getSectionRows(rows,findSection(rows,10));
   LD.spend_mtd={google:{leads:0,spend:0,impressions:0,clicks:0,cpl:null},meta:{leads:0,spend:0,impressions:0,clicks:0,cpl:null}};
   s10rows.forEach(r=>{
@@ -948,7 +1254,7 @@ function parseSummaries(rows){
     }
   });
 
-  // SECTION 11
+  // SECTION 11 — unchanged
   LD.spend_rolling={};
   const s11rows=getSectionRows(rows,findSection(rows,11));
   s11rows.forEach(r=>{
@@ -959,7 +1265,7 @@ function parseSummaries(rows){
     LD.spend_rolling[ym][plat]={impressions:num(r[2]),clicks:num(r[3]),spend,leads,cpl:(spend>0&&leads>0)?Math.round(spend/leads*100)/100:null};
   });
 
-  // SECTION 12
+  // SECTION 12 — unchanged
   LD.fy={};
   const s12rows=getSectionRows(rows,findSection(rows,12));
   s12rows.forEach(r=>{
@@ -969,7 +1275,7 @@ function parseSummaries(rows){
     LD.fy[fy].push({seq:num(r[1]),ym:str(r[2]),label:str(r[3]),goal:num(r[4]),actuals:num(r[5]),cum_goal:num(r[6]),cum_actuals:num(r[7]),partial:str(r[2])===LD.meta.current_ym});
   });
 
-  // SECTION 13
+  // SECTION 13 — unchanged
   const s13rows=getSectionRows(rows,findSection(rows,13));
   LD.same_month=s13rows.map(r=>({
     period:str(r[0]),yearmo:str(r[1]),label:str(r[2]),
@@ -989,7 +1295,6 @@ async function fetchAndInit(){
     const rows=parseCSV(text);
     const live=parseSummaries(rows);
     Object.assign(D,live);
-    updateHeaderMeta();
     showLoading(false);
     init();
   }catch(err){
@@ -1003,9 +1308,8 @@ async function fetchAndInit(){
 function showLoading(on){document.getElementById('loading-overlay').style.display=on?'flex':'none';}
 function showBanner(msg){const b=document.getElementById('data-banner');b.textContent=msg;b.style.display='block';}
 function updateHeaderMeta(){
-  document.getElementById('hdr-month').textContent=D.meta.current_month_label||'—';
-  document.getElementById('hdr-day').textContent  =D.meta.days_elapsed||'—';
-  document.getElementById('hdr-dim').textContent  =D.meta.days_in_month||'—';
+  document.getElementById('hdr-day').textContent  = D.meta.days_elapsed||'—';
+  document.getElementById('hdr-dim').textContent  = D.meta.days_in_month||'—';
   if(D.meta.current_ym&&D.meta.current_ym!=='—'){
     const[y,m]=D.meta.current_ym.split('-').map(Number);
     document.getElementById('hdr-fy').textContent=m>=5?y+1:y;
