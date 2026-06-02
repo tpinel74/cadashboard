@@ -1295,10 +1295,12 @@ async function fetchAndInit(){
     const rows=parseCSV(text);
     const live=parseSummaries(rows);
     Object.assign(D,live);
+    selectedYM = D.meta.current_ym;
     showLoading(false);
     init();
   }catch(err){
     console.warn('Live fetch failed, using demo data:',err);
+    selectedYM = D.meta.current_ym;
     showLoading(false);
     showBanner('⚠ Demo data — sheet not yet connected or published. ('+err.message+')');
     init();
