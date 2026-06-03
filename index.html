@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CA Lead Generation — May 2026</title>
+<title>CA Membership Marketing Dashboard</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Barlow:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -582,13 +582,14 @@ function populateMonthPicker() {
   const months = [...D.rolling_12].reverse();
 
   // Ensure current month is always first in the list even if not in rolling_12
+  // (rolling_12 / Section 5 only covers completed months, never the current partial month)
   const hasCurrentMonth = months.some(m => m.yearmo === D.meta.current_ym);
   if (!hasCurrentMonth) {
     months.unshift({
-      yearmo: D.meta.current_ym,
-      label: D.meta.current_month_label,
+      yearmo:  D.meta.current_ym,
+      label:   D.meta.current_month_label,
       actuals: D.meta.leads_to_date,
-      goal: D.meta.current_goal,
+      goal:    D.meta.current_goal,
       partial: true,
     });
   }
@@ -602,6 +603,7 @@ function populateMonthPicker() {
     sel.appendChild(opt);
   });
 }
+
 function onMonthChange(ym) {
   selectedYM = ym;
   const isCurrent = ym === D.meta.current_ym;
