@@ -519,11 +519,11 @@ function categoryTagStyle(category) {
 // D holds ALL multi-month data keyed by yearmo where applicable
 const D = {
   meta: {
-    current_ym: '2026-05', current_month_label: 'May 2026',
-    days_elapsed: 22, days_in_month: 31,
-    current_goal: 1300, leads_to_date: 435,
-    par_to_date: 923, vs_par: -488,
-    pct_of_goal: 33.5, projected_month_total: 614
+    current_ym: '2026-06', current_month_label: 'June 2026',
+    days_elapsed: 2, days_in_month: 30,
+    current_goal: 2000, leads_to_date: 89,
+    par_to_date: 133, vs_par: -44,
+    pct_of_goal: 4.45, projected_month_total: 1335
   },
   // daily_all: array of {yearmo, day, leads_day, cumulative, par}
   daily_all: [],
@@ -544,7 +544,8 @@ const D = {
     {yearmo:'2026-02',label:'Feb 26',actuals:646, goal:660},
     {yearmo:'2026-03',label:'Mar 26',actuals:559, goal:710},
     {yearmo:'2026-04',label:'Apr 26',actuals:653, goal:970},
-    {yearmo:'2026-05',label:'May 26*',actuals:435,goal:1300,partial:true},
+    {yearmo:'2026-05',label:'May 26',actuals:841, goal:1300},
+    {yearmo:'2026-06',label:'Jun 26*',actuals:89, goal:2000,partial:true},
   ],
   channel_rolling: {},
   facility_rolling: {},
