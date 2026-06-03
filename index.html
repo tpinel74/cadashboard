@@ -579,8 +579,20 @@ function ymToFullLabel(ym) {
 function populateMonthPicker() {
   const sel = document.getElementById('month-select');
   sel.innerHTML = '';
-  // rolling_12 in reverse order (most recent first), filter out zero-actuals except current
   const months = [...D.rolling_12].reverse();
+
+  // Ensure current month is always first in the list even if not in rolling_12
+  const hasCurrentMonth = months.some(m => m.yearmo === D.meta.current_ym);
+  if (!hasCurrentMonth) {
+    months.unshift({
+      yearmo: D.meta.current_ym,
+      label: D.meta.current_month_label,
+      actuals: D.meta.leads_to_date,
+      goal: D.meta.current_goal,
+      partial: true,
+    });
+  }
+
   months.forEach(m => {
     const opt = document.createElement('option');
     opt.value = m.yearmo;
@@ -590,7 +602,6 @@ function populateMonthPicker() {
     sel.appendChild(opt);
   });
 }
-
 function onMonthChange(ym) {
   selectedYM = ym;
   const isCurrent = ym === D.meta.current_ym;
