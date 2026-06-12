@@ -337,64 +337,64 @@ body {
     </div>
   </div>
 
-  <!-- Full-width pacing chart — MARKETING -->
-  <div class="card mb">
-    <div class="card-title">Daily Cumulative Pacing — Marketing Leads</div>
-    <div class="card-sub" id="pace-chart-sub">Actual leads vs linear PAR line through month end</div>
-    <div class="chart-wrap" style="height:220px">
-      <canvas id="chartPace"></canvas>
-    </div>
-  </div>
-
   <!-- ════════ ENGAGEPRO SECTION ════════ -->
-  <div class="sec-label">EngagePro — All Sales Leads <span id="ep-month-label"></span></div>
+  <div class="sec-label">EngagePro Leads — <span id="ep-month-label"></span></div>
 
   <!-- 6-card KPI strip — ENGAGEPRO -->
   <div class="kpi-strip">
     <div class="kpi">
-      <div class="kpi-accent slate"></div>
+      <div class="kpi-accent green"></div>
       <div class="kpi-lbl" id="ep-leads-lbl">EP Leads to Date</div>
       <div class="kpi-val" id="ep-leads">—</div>
       <div class="kpi-foot" id="ep-leads-foot">—</div>
     </div>
     <div class="kpi">
-      <div class="kpi-accent slate"></div>
+      <div class="kpi-accent gold"></div>
       <div class="kpi-lbl">EP Monthly Goal</div>
       <div class="kpi-val" id="ep-goal">—</div>
       <div class="kpi-foot" id="ep-goal-pct">—</div>
     </div>
     <div class="kpi">
-      <div class="kpi-accent slate"></div>
+      <div class="kpi-accent"></div>
       <div class="kpi-lbl" id="ep-par-lbl">EP Linear PAR</div>
       <div class="kpi-val" id="ep-par">—</div>
       <div class="kpi-foot" id="ep-par-foot">—</div>
     </div>
     <div class="kpi">
-      <div class="kpi-accent slate"></div>
+      <div class="kpi-accent red"></div>
       <div class="kpi-lbl" id="ep-vspar-lbl">EP vs PAR</div>
       <div class="kpi-val" id="ep-vspar">—</div>
       <div class="kpi-foot" id="ep-vspar-foot">—</div>
     </div>
     <div class="kpi">
-      <div class="kpi-accent slate"></div>
+      <div class="kpi-accent"></div>
       <div class="kpi-lbl" id="ep-proj-lbl">EP Projected Total</div>
       <div class="kpi-val" id="ep-proj">—</div>
       <div class="kpi-foot" id="ep-proj-foot">at current rate</div>
     </div>
     <div class="kpi">
-      <div class="kpi-accent slate"></div>
+      <div class="kpi-accent gold"></div>
       <div class="kpi-lbl" id="ep-pctpar-lbl">EP % to PAR</div>
       <div class="kpi-val" id="ep-pctpar">—</div>
       <div class="kpi-foot" id="ep-pctpar-foot">—</div>
     </div>
   </div>
 
-  <!-- Full-width pacing chart — ENGAGEPRO (stacked below marketing chart) -->
-  <div class="card mb">
-    <div class="card-title">Daily Cumulative Pacing — EngagePro (All Sources)</div>
-    <div class="card-sub" id="ep-chart-sub">Actual EP leads vs linear PAR line through month end</div>
-    <div class="chart-wrap" style="height:220px">
-      <canvas id="chartPaceEP"></canvas>
+  <!-- Pacing charts — side by side -->
+  <div class="grid-2">
+    <div class="card" id="card-pace-marketing">
+      <div class="card-title">Daily Cumulative Pacing — Marketing Leads</div>
+      <div class="card-sub" id="pace-chart-sub">Actual leads vs linear PAR line through month end</div>
+      <div class="chart-wrap" style="height:220px">
+        <canvas id="chartPace"></canvas>
+      </div>
+    </div>
+    <div class="card" id="card-pace-ep">
+      <div class="card-title">Daily Cumulative Pacing — EngagePro (All Sources)</div>
+      <div class="card-sub" id="ep-chart-sub">Actual EP leads vs linear PAR line through month end</div>
+      <div class="chart-wrap" style="height:220px">
+        <canvas id="chartPaceEP"></canvas>
+      </div>
     </div>
   </div>
 
@@ -812,7 +812,7 @@ function buildMonthView() {
 
   // Section labels
   document.getElementById('pace-month-label').textContent = m.current_month_label;
-  document.getElementById('ep-month-label').textContent = '— ' + m.current_month_label;
+  document.getElementById('ep-month-label').textContent = m.current_month_label;
   document.getElementById('detail-month-label').textContent = m.current_month_label;
 
   // ── KPI CARD LABELS (adapt for prior vs current month) — MARKETING STRIP ──
@@ -863,12 +863,15 @@ function buildMonthView() {
   // ── ENGAGEPRO STRIP ──
   const epSection = document.getElementById('ep-month-label').closest('.sec-label');
   const epCards = epSection.nextElementSibling; // kpi-strip
-  const epChartCard = epCards.nextElementSibling; // chart card
+  const chartGrid = epCards.nextElementSibling; // grid-2 with both chart cards
+  const epChartCard = document.getElementById('card-pace-ep');
 
   if (epActive) {
     epSection.style.display = '';
     epCards.style.display = '';
     epChartCard.style.display = '';
+    chartGrid.style.display = '';
+    chartGrid.style.gridTemplateColumns = '';
 
     if (isCurrent) {
       document.getElementById('ep-leads-lbl').textContent = 'EP Leads to Date';
@@ -913,6 +916,7 @@ function buildMonthView() {
     epSection.style.display = 'none';
     epCards.style.display = 'none';
     epChartCard.style.display = 'none';
+    chartGrid.style.gridTemplateColumns = '1fr'; // marketing chart takes full width
   }
 
   // ── CHANNEL / FACILITY table subtitles ──
