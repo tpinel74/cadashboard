@@ -174,6 +174,7 @@ body {
 
 /* ── KPI STRIP — 6 cards ── */
 .kpi-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-bottom: 18px; }
+.kpi-strip-3x2 { grid-template-columns: repeat(3, 1fr); }
 .kpi {
   background: var(--white);
   border: 1px solid var(--border);
@@ -239,6 +240,7 @@ body {
 @media (max-width: 720px) {
   .main { padding: 16px; }
   .kpi-strip { grid-template-columns: 1fr 1fr; }
+  .kpi-strip-3x2 { grid-template-columns: 1fr 1fr; }
   .grid-2 { grid-template-columns: 1fr; }
   .hdr-right { gap: 6px; }
   .month-picker-wrap { padding: 4px 8px; }
@@ -295,107 +297,112 @@ body {
 <!-- ════════ VIEW: THIS MONTH ════════ -->
 <div class="view on" id="view-month">
 
-  <div class="sec-label first">Marketing Leads — <span id="pace-month-label">—</span></div>
-
-  <!-- 6-card KPI strip — MARKETING/DIGITAL LEADS -->
-  <div class="kpi-strip">
-    <div class="kpi">
-      <div class="kpi-accent green"></div>
-      <div class="kpi-lbl" id="k-leads-lbl">Leads to Date</div>
-      <div class="kpi-val" id="k-leads">—</div>
-      <div class="kpi-foot" id="k-leads-foot">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent gold"></div>
-      <div class="kpi-lbl">Monthly Goal</div>
-      <div class="kpi-val" id="k-goal">—</div>
-      <div class="kpi-foot" id="k-goal-pct">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent"></div>
-      <div class="kpi-lbl" id="k-par-lbl">Linear PAR</div>
-      <div class="kpi-val" id="k-par">—</div>
-      <div class="kpi-foot" id="k-par-foot">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent red"></div>
-      <div class="kpi-lbl" id="k-vspar-lbl">vs PAR</div>
-      <div class="kpi-val" id="k-vspar">—</div>
-      <div class="kpi-foot" id="k-vspar-foot">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent"></div>
-      <div class="kpi-lbl" id="k-proj-lbl">Projected Total</div>
-      <div class="kpi-val" id="k-proj">—</div>
-      <div class="kpi-foot" id="k-proj-foot">at current rate</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent gold"></div>
-      <div class="kpi-lbl" id="k-pctpar-lbl">% to PAR</div>
-      <div class="kpi-val" id="k-pctpar">—</div>
-      <div class="kpi-foot" id="k-pctpar-foot">—</div>
-    </div>
-  </div>
-
-  <!-- ════════ ENGAGEPRO SECTION ════════ -->
-  <div class="sec-label">EngagePro Leads — <span id="ep-month-label"></span></div>
-
-  <!-- 6-card KPI strip — ENGAGEPRO -->
-  <div class="kpi-strip">
-    <div class="kpi">
-      <div class="kpi-accent green"></div>
-      <div class="kpi-lbl" id="ep-leads-lbl">EP Leads to Date</div>
-      <div class="kpi-val" id="ep-leads">—</div>
-      <div class="kpi-foot" id="ep-leads-foot">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent gold"></div>
-      <div class="kpi-lbl">EP Monthly Goal</div>
-      <div class="kpi-val" id="ep-goal">—</div>
-      <div class="kpi-foot" id="ep-goal-pct">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent"></div>
-      <div class="kpi-lbl" id="ep-par-lbl">EP Linear PAR</div>
-      <div class="kpi-val" id="ep-par">—</div>
-      <div class="kpi-foot" id="ep-par-foot">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent red"></div>
-      <div class="kpi-lbl" id="ep-vspar-lbl">EP vs PAR</div>
-      <div class="kpi-val" id="ep-vspar">—</div>
-      <div class="kpi-foot" id="ep-vspar-foot">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent"></div>
-      <div class="kpi-lbl" id="ep-proj-lbl">EP Projected Total</div>
-      <div class="kpi-val" id="ep-proj">—</div>
-      <div class="kpi-foot" id="ep-proj-foot">at current rate</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent gold"></div>
-      <div class="kpi-lbl" id="ep-pctpar-lbl">EP % to PAR</div>
-      <div class="kpi-val" id="ep-pctpar">—</div>
-      <div class="kpi-foot" id="ep-pctpar-foot">—</div>
-    </div>
-  </div>
-
-  <!-- Pacing charts — side by side -->
   <div class="grid-2">
-    <div class="card" id="card-pace-marketing">
-      <div class="card-title">Daily Cumulative Pacing — Marketing Leads</div>
-      <div class="card-sub" id="pace-chart-sub">Actual leads vs linear PAR line through month end</div>
-      <div class="chart-wrap" style="height:220px">
-        <canvas id="chartPace"></canvas>
+
+    <!-- ════════ MARKETING COLUMN ════════ -->
+    <div>
+      <div class="sec-label first">Marketing Leads — <span id="pace-month-label">—</span></div>
+
+      <div class="kpi-strip kpi-strip-3x2">
+        <div class="kpi">
+          <div class="kpi-accent green"></div>
+          <div class="kpi-lbl" id="k-leads-lbl">Leads to Date</div>
+          <div class="kpi-val" id="k-leads">—</div>
+          <div class="kpi-foot" id="k-leads-foot">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-accent gold"></div>
+          <div class="kpi-lbl">Monthly Goal</div>
+          <div class="kpi-val" id="k-goal">—</div>
+          <div class="kpi-foot" id="k-goal-pct">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-accent"></div>
+          <div class="kpi-lbl" id="k-par-lbl">Linear PAR</div>
+          <div class="kpi-val" id="k-par">—</div>
+          <div class="kpi-foot" id="k-par-foot">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-accent red"></div>
+          <div class="kpi-lbl" id="k-vspar-lbl">vs PAR</div>
+          <div class="kpi-val" id="k-vspar">—</div>
+          <div class="kpi-foot" id="k-vspar-foot">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-accent"></div>
+          <div class="kpi-lbl" id="k-proj-lbl">Projected Total</div>
+          <div class="kpi-val" id="k-proj">—</div>
+          <div class="kpi-foot" id="k-proj-foot">at current rate</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-accent gold"></div>
+          <div class="kpi-lbl" id="k-pctpar-lbl">% to PAR</div>
+          <div class="kpi-val" id="k-pctpar">—</div>
+          <div class="kpi-foot" id="k-pctpar-foot">—</div>
+        </div>
+      </div>
+
+      <div class="card" id="card-pace-marketing">
+        <div class="card-title">Daily Cumulative Pacing — Marketing Leads</div>
+        <div class="card-sub" id="pace-chart-sub">Actual leads vs linear PAR line through month end</div>
+        <div class="chart-wrap" style="height:220px">
+          <canvas id="chartPace"></canvas>
+        </div>
       </div>
     </div>
-    <div class="card" id="card-pace-ep">
-      <div class="card-title">Daily Cumulative Pacing — EngagePro (All Sources)</div>
-      <div class="card-sub" id="ep-chart-sub">Actual EP leads vs linear PAR line through month end</div>
-      <div class="chart-wrap" style="height:220px">
-        <canvas id="chartPaceEP"></canvas>
+
+    <!-- ════════ ENGAGEPRO COLUMN ════════ -->
+    <div>
+      <div class="sec-label first">EngagePro Leads — <span id="ep-month-label"></span></div>
+
+      <div class="kpi-strip kpi-strip-3x2">
+        <div class="kpi">
+          <div class="kpi-accent green"></div>
+          <div class="kpi-lbl" id="ep-leads-lbl">EP Leads to Date</div>
+          <div class="kpi-val" id="ep-leads">—</div>
+          <div class="kpi-foot" id="ep-leads-foot">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-accent gold"></div>
+          <div class="kpi-lbl">EP Monthly Goal</div>
+          <div class="kpi-val" id="ep-goal">—</div>
+          <div class="kpi-foot" id="ep-goal-pct">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-accent"></div>
+          <div class="kpi-lbl" id="ep-par-lbl">EP Linear PAR</div>
+          <div class="kpi-val" id="ep-par">—</div>
+          <div class="kpi-foot" id="ep-par-foot">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-accent red"></div>
+          <div class="kpi-lbl" id="ep-vspar-lbl">EP vs PAR</div>
+          <div class="kpi-val" id="ep-vspar">—</div>
+          <div class="kpi-foot" id="ep-vspar-foot">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-accent"></div>
+          <div class="kpi-lbl" id="ep-proj-lbl">EP Projected Total</div>
+          <div class="kpi-val" id="ep-proj">—</div>
+          <div class="kpi-foot" id="ep-proj-foot">at current rate</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-accent gold"></div>
+          <div class="kpi-lbl" id="ep-pctpar-lbl">EP % to PAR</div>
+          <div class="kpi-val" id="ep-pctpar">—</div>
+          <div class="kpi-foot" id="ep-pctpar-foot">—</div>
+        </div>
+      </div>
+
+      <div class="card" id="card-pace-ep">
+        <div class="card-title">Daily Cumulative Pacing — EngagePro (All Sources)</div>
+        <div class="card-sub" id="ep-chart-sub">Actual EP leads vs linear PAR line through month end</div>
+        <div class="chart-wrap" style="height:220px">
+          <canvas id="chartPaceEP"></canvas>
+        </div>
       </div>
     </div>
+
   </div>
 
   <!-- Facility + Channel -->
@@ -860,18 +867,15 @@ function buildMonthView() {
     ? 'Actual leads vs linear PAR line through month end'
     : 'Final daily cumulative — completed month';
 
-  // ── ENGAGEPRO STRIP ──
+  // ── ENGAGEPRO COLUMN ──
   const epSection = document.getElementById('ep-month-label').closest('.sec-label');
-  const epCards = epSection.nextElementSibling; // kpi-strip
-  const chartGrid = epCards.nextElementSibling; // grid-2 with both chart cards
+  const epColumn = epSection.parentElement; // the EP column div
+  const outerGrid = epColumn.parentElement; // top-level grid-2 (marketing col + EP col)
   const epChartCard = document.getElementById('card-pace-ep');
 
   if (epActive) {
-    epSection.style.display = '';
-    epCards.style.display = '';
-    epChartCard.style.display = '';
-    chartGrid.style.display = '';
-    chartGrid.style.gridTemplateColumns = '';
+    epColumn.style.display = '';
+    outerGrid.style.gridTemplateColumns = '';
 
     if (isCurrent) {
       document.getElementById('ep-leads-lbl').textContent = 'EP Leads to Date';
@@ -913,10 +917,8 @@ function buildMonthView() {
       ? 'Actual EP leads vs linear PAR line through month end'
       : 'Final daily cumulative — completed month';
   } else {
-    epSection.style.display = 'none';
-    epCards.style.display = 'none';
-    epChartCard.style.display = 'none';
-    chartGrid.style.gridTemplateColumns = '1fr'; // marketing chart takes full width
+    epColumn.style.display = 'none';
+    outerGrid.style.gridTemplateColumns = '1fr'; // marketing column takes full width
   }
 
   // ── CHANNEL / FACILITY table subtitles ──
