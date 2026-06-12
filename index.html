@@ -175,6 +175,15 @@ body {
 /* ── KPI STRIP — 6 cards ── */
 .kpi-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-bottom: 18px; }
 .kpi-strip-3x2 { grid-template-columns: repeat(3, 1fr); }
+
+/* ── PROMO REFERENCE TABLE ── */
+.promo-month-row.is-current td {
+  background: #EEF3FF;
+}
+.promo-month-row.is-current td:first-child {
+  font-weight: 700;
+  color: var(--navy);
+}
 .kpi {
   background: var(--white);
   border: 1px solid var(--border);
@@ -290,6 +299,8 @@ body {
   <button class="nav-tab"    onclick="switchView('fy',this)">Fiscal Year</button>
   <button class="nav-tab"    onclick="switchView('samemonth',this)">Year-over-Year</button>
   <button class="nav-tab"    onclick="switchView('spend',this)">Spend & CPL</button>
+  <button class="nav-tab"    onclick="switchView('utm',this)">UTM Taxonomy</button>
+  <button class="nav-tab"    onclick="switchView('promo',this)">Promotions Calendar</button>
 </nav>
 
 <div class="main">
@@ -519,6 +530,82 @@ body {
   </div>
 </div>
 
+
+<!-- ════════ VIEW: UTM TAXONOMY ════════ -->
+<div class="view" id="view-utm">
+  <div class="sec-label first">UTM Source / Medium Taxonomy</div>
+  <div class="card mb">
+    <div class="card-title">Why this exists</div>
+    <div style="font-size:13px;line-height:1.6;color:var(--text)">
+      <p style="margin-bottom:10px">Every lead entering our system through a marketing channel carries a <b>Source</b> and <b>Medium</b> pair — together they're the foundation of all lead reporting and channel analysis. <b>Source</b> identifies the originating platform (where the lead came from); <b>Medium</b> identifies the mechanism within that channel (how they got here).</p>
+      <p style="margin-bottom:10px"><b>Campaign</b>, <b>Content</b>, and <b>Keyword</b> add further dimensionality — which initiative, which specific asset/variant, and (for paid search) which search term — but Source and Medium are required on every tagged link and lead record.</p>
+      <p>This table is the canonical reference. New combinations are added deliberately as new channels are activated; leads with malformed or unrecognized values get corrected at the source.</p>
+    </div>
+  </div>
+
+  <div class="card mb">
+    <div class="card-title">Source / Medium Reference</div>
+    <div class="card-sub">grouped by category — matches the "By Channel" categorization on the This Month tab</div>
+    <table class="ch-table">
+      <thead><tr>
+        <th>Source</th>
+        <th>Medium</th>
+        <th>Category</th>
+        <th>Notes</th>
+      </tr></thead>
+      <tbody id="utm-table-body"></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Usage Notes</div>
+    <ul style="font-size:13px;line-height:1.7;color:var(--text);padding-left:20px">
+      <li style="margin-bottom:6px">Google campaign types (Search, Display, Demand Gen, Performance Max) are distinguished via the <b>Campaign</b> field naming convention, not via separate Medium values — ensure campaign names consistently include the type.</li>
+      <li style="margin-bottom:6px"><b>crm</b> as a source reflects the CRM as a marketing investment channel, analogous to "google / paid." It's applied when a CRM-driven communication (email, SMS, or app announcement) produces a conversion event — not at original lead capture.</li>
+      <li style="margin-bottom:6px">All offline physical materials (signage, flyers, direct mail, collateral) use a QR code as the lead capture mechanism, attributed as <b>Source=offline</b>. "offline / qr" covers most signage and poster-based generation; "offline / mail" is reserved for direct mail (vanity URL or QR code may be present).</li>
+      <li style="margin-bottom:6px">"bing / paid", "tiktok / paid", "reddit / social", "reddit / paid", and "ai / paid" aren't yet active but are expected — they'll be added when those channels go live.</li>
+      <li><b>prospect_wizard</b> will be deprecated when SalesIQ goes live; leads will flow into their true source buckets with upstream UTM parameters passed correctly.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- ════════ VIEW: PROMOTIONS CALENDAR ════════ -->
+<div class="view" id="view-promo">
+  <div class="sec-label first">Promotions Calendar — Membership Promotions Master Calendar</div>
+
+  <!-- Always On -->
+  <div class="card mb" style="border-left:4px solid var(--green)">
+    <div class="card-title" style="color:var(--green)">Always On — All 12 Months</div>
+    <div class="card-sub" style="margin-bottom:0" id="promo-always-on-text">Loading…</div>
+  </div>
+
+  <!-- PAR Trigger explainer -->
+  <div class="card mb" style="border-left:4px solid #9B59B6">
+    <div class="card-title" style="color:#9B59B6">Layer 5 — Mid-Month PAR Trigger</div>
+    <div class="card-sub" style="margin-bottom:0" id="promo-par-trigger-text">Loading…</div>
+  </div>
+
+  <!-- 12-month reference table -->
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <div>
+        <div class="card-title">Monthly Promotions Reference</div>
+        <div class="card-sub" style="margin-bottom:0">Layer 2 (Referral) · Layer 3 (Monthly Offer) · Layer 4 (Flash Sale) — current month highlighted</div>
+      </div>
+    </div>
+    <table class="ch-table" style="margin-top:12px">
+      <thead><tr>
+        <th style="min-width:70px">Month</th>
+        <th>Layer 2 — Referral</th>
+        <th>Layer 3 — Monthly Offer</th>
+        <th>Layer 4 — Flash Sale</th>
+      </tr></thead>
+      <tbody id="promo-table-body"></tbody>
+    </table>
+  </div>
+</div>
+
 </div><!-- /main -->
 
 <script>
@@ -615,6 +702,22 @@ const D = {
     google: {impressions:0,clicks:0,spend:0,leads:0,cpl:null},
     meta:   {impressions:0,clicks:0,spend:0,leads:0,cpl:null},
   },
+  promo_always_on: '7-day free trial · First month free on any annual membership · Value-added packages (VAPs) at point of purchase only',
+  promo_par_trigger: 'If pacing is ≤90% to PAR after the 14th of the month, a "pay nothing until [next month]" offer becomes available. Approval routes through the SVP of CP&S when trigger conditions are met.',
+  promo_months: [
+    { month_num:1,  month_name:'January',   referral:'Window closed', monthly_offer:'Fit Kit (exercise bands, foam roller, etc.)', flash_sale:'' },
+    { month_num:2,  month_name:'February',  referral:'Window A opens — Refer 4 new members during this window → Earn a year of free membership', monthly_offer:'Free annual membership to KidSpace', flash_sale:'' },
+    { month_num:3,  month_name:'March',     referral:'Window A active — Refer 4 new members during this window → Earn a year of free membership', monthly_offer:'Free picnic set', flash_sale:'March Madness — offer TBD' },
+    { month_num:4,  month_name:'April',     referral:'Window A closes — Refer 4 new members during this window → Earn a year of free membership', monthly_offer:'Lock in the lowest rate — last month at current rates before May 1 annual increase; rate locked for duration of annual contract, deadline April 30', flash_sale:'' },
+    { month_num:5,  month_name:'May',       referral:'Window closed', monthly_offer:'Branded Towel', flash_sale:'Memorial Day — offer TBD' },
+    { month_num:6,  month_name:'June',      referral:'Window closed', monthly_offer:'Branded water bottle (Yeti or similar)', flash_sale:'' },
+    { month_num:7,  month_name:'July',      referral:'Window closed', monthly_offer:'Pick Your Perk (selection of programmatic options, e.g. racquet sports lessons, art center lessons, martial arts sessions)', flash_sale:'Remaining ~140 branded towels' },
+    { month_num:8,  month_name:'August',    referral:'Window B opens — Refer 4 new members during this window → Earn a year of free membership', monthly_offer:'Free annual membership to KidSpace', flash_sale:'' },
+    { month_num:9,  month_name:'September', referral:'Window B active — Refer 4 new members during this window → Earn a year of free membership', monthly_offer:'Branded yoga mat', flash_sale:'Labor Day — offer TBD' },
+    { month_num:10, month_name:'October',   referral:'Window B closes — Refer 4 new members during this window → Earn a year of free membership', monthly_offer:'Free Golf Lesson package (also available with purchase of any golf membership)', flash_sale:'' },
+    { month_num:11, month_name:'November',  referral:'Holiday gift referral (Window B closed) — Members gift a December membership to a non-member; if recipient joins by Jan 1, referring member earns 2nd month of PT or Group Training free', monthly_offer:'Pick Your Perk (also includes option of donation to local nonprofit)', flash_sale:'Black Friday — offer TBD' },
+    { month_num:12, month_name:'December',  referral:'Window closed', monthly_offer:'Winter hat', flash_sale:'' },
+  ],
 };
 
 let selectedYM = '';
@@ -1251,6 +1354,82 @@ function buildSpendView() {
 // ============================================================
 // INIT
 // ============================================================
+// ============================================================
+// UTM TAXONOMY — static reference data
+// ============================================================
+const UTM_TAXONOMY = [
+  { source:'google', medium:'cpc', category:'Search', notes:'Google paid search (Google Ads). Use Campaign field to distinguish Search, Display, Demand Gen, and PMax campaign types.' },
+  { source:'google', medium:'organic', category:'Search', notes:'Organic Google search results.' },
+  { source:'other_search', medium:'organic', category:'Search', notes:'Organic search results from platforms such as Bing, DuckDuckGo, etc.' },
+  { source:'ai', medium:'organic', category:'Search', notes:'Inbound clicks from AI tools — ChatGPT, Perplexity, Gemini, etc. Use Content field to identify the specific tool.' },
+  { source:'meta', medium:'cpc', category:'Social', notes:'Paid Facebook, Instagram and Threads ads.' },
+  { source:'meta', medium:'organic', category:'Social', notes:'Unpaid Facebook and Instagram posts and content.' },
+  { source:'tiktok', medium:'organic', category:'Social', notes:'Unpaid TikTok posts and content.' },
+  { source:'newsletter', medium:'email', category:'Email & SMS', notes:'CA editorial newsletters (Do More with CA — Families Edition & Lakefront Live, CA Digest). Use Content field to identify the specific newsletter.' },
+  { source:'crm', medium:'email', category:'Email & SMS', notes:'Nurture email campaigns sent via marketing CRM.' },
+  { source:'crm', medium:'sms', category:'Email & SMS', notes:'SMS / text promotions sent via marketing.' },
+  { source:'crm', medium:'app', category:'Email & SMS', notes:'Club announcements sent via the Club Automation app.' },
+  { source:'offline', medium:'qr', category:'Offline & Physical', notes:'QR codes on signage, digital displays, open space signs, direct mail, and physical collateral. All offline print/physical materials should use a QR code for lead capture.' },
+  { source:'offline', medium:'mail', category:'Offline & Physical', notes:'Direct mail — postcards, mailers where a vanity URL or QR code is used.' },
+  { source:'offline', medium:'event', category:'Offline & Physical', notes:'Structured in-person events — open houses, community events, and similar.' },
+  { source:'member', medium:'referral', category:'Referral & Partnerships', notes:'A member generates a lead — either by nominating a friend via the referral program form, or via a member advocate floor capture.' },
+  { source:'partner', medium:'email', category:'Referral & Partnerships', notes:'Partner newsletter link — property managers, real estate agents, employers. Use Campaign field for specific partner name.' },
+  { source:'partner', medium:'qr', category:'Referral & Partnerships', notes:'Partner QR code on noticeboard flyer or printed materials. Use Campaign for partner name, Content for placement.' },
+  { source:'partner', medium:'unknown', category:'Referral & Partnerships', notes:'Partner shares a plain link with no specific medium identifiable. Use Campaign for partner name.' },
+  { source:'web_referral', medium:'web', category:'Referral & Partnerships', notes:'Inbound clicks from third-party websites — directories, press mentions, external site links. No human/organizational relationship; distinct from partner / unknown.' },
+  { source:'direct', medium:'direct', category:'Direct, Untracked & Unresolved', notes:'No referrer detected or untagged traffic.' },
+  { source:'prospect_wizard', medium:'chatbot', category:'Direct, Untracked & Unresolved', notes:'Website chatbot captures. Upstream source unattributable. Temporary — will be deprecated when SalesIQ goes live.' },
+  { source:'unknown', medium:'unknown', category:'Direct, Untracked & Unresolved', notes:'Unresolvable attribution — HANDL failures, form wiring gaps, or other data loss.' },
+];
+
+function buildUTMView() {
+  const tbody = document.getElementById('utm-table-body');
+  tbody.innerHTML = UTM_TAXONOMY.map(row => {
+    const ts = categoryTagStyle(row.category);
+    const color = channelColor(row.source, row.medium);
+    const tag = `<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-family:'DM Mono',monospace;font-weight:500;background:${ts.bg};color:${ts.text};white-space:nowrap;">${row.category}</span>`;
+    return `<tr>
+      <td><span class="ch-dot" style="background:${color}"></span><span class="mono">${row.source}</span></td>
+      <td class="mono">${row.medium}</td>
+      <td>${tag}</td>
+      <td style="font-size:12px;color:var(--text)">${row.notes}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ============================================================
+// PROMOTIONS CALENDAR — 12-month reference table
+// ============================================================
+const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function buildPromoView() {
+  // Always On text
+  document.getElementById('promo-always-on-text').textContent =
+    (D.promo_always_on && D.promo_always_on.trim())
+      ? D.promo_always_on
+      : 'Always-on offer details have not been added to the promotions tab yet.';
+
+  // PAR Trigger explainer text
+  document.getElementById('promo-par-trigger-text').textContent =
+    (D.promo_par_trigger && D.promo_par_trigger.trim())
+      ? D.promo_par_trigger
+      : 'If lead pacing is at or below 90% of PAR after the 14th of the month, a "pay nothing until [next month]" offer becomes available. Approval routes through the SVP of CP&S when trigger conditions are met.';
+
+  const rows = D.promo_months || [];
+  const currentMonthNum = parseInt(D.meta.current_ym.split('-')[1], 10); // 1-12
+
+  document.getElementById('promo-table-body').innerHTML = rows.length > 0 ? rows.map(r => {
+    const isCurrent = r.month_num === currentMonthNum;
+    return `<tr class="promo-month-row${isCurrent ? ' is-current' : ''}">
+      <td>${r.month_name}${isCurrent ? ' <span class="mono" style="font-size:10px;color:var(--navy);font-weight:700">— CURRENT</span>' : ''}</td>
+      <td style="font-size:12px;color:var(--text)">${r.referral || '—'}</td>
+      <td style="font-size:12px;color:var(--text)">${r.monthly_offer || '—'}</td>
+      <td style="font-size:12px;color:var(--text)">${r.flash_sale || '—'}</td>
+    </tr>`;
+  }).join('') : `<tr><td colspan="4" style="color:var(--mid);font-family:'DM Mono',monospace;font-size:12px;padding:16px 0">No promotions found in the promotions tab.</td></tr>`;
+}
+
+
 function init() {
   selectedYM = D.meta.current_ym;
   populateMonthPicker();
@@ -1260,6 +1439,8 @@ function init() {
   renderFYChart();
   buildYOYView();
   buildSpendView();
+  buildUTMView();
+  buildPromoView();
 }
 
 document.addEventListener('DOMContentLoaded', fetchAndInit);
@@ -1512,6 +1693,35 @@ function parseSummaries(rows){
     actuals:num(r[3]),goal:num(r[4]),
     days_elapsed:LD.meta.days_elapsed,days_in_month:LD.meta.days_in_month,
   }));
+
+  // SECTION 14 — PROMOTIONS: STANDING TEXT (KV rows)
+  // col A=metric, col B=value: "always_on_description" and "par_trigger_description"
+  const s14idx=findSection(rows,14);
+  LD.promo_always_on='';
+  LD.promo_par_trigger='';
+  if(s14idx>=0){
+    let i=s14idx+2;
+    while(i<rows.length){
+      const r=rows[i];
+      if(!r[0]||r[0].startsWith('SECTION')) break;
+      if(r[0]&&!r[0].startsWith('NOTE')){
+        if(r[0].trim()==='always_on_description')      LD.promo_always_on=str(r[1]);
+        if(r[0].trim()==='par_trigger_description')    LD.promo_par_trigger=str(r[1]);
+      }
+      i++;
+    }
+  }
+
+  // SECTION 15 — PROMOTIONS CALENDAR — 12-month reference table
+  // columns: month_num | month_name | referral | monthly_offer | flash_sale
+  const s15rows=getSectionRows(rows,findSection(rows,15));
+  LD.promo_months=s15rows.map(r=>({
+    month_num:    num(r[0]),
+    month_name:   str(r[1]),
+    referral:     str(r[2]),
+    monthly_offer:str(r[3]),
+    flash_sale:   str(r[4]),
+  })).filter(p=>p.month_num>0);
 
   return LD;
 }
