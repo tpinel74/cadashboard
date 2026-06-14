@@ -143,6 +143,7 @@ body {
 .nav-tab.on { color: var(--navy); border-bottom-color: var(--navy); }
 .main { max-width: 1560px; margin: 0 auto; padding: 24px 28px 48px; }
 .grid-2   { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+.grid-3   { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 18px; margin-bottom: 18px; }
 .grid-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: 18px; margin-bottom: 18px; }
 .grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; margin-bottom: 18px; }
 .mb { margin-bottom: 18px; }
@@ -175,6 +176,7 @@ body {
 /* ── KPI STRIP — 6 cards ── */
 .kpi-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-bottom: 18px; }
 .kpi-strip-3x2 { grid-template-columns: repeat(3, 1fr); }
+.kpi-strip-2x3 { grid-template-columns: repeat(2, 1fr); }
 
 /* ── PROMO REFERENCE TABLE ── */
 .promo-month-row.is-current td {
@@ -308,13 +310,13 @@ body {
 <!-- ════════ VIEW: THIS MONTH ════════ -->
 <div class="view on" id="view-month">
 
-  <div class="grid-2">
+  <div class="grid-3">
 
     <!-- ════════ MARKETING COLUMN ════════ -->
     <div>
       <div class="sec-label first">Marketing Leads — <span id="pace-month-label">—</span></div>
 
-      <div class="kpi-strip kpi-strip-3x2">
+      <div class="kpi-strip kpi-strip-2x3">
         <div class="kpi">
           <div class="kpi-accent green"></div>
           <div class="kpi-lbl" id="k-leads-lbl">Leads to Date</div>
@@ -366,7 +368,7 @@ body {
     <div>
       <div class="sec-label first">EngagePro Leads — <span id="ep-month-label"></span></div>
 
-      <div class="kpi-strip kpi-strip-3x2">
+      <div class="kpi-strip kpi-strip-2x3">
         <div class="kpi">
           <div class="kpi-accent green"></div>
           <div class="kpi-lbl" id="ep-leads-lbl">EP Leads to Date</div>
@@ -410,6 +412,58 @@ body {
         <div class="card-sub" id="ep-chart-sub">Actual EP leads vs linear PAR line through month end</div>
         <div class="chart-wrap" style="height:220px">
           <canvas id="chartPaceEP"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ MEMBERSHIP SALES COLUMN ════════ -->
+    <div>
+      <div class="sec-label first">Membership Sales — <span id="ms-month-label"></span></div>
+
+      <div class="kpi-strip kpi-strip-2x3">
+        <div class="kpi">
+          <div class="kpi-accent green"></div>
+          <div class="kpi-lbl" id="ms-leads-lbl">Sales to Date</div>
+          <div class="kpi-val" id="ms-leads">—</div>
+          <div class="kpi-foot" id="ms-leads-foot">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-accent gold"></div>
+          <div class="kpi-lbl">Monthly Goal</div>
+          <div class="kpi-val" id="ms-goal">—</div>
+          <div class="kpi-foot" id="ms-goal-pct">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-accent"></div>
+          <div class="kpi-lbl" id="ms-par-lbl">Linear PAR</div>
+          <div class="kpi-val" id="ms-par">—</div>
+          <div class="kpi-foot" id="ms-par-foot">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-accent red"></div>
+          <div class="kpi-lbl" id="ms-vspar-lbl">vs PAR</div>
+          <div class="kpi-val" id="ms-vspar">—</div>
+          <div class="kpi-foot" id="ms-vspar-foot">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-accent"></div>
+          <div class="kpi-lbl" id="ms-proj-lbl">Projected Total</div>
+          <div class="kpi-val" id="ms-proj">—</div>
+          <div class="kpi-foot" id="ms-proj-foot">at current rate</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-accent gold"></div>
+          <div class="kpi-lbl" id="ms-pctpar-lbl">% to PAR</div>
+          <div class="kpi-val" id="ms-pctpar">—</div>
+          <div class="kpi-foot" id="ms-pctpar-foot">—</div>
+        </div>
+      </div>
+
+      <div class="card" id="card-pace-ms">
+        <div class="card-title">Daily Cumulative Pacing — Membership Sales</div>
+        <div class="card-sub" id="ms-chart-sub">Actual sales vs linear PAR line through month end</div>
+        <div class="chart-wrap" style="height:220px">
+          <canvas id="chartPaceMS"></canvas>
         </div>
       </div>
     </div>
@@ -675,6 +729,10 @@ const D = {
     ep_goal: 1850, ep_leads_to_date: 561,
     ep_par_to_date: 678, ep_vs_par: -117,
     ep_pct_of_goal: 30.32, ep_projected_total: 1530,
+    // Membership Sales fields
+    ms_goal: 925, ms_sales_to_date: 406,
+    ms_par_to_date: 401, ms_vs_par: 5,
+    ms_pct_of_goal: 43.89, ms_projected_total: 937,
   },
   daily_all: [],
   channels_all: [],
@@ -828,6 +886,9 @@ function getMonthMeta(ym) {
     // EP fields not available for historical months yet
     ep_goal: 0, ep_leads_to_date: 0, ep_par_to_date: 0,
     ep_vs_par: 0, ep_pct_of_goal: 0, ep_projected_total: 0,
+    // MS fields not available for historical months yet
+    ms_goal: 0, ms_sales_to_date: 0, ms_par_to_date: 0,
+    ms_vs_par: 0, ms_pct_of_goal: 0, ms_projected_total: 0,
   };
 }
 
@@ -859,6 +920,12 @@ function hasEPData(ym, m, daily) {
   return daily.some(d => (d.ep_cumulative_leads || 0) > 0);
 }
 
+// Does this month have any Membership Sales data?
+function hasMSData(ym, m, daily) {
+  if (m.ms_goal > 0 || m.ms_sales_to_date > 0) return true;
+  return daily.some(d => (d.ms_cumulative_sales || 0) > 0);
+}
+
 // ============================================================
 // CHARTS
 // ============================================================
@@ -868,6 +935,10 @@ const MONO = "'DM Mono', monospace";
 const SANS = "'Barlow', sans-serif";
 const baseScale = {
   x: { grid:{display:false}, ticks:{font:{family:MONO,size:10}} },
+  y: { grid:{color:'#E8EDF5'}, ticks:{font:{family:MONO,size:10}} }
+};
+const paceScale = {
+  x: { grid:{display:false}, ticks:{font:{family:MONO,size:10}, callback:function(val, idx){ const day = idx+1; return (day===1||day%5===0) ? day : ''; } } },
   y: { grid:{color:'#E8EDF5'}, ticks:{font:{family:MONO,size:10}} }
 };
 const basePlugins = {
@@ -919,10 +990,12 @@ function buildMonthView() {
   const channels = getChannelsMTD(ym);
   const facilities = getFacilitiesMTD(ym);
   const epActive = hasEPData(ym, m, daily);
+  const msActive = hasMSData(ym, m, daily);
 
   // Section labels
   document.getElementById('pace-month-label').textContent = m.current_month_label;
   document.getElementById('ep-month-label').textContent = m.current_month_label;
+  document.getElementById('ms-month-label').textContent = m.current_month_label;
   document.getElementById('detail-month-label').textContent = m.current_month_label;
 
   // ── KPI CARD LABELS (adapt for prior vs current month) — MARKETING STRIP ──
@@ -970,16 +1043,20 @@ function buildMonthView() {
     ? 'Actual leads vs linear PAR line through month end'
     : 'Final daily cumulative — completed month';
 
-  // ── ENGAGEPRO COLUMN ──
+  // ── ENGAGEPRO + MEMBERSHIP SALES COLUMNS ──
   const epSection = document.getElementById('ep-month-label').closest('.sec-label');
   const epColumn = epSection.parentElement; // the EP column div
-  const outerGrid = epColumn.parentElement; // top-level grid-2 (marketing col + EP col)
+  const msSection = document.getElementById('ms-month-label').closest('.sec-label');
+  const msColumn = msSection.parentElement; // the MS column div
+  const outerGrid = epColumn.parentElement; // top-level grid-3 (marketing col + EP col + MS col)
   const epChartCard = document.getElementById('card-pace-ep');
 
-  if (epActive) {
-    epColumn.style.display = '';
-    outerGrid.style.gridTemplateColumns = '';
+  epColumn.style.display = epActive ? '' : 'none';
+  msColumn.style.display = msActive ? '' : 'none';
+  const activeCols = 1 + (epActive ? 1 : 0) + (msActive ? 1 : 0);
+  outerGrid.style.gridTemplateColumns = activeCols === 3 ? '' : (activeCols === 2 ? '1fr 1fr' : '1fr');
 
+  if (epActive) {
     if (isCurrent) {
       document.getElementById('ep-leads-lbl').textContent = 'EP Leads to Date';
       document.getElementById('ep-leads-foot').textContent = `Day ${m.days_elapsed} of ${m.days_in_month}`;
@@ -1019,9 +1096,48 @@ function buildMonthView() {
     document.getElementById('ep-chart-sub').textContent = isCurrent
       ? 'Actual EP leads vs linear PAR line through month end'
       : 'Final daily cumulative — completed month';
-  } else {
-    epColumn.style.display = 'none';
-    outerGrid.style.gridTemplateColumns = '1fr'; // marketing column takes full width
+  }
+
+  if (msActive) {
+    if (isCurrent) {
+      document.getElementById('ms-leads-lbl').textContent = 'Sales to Date';
+      document.getElementById('ms-leads-foot').textContent = `Day ${m.days_elapsed} of ${m.days_in_month}`;
+      document.getElementById('ms-par-lbl').textContent = 'Linear PAR';
+      document.getElementById('ms-par-foot').textContent = `expected at day ${m.days_elapsed}`;
+      document.getElementById('ms-vspar-lbl').textContent = 'vs PAR';
+      document.getElementById('ms-proj-lbl').textContent = 'Projected Total';
+      document.getElementById('ms-proj-foot').textContent = 'at current rate';
+      document.getElementById('ms-pctpar-lbl').textContent = '% to PAR';
+      document.getElementById('ms-vspar-foot').textContent = vsParFooter(m.ms_sales_to_date, m.ms_par_to_date, m.days_elapsed, m.days_in_month, m.ms_goal, m.ms_vs_par);
+    } else {
+      document.getElementById('ms-leads-lbl').textContent = 'Final Total';
+      document.getElementById('ms-leads-foot').textContent = `${m.days_in_month}-day month`;
+      document.getElementById('ms-par-lbl').textContent = 'Monthly Goal';
+      document.getElementById('ms-par-foot').textContent = 'full month target';
+      document.getElementById('ms-vspar-lbl').textContent = 'vs Goal';
+      document.getElementById('ms-proj-lbl').textContent = 'Goal Attainment';
+      document.getElementById('ms-proj-foot').textContent = 'final result';
+      document.getElementById('ms-pctpar-lbl').textContent = '% to Goal';
+      document.getElementById('ms-vspar-foot').textContent = m.ms_vs_par >= 0 ? `+${m.ms_vs_par.toLocaleString()} over goal` : `${m.ms_vs_par.toLocaleString()} under goal`;
+    }
+
+    document.getElementById('ms-leads').textContent = m.ms_sales_to_date.toLocaleString();
+    document.getElementById('ms-goal').textContent = m.ms_goal.toLocaleString();
+    document.getElementById('ms-goal-pct').textContent = `${m.ms_pct_of_goal}% achieved`;
+    document.getElementById('ms-par').textContent = isCurrent ? m.ms_par_to_date.toLocaleString() : m.ms_goal.toLocaleString();
+    document.getElementById('ms-vspar').textContent = (m.ms_vs_par >= 0 ? '+' : '') + m.ms_vs_par.toLocaleString();
+    document.getElementById('ms-vspar').className = 'kpi-val ' + (m.ms_vs_par >= 0 ? 'ahead' : 'behind');
+    document.getElementById('ms-proj').textContent = isCurrent ? m.ms_projected_total.toLocaleString() : m.ms_pct_of_goal + '%';
+
+    const msParBasis = isCurrent ? m.ms_par_to_date : m.ms_goal;
+    const msPctPar = pctToPar(m.ms_sales_to_date, msParBasis);
+    document.getElementById('ms-pctpar').textContent = `${msPctPar}%`;
+    document.getElementById('ms-pctpar').className = 'kpi-val ' + (msPctPar >= 100 ? 'ahead' : 'behind');
+    document.getElementById('ms-pctpar-foot').textContent = isCurrent ? 'of linear PAR' : 'of monthly goal';
+
+    document.getElementById('ms-chart-sub').textContent = isCurrent
+      ? 'Actual sales vs linear PAR line through month end'
+      : 'Final daily cumulative — completed month';
   }
 
   // ── CHANNEL / FACILITY table subtitles ──
@@ -1081,7 +1197,7 @@ function buildMonthView() {
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: { ...basePlugins, legend:{display:true,position:'top',labels:{font:{family:MONO,size:10},boxWidth:8,padding:12}} },
-      scales: baseScale,
+      scales: paceScale,
     }
   });
 
@@ -1142,7 +1258,69 @@ function buildMonthView() {
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: { ...basePlugins, legend:{display:true,position:'top',labels:{font:{family:MONO,size:10},boxWidth:8,padding:12}} },
-        scales: baseScale,
+        scales: paceScale,
+      }
+    });
+  }
+
+  // ── PACING CHART — MEMBERSHIP SALES ──
+  if (msActive) {
+    dc('paceMS');
+    const msCumActuals = labels.map(dayNum => {
+      if (dayNum > m.days_elapsed) return null;
+      const entry = daily.find(d => d.day === dayNum);
+      return entry ? (entry.ms_cumulative_sales || null) : null;
+    });
+    let msLastKnown = 0;
+    for (let i = 0; i < m.days_elapsed; i++) {
+      if (msCumActuals[i] > 0) { msLastKnown = msCumActuals[i]; }
+      else if (!msCumActuals[i]) { msCumActuals[i] = msLastKnown; }
+    }
+    // Use stored ms_par_cumulative if present, else linear from ms_goal
+    const msParLine = labels.map((d,i) => {
+      const entry = daily.find(dd => dd.day === d);
+      if (entry && entry.ms_par_cumulative) return entry.ms_par_cumulative;
+      return Math.round(m.ms_goal * d / m.days_in_month);
+    });
+
+    const msHasDaily = daily.some(d => (d.ms_cumulative_sales||0) > 0);
+    const msActualDataset = msHasDaily
+      ? {
+          label: 'Sales (cumulative)', data: msCumActuals,
+          borderColor: m.ms_vs_par >= 0 ? '#3A7D3A' : '#C0392B',
+          backgroundColor: m.ms_vs_par >= 0 ? 'rgba(58,125,58,.08)' : 'rgba(192,57,43,.08)',
+          borderWidth: 2.5, pointRadius: 0, tension: 0.3, fill: true, spanGaps: false,
+        }
+      : {
+          label: 'Final Total (no daily data)',
+          data: labels.map(() => m.ms_sales_to_date),
+          borderColor: '#5A6E82',
+          backgroundColor: 'transparent',
+          borderWidth: 2, pointRadius: 0, borderDash: [6, 3], tension: 0, fill: false,
+        };
+
+    charts['paceMS'] = new Chart(document.getElementById('chartPaceMS').getContext('2d'), {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          msActualDataset,
+          {
+            label: 'Linear PAR', data: msParLine,
+            borderColor: '#2980B9', borderWidth: 1.5, pointRadius: 0,
+            borderDash: [5,4], tension: 0, fill: false,
+          },
+          {
+            label: 'Goal', data: Array(m.days_in_month).fill(m.ms_goal),
+            borderColor: 'rgba(28,58,110,.25)', borderWidth: 1, pointRadius: 0,
+            borderDash: [2,4], fill: false,
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { ...basePlugins, legend:{display:true,position:'top',labels:{font:{family:MONO,size:10},boxWidth:8,padding:12}} },
+        scales: paceScale,
       }
     });
   }
@@ -1510,6 +1688,7 @@ function parseSummaries(rows){
   }
   const rawPct=num(s3kv['pct_of_goal']);
   const rawEpPct=num(s3kv['engagepro_pct_of_goal']);
+  const rawMsPct=num(s3kv['membership_sales_pct_of_goal']);
   LD.meta={
     current_ym:            str(s3kv['current_yearmo'])       ||'—',
     current_month_label:   str(s3kv['current_month_label'])  ||'—',
@@ -1528,10 +1707,18 @@ function parseSummaries(rows){
     ep_vs_par:             num(s3kv['engagepro_vs_par'])            ||0,
     ep_pct_of_goal:        rawEpPct<2&&rawEpPct>0?Math.round(rawEpPct*1000)/10:rawEpPct,
     ep_projected_total:    num(s3kv['engagepro_projected_total'])   ||0,
+    // Membership Sales
+    ms_goal:               num(s3kv['membership_sales_goal'])            ||0,
+    ms_sales_to_date:      num(s3kv['membership_sales_to_date'])         ||0,
+    ms_par_to_date:        num(s3kv['membership_sales_par_to_date'])     ||0,
+    ms_vs_par:             num(s3kv['membership_sales_vs_par'])          ||0,
+    ms_pct_of_goal:        rawMsPct<2&&rawMsPct>0?Math.round(rawMsPct*1000)/10:rawMsPct,
+    ms_projected_total:    num(s3kv['membership_sales_projected_total'])||0,
   };
 
   // ── SECTION 4 — yearmo | day_num | leads_on_day | cumulative_leads | par_cumulative | vs_par
-  //                | ep_leads_on_day | ep_cumulative_leads | ep_par_cumulative | ep_vs_par ──
+  //                | ep_leads_on_day | ep_cumulative_leads | ep_par_cumulative | ep_vs_par
+  //                | ms_sales_on_day | ms_cumulative_sales | ms_par_cumulative | ms_vs_par ──
   const s4rows = getSectionRows(rows, findSection(rows, 4));
   LD.daily_all = [];
   LD.daily_mtd = [];
@@ -1546,12 +1733,17 @@ function parseSummaries(rows){
         ep_cumulative_leads: num(r[7]),
         ep_par_cumulative:   num(r[8]),
         ep_vs_par_day:       num(r[9]),
+        ms_sales_on_day:     num(r[10]),
+        ms_cumulative_sales: num(r[11]),
+        ms_par_cumulative:   num(r[12]),
+        ms_vs_par_day:       num(r[13]),
       };
     } else {
-      // Old format fallback (no EP columns)
+      // Old format fallback (no EP/MS columns)
       entry = {
         yearmo: LD.meta.current_ym, day: num(r[0]), leads_day: num(r[2]), cumulative: num(r[3]), par: num(r[4]),
         ep_leads_on_day: 0, ep_cumulative_leads: 0, ep_par_cumulative: 0, ep_vs_par_day: 0,
+        ms_sales_on_day: 0, ms_cumulative_sales: 0, ms_par_cumulative: 0, ms_vs_par_day: 0,
       };
     }
     if (entry.day > 0 || firstCell.includes('-')) {
