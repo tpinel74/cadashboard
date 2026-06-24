@@ -1361,9 +1361,9 @@ function buildPromoView(){
     <table style="width:100%;border-collapse:collapse;table-layout:fixed">
       <colgroup>
         <col style="width:110px">
-        <col style="width:28%">
-        <col>
-        <col style="width:200px">
+        <col style="width:32%">
+        <col style="width:36%">
+        <col style="width:180px">
       </colgroup>
       <thead>
         <tr style="border-bottom:2px solid var(--border)">
@@ -1412,19 +1412,13 @@ function buildPromoView(){
     if (!skipReferral) {
       let referralContent;
       if (inWindow && isFirst) {
-        // Merged cell spanning all 3 window months
-        const coreText = r.referral
-          .replace(/Window [AB] opens — /i,'')
-          .replace(/Refer 4 new members during this window/i,'Refer 4 members')
-          .trim();
+        // Merged cell spanning all 3 window months — show campaign once, cleanly
+        const monthSpan = inWindowA ? 'February · March · April' : 'August · September · October';
         referralContent = `
-          <span style="display:inline-block;font-family:'DM Mono',monospace;font-size:9px;font-weight:700;background:var(--navy);color:#fff;padding:2px 8px;border-radius:4px;letter-spacing:.5px;margin-bottom:8px">${windowName}</span>
-          <span style="display:block;font-size:12px;color:var(--text);line-height:1.5">${coreText}</span>
-          <span style="display:block;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);margin-top:6px">Feb · Mar · Apr</span>`;
-        if (inWindowB) {
-          referralContent = referralContent.replace('Feb · Mar · Apr','Aug · Sep · Oct');
-        }
-        referralCell = `<td rowspan="3" style="padding:14px 12px;vertical-align:middle;border-bottom:2px solid var(--border);border-right:1px solid var(--border)">${referralContent}</td>`;
+          <span style="display:inline-block;font-family:'DM Mono',monospace;font-size:9px;font-weight:700;background:var(--navy);color:#fff;padding:2px 8px;border-radius:4px;letter-spacing:.5px;margin-bottom:10px">${windowName}</span>
+          <span style="display:block;font-size:12px;font-weight:600;color:var(--navy);line-height:1.5;margin-bottom:4px">Refer 4 new members → Earn a year of free membership</span>
+          <span style="display:block;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid)">${monthSpan}</span>`;
+        referralCell = `<td rowspan="3" style="padding:14px 12px;vertical-align:middle;background:#F0F4FF;border-bottom:2px solid var(--border);border-right:1px solid var(--border);border-left:3px solid #1C3A6E">${referralContent}</td>`;
       } else {
         // Non-window row — normal single cell
         const isClosedText = r.referral==='Window closed';
