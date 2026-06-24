@@ -623,7 +623,7 @@ body {
   <!-- Always On -->
   <div class="card mb" style="border-left:4px solid var(--green)">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-      <div class="card-title" style="color:var(--green);margin-bottom:0">LAYER 1 - Always On</div>
+      <div class="card-title" style="color:var(--green);margin-bottom:0">Always On</div>
       <span style="font-family:'DM Mono',monospace;font-size:10px;background:#E8F5E9;color:#1B5E20;padding:2px 8px;border-radius:10px;font-weight:600">All 12 months</span>
     </div>
     <div style="font-size:13px;color:var(--text);line-height:1.6" id="promo-always-on-text">Loading…</div>
@@ -631,17 +631,16 @@ body {
 
   <!-- Main table -->
   <div class="card mb" id="promo-table-card">
-    <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:16px;flex-wrap:wrap">
-      <div class="card-title">Monthly Promotions Reference</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap" id="promo-legend"></div>
-    </div>
+    <div style="margin-bottom:16px">
+        <div class="card-title">Monthly Promotions</div>
+      </div>
     <div id="promo-table-wrap"></div>
   </div>
 
   <!-- PAR Trigger — bottom, as a conditional footnote -->
   <div class="card" style="border-left:4px solid #9B59B6">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-      <div class="card-title" style="color:#9B59B6;margin-bottom:0">LAYER 5 - Mid-Month PAR Trigger</div>
+      <div class="card-title" style="color:#9B59B6;margin-bottom:0">Mid-Month PAR Trigger</div>
       <span style="font-family:'DM Mono',monospace;font-size:10px;background:#F3E8FF;color:#6B21A8;padding:2px 8px;border-radius:10px;font-weight:600">Conditional</span>
     </div>
     <div style="font-size:13px;color:var(--text);line-height:1.6" id="promo-par-trigger-text">Loading…</div>
@@ -1344,14 +1343,7 @@ function buildPromoView(){
   const WINDOW_A = [2,3,4];
   const WINDOW_B = [8,9,10];
 
-  // Legend
-  document.getElementById('promo-legend').innerHTML = `
-    <span style="display:inline-flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid)">
-      <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#EEF3FF;border:1.5px solid #1C3A6E"></span> Referral window
-    </span>
-    <span style="display:inline-flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid)">
-      <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#FFF8E1;border:1.5px solid #E8A020"></span> Current month
-    </span>`;
+  // Legend removed — window tinting dropped
 
   // ── Build table ──
   // Referral window months — cells will be merged with rowspan=3
@@ -1361,16 +1353,16 @@ function buildPromoView(){
     <table style="width:100%;border-collapse:collapse;table-layout:fixed">
       <colgroup>
         <col style="width:110px">
-        <col style="width:32%">
-        <col style="width:36%">
-        <col style="width:180px">
+        <col>
+        <col>
+        <col>
       </colgroup>
       <thead>
         <tr style="border-bottom:2px solid var(--border)">
           <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left">Month</th>
-          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left">Referral</th>
-          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left">Monthly Offer</th>
-          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left">Flash Sale</th>
+          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left">Layer 2 — Referral</th>
+          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left">Layer 3 — Monthly Offer</th>
+          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left">Layer 4 — Flash Sale</th>
         </tr>
       </thead>
       <tbody>`;
@@ -1385,13 +1377,9 @@ function buildPromoView(){
     const isLast     = (inWindowA && r.month_num===4) || (inWindowB && r.month_num===10);
     const skipReferral = SKIP_REFERRAL.includes(r.month_num);
 
-    // Row background
+    // Row background — only current month gets a tint
     let rowBg = '';
-    if (isCurrent)     rowBg = 'background:#FFF8E1;';
-    else if (inWindow) rowBg = 'background:#F0F4FF;';
-
-    // Left border
-    const leftBorder = inWindow ? 'border-left:3px solid #1C3A6E;' : 'border-left:3px solid transparent;';
+    if (isCurrent) rowBg = 'background:#FFF8E1;';
 
     // Bottom border — stronger after each window block
     const bottomBorder = isLast
@@ -1402,7 +1390,7 @@ function buildPromoView(){
     const currentBadge = isCurrent
       ? `<span style="display:block;font-family:'DM Mono',monospace;font-size:9px;font-weight:700;color:var(--gold);letter-spacing:.5px;margin-top:2px">CURRENT</span>`
       : '';
-    const monthCell = `<td style="padding:11px 12px;vertical-align:middle;${leftBorder}${bottomBorder}">
+    const monthCell = `<td style="padding:11px 12px;vertical-align:middle;${bottomBorder}">
         <span style="font-size:13px;font-weight:${isCurrent?'700':'500'};color:${isCurrent?'var(--navy)':'var(--text)'}">${r.month_name}</span>
         ${currentBadge}
       </td>`;
@@ -1418,7 +1406,7 @@ function buildPromoView(){
           <span style="display:inline-block;font-family:'DM Mono',monospace;font-size:9px;font-weight:700;background:var(--navy);color:#fff;padding:2px 8px;border-radius:4px;letter-spacing:.5px;margin-bottom:10px">${windowName}</span>
           <span style="display:block;font-size:12px;font-weight:600;color:var(--navy);line-height:1.5;margin-bottom:4px">Refer 4 new members → Earn a year of free membership</span>
           <span style="display:block;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid)">${monthSpan}</span>`;
-        referralCell = `<td rowspan="3" style="padding:14px 12px;vertical-align:middle;background:#F0F4FF;border-bottom:2px solid var(--border);border-right:1px solid var(--border);border-left:3px solid #1C3A6E">${referralContent}</td>`;
+        referralCell = `<td rowspan="3" style="padding:14px 12px;vertical-align:middle;border-bottom:2px solid var(--border);border-right:1px solid var(--border)">${referralContent}</td>`;
       } else {
         // Non-window row — normal single cell
         const isClosedText = r.referral==='Window closed';
