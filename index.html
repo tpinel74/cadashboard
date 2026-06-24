@@ -64,8 +64,6 @@ body {
   color: var(--mid);
 }
 .hdr-badge b { color: var(--gold); font-weight: 500; }
-
-/* ── MONTH PICKER ── */
 .month-picker-wrap {
   display: flex;
   align-items: center;
@@ -102,11 +100,7 @@ body {
   color: #fff;
   font-weight: 600;
 }
-#month-select option.is-current {
-  color: var(--gold);
-}
-
-/* ── PRIOR MONTH INDICATOR ── */
+#month-select option.is-current { color: var(--gold); }
 .prior-month-banner {
   display: none;
   background: #FFF8E1;
@@ -120,7 +114,6 @@ body {
 }
 .prior-month-banner.show { display: flex; }
 .prior-month-banner strong { color: #4A3000; }
-
 .nav {
   background: var(--white);
   border-bottom: 1px solid var(--border);
@@ -172,20 +165,11 @@ body {
   color: var(--mid); margin-bottom: 16px;
 }
 .chart-wrap { position: relative; }
-
-/* ── KPI STRIP — 6 cards ── */
 .kpi-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-bottom: 18px; }
 .kpi-strip-3x2 { grid-template-columns: repeat(3, 1fr); }
 .kpi-strip-2x3 { grid-template-columns: repeat(2, 1fr); }
-
-/* ── PROMO REFERENCE TABLE ── */
-.promo-month-row.is-current td {
-  background: #EEF3FF;
-}
-.promo-month-row.is-current td:first-child {
-  font-weight: 700;
-  color: var(--navy);
-}
+.promo-month-row.is-current td { background: #EEF3FF; }
+.promo-month-row.is-current td:first-child { font-weight: 700; color: var(--navy); }
 .kpi {
   background: var(--white);
   border: 1px solid var(--border);
@@ -204,7 +188,51 @@ body {
 .kpi-val.behind { color: var(--behind); }
 .kpi-foot { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--mid); margin-top: 5px; }
 
-/* ── CHANNEL TABLE ── */
+/* ── BLENDED CPL STRIP ── */
+.cpl-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.cpl-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.cpl-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--slate);
+}
+.cpl-card.primary::before { background: var(--navy); }
+.cpl-icon {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--mid);
+  background: var(--light);
+  border-radius: 6px;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: -.5px;
+}
+.cpl-body { flex: 1; min-width: 0; }
+.cpl-lbl { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mid); margin-bottom: 3px; }
+.cpl-val { font-size: 22px; font-weight: 800; color: var(--navy); line-height: 1; }
+.cpl-val.on-target { color: var(--ahead); }
+.cpl-val.over-target { color: var(--behind); }
+.cpl-foot { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--mid); margin-top: 3px; }
+
 .ch-table { width: 100%; border-collapse: collapse; }
 .ch-table th { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mid); padding: 6px 10px; text-align: left; border-bottom: 2px solid var(--border); }
 .ch-table th.r { text-align: right; }
@@ -213,8 +241,6 @@ body {
 .ch-table tr:hover td { background: var(--light); }
 .ch-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 7px; }
 .bar-mini { height: 5px; border-radius: 3px; display: inline-block; vertical-align: middle; }
-
-/* ── COMPARISON TABLE ── */
 .comp-table { width: 100%; border-collapse: collapse; }
 .comp-table th { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mid); padding: 8px 14px; text-align: left; border-bottom: 2px solid var(--border); }
 .comp-table th.r { text-align: right; }
@@ -230,20 +256,30 @@ body {
 .spend-logo.m { background: #FEF0E8; color: var(--meta); }
 .spend-val { font-size: 22px; font-weight: 800; color: var(--navy); }
 .spend-lbl { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--mid); margin-top: 2px; }
-.spend-pending { color: var(--mid); font-style: italic; font-size: 13px; }
 .spend-await { border: 2px dashed var(--border); border-radius: 8px; padding: 20px; text-align: center; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--mid); margin-top: 10px; }
 
-/* ── FY TABS ── */
+/* ── CPL TREND LEGEND ── */
+.cpl-legend { display: flex; align-items: center; gap: 18px; margin-bottom: 10px; flex-wrap: wrap; }
+.cpl-legend-item { display: flex; align-items: center; gap: 6px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--mid); }
+.cpl-legend-line { width: 24px; height: 2px; border-radius: 2px; }
+.cpl-target-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(46,125,50,.08); border: 1px solid rgba(46,125,50,.25);
+  border-radius: 20px; padding: 3px 10px;
+  font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ahead);
+  font-weight: 600;
+}
+
 .fy-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
 .fy-tab { background: var(--light); border: 1.5px solid var(--border); border-radius: 20px; padding: 5px 14px; font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 600; color: var(--mid); cursor: pointer; transition: all .15s; }
 .fy-tab.on { background: var(--navy); border-color: var(--navy); color: white; }
-
 .view { display: none; }
 .view.on { display: block; }
 .mono { font-family: 'DM Mono', monospace; }
 
 @media (max-width: 1200px) {
   .kpi-strip { grid-template-columns: repeat(3, 1fr); }
+  .cpl-strip { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 1100px) {
   .grid-1-2, .grid-2-1 { grid-template-columns: 1fr; }
@@ -253,6 +289,7 @@ body {
   .kpi-strip { grid-template-columns: 1fr 1fr; }
   .kpi-strip-3x2 { grid-template-columns: 1fr 1fr; }
   .grid-2 { grid-template-columns: 1fr; }
+  .cpl-strip { grid-template-columns: 1fr; }
   .hdr-right { gap: 6px; }
   .month-picker-wrap { padding: 4px 8px; }
 }
@@ -267,7 +304,6 @@ body {
 <div id="data-banner" style="display:none;background:#FFF8E1;border-bottom:1px solid #E8A020;padding:8px 28px;font-family:'DM Mono',monospace;font-size:11px;color:#795548"></div>
 <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 
-<!-- ── PRIOR MONTH INDICATOR BANNER ── -->
 <div class="prior-month-banner" id="prior-banner">
   <span>📅</span>
   <span>Viewing <strong id="prior-banner-month"></strong> — historical month. Pacing cards show final totals.</span>
@@ -285,9 +321,7 @@ body {
   <div class="hdr-right">
     <div class="month-picker-wrap">
       <span class="month-picker-label">Viewing:</span>
-      <select id="month-select" onchange="onMonthChange(this.value)">
-        <!-- Populated by JS after data load -->
-      </select>
+      <select id="month-select" onchange="onMonthChange(this.value)"></select>
     </div>
     <div class="hdr-badge">Day <b id="hdr-day">—</b> of <b id="hdr-dim">—</b></div>
     <div class="hdr-badge">FY <b id="hdr-fy">—</b></div>
@@ -311,166 +345,91 @@ body {
 <div class="view on" id="view-month">
 
   <div class="grid-3">
-
-    <!-- ════════ MARKETING COLUMN ════════ -->
+    <!-- MARKETING COLUMN -->
     <div>
       <div class="sec-label first">Marketing Leads — <span id="pace-month-label">—</span></div>
-
       <div class="kpi-strip kpi-strip-2x3">
-        <div class="kpi">
-          <div class="kpi-accent green"></div>
-          <div class="kpi-lbl" id="k-leads-lbl">Leads to Date</div>
-          <div class="kpi-val" id="k-leads">—</div>
-          <div class="kpi-foot" id="k-leads-foot">—</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-accent gold"></div>
-          <div class="kpi-lbl">Monthly Goal</div>
-          <div class="kpi-val" id="k-goal">—</div>
-          <div class="kpi-foot" id="k-goal-pct">—</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-accent"></div>
-          <div class="kpi-lbl" id="k-par-lbl">Linear PAR</div>
-          <div class="kpi-val" id="k-par">—</div>
-          <div class="kpi-foot" id="k-par-foot">—</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-accent red"></div>
-          <div class="kpi-lbl" id="k-vspar-lbl">vs PAR</div>
-          <div class="kpi-val" id="k-vspar">—</div>
-          <div class="kpi-foot" id="k-vspar-foot">—</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-accent"></div>
-          <div class="kpi-lbl" id="k-proj-lbl">Projected Total</div>
-          <div class="kpi-val" id="k-proj">—</div>
-          <div class="kpi-foot" id="k-proj-foot">at current rate</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-accent gold"></div>
-          <div class="kpi-lbl" id="k-pctpar-lbl">% to PAR</div>
-          <div class="kpi-val" id="k-pctpar">—</div>
-          <div class="kpi-foot" id="k-pctpar-foot">—</div>
-        </div>
+        <div class="kpi"><div class="kpi-accent green"></div><div class="kpi-lbl" id="k-leads-lbl">Leads to Date</div><div class="kpi-val" id="k-leads">—</div><div class="kpi-foot" id="k-leads-foot">—</div></div>
+        <div class="kpi"><div class="kpi-accent gold"></div><div class="kpi-lbl">Monthly Goal</div><div class="kpi-val" id="k-goal">—</div><div class="kpi-foot" id="k-goal-pct">—</div></div>
+        <div class="kpi"><div class="kpi-accent"></div><div class="kpi-lbl" id="k-par-lbl">Linear PAR</div><div class="kpi-val" id="k-par">—</div><div class="kpi-foot" id="k-par-foot">—</div></div>
+        <div class="kpi"><div class="kpi-accent red"></div><div class="kpi-lbl" id="k-vspar-lbl">vs PAR</div><div class="kpi-val" id="k-vspar">—</div><div class="kpi-foot" id="k-vspar-foot">—</div></div>
+        <div class="kpi"><div class="kpi-accent"></div><div class="kpi-lbl" id="k-proj-lbl">Projected Total</div><div class="kpi-val" id="k-proj">—</div><div class="kpi-foot" id="k-proj-foot">at current rate</div></div>
+        <div class="kpi"><div class="kpi-accent gold"></div><div class="kpi-lbl" id="k-pctpar-lbl">% to PAR</div><div class="kpi-val" id="k-pctpar">—</div><div class="kpi-foot" id="k-pctpar-foot">—</div></div>
       </div>
-
       <div class="card" id="card-pace-marketing">
         <div class="card-title">Daily Cumulative Pacing — Marketing Leads</div>
         <div class="card-sub" id="pace-chart-sub">Actual leads vs linear PAR line through month end</div>
-        <div class="chart-wrap" style="height:220px">
-          <canvas id="chartPace"></canvas>
-        </div>
+        <div class="chart-wrap" style="height:220px"><canvas id="chartPace"></canvas></div>
       </div>
     </div>
 
-    <!-- ════════ ENGAGEPRO COLUMN ════════ -->
+    <!-- ENGAGEPRO COLUMN -->
     <div>
       <div class="sec-label first">EngagePro Leads — <span id="ep-month-label"></span></div>
-
       <div class="kpi-strip kpi-strip-2x3">
-        <div class="kpi">
-          <div class="kpi-accent green"></div>
-          <div class="kpi-lbl" id="ep-leads-lbl">EP Leads to Date</div>
-          <div class="kpi-val" id="ep-leads">—</div>
-          <div class="kpi-foot" id="ep-leads-foot">—</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-accent gold"></div>
-          <div class="kpi-lbl">EP Monthly Goal</div>
-          <div class="kpi-val" id="ep-goal">—</div>
-          <div class="kpi-foot" id="ep-goal-pct">—</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-accent"></div>
-          <div class="kpi-lbl" id="ep-par-lbl">EP Linear PAR</div>
-          <div class="kpi-val" id="ep-par">—</div>
-          <div class="kpi-foot" id="ep-par-foot">—</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-accent red"></div>
-          <div class="kpi-lbl" id="ep-vspar-lbl">EP vs PAR</div>
-          <div class="kpi-val" id="ep-vspar">—</div>
-          <div class="kpi-foot" id="ep-vspar-foot">—</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-accent"></div>
-          <div class="kpi-lbl" id="ep-proj-lbl">EP Projected Total</div>
-          <div class="kpi-val" id="ep-proj">—</div>
-          <div class="kpi-foot" id="ep-proj-foot">at current rate</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-accent gold"></div>
-          <div class="kpi-lbl" id="ep-pctpar-lbl">EP % to PAR</div>
-          <div class="kpi-val" id="ep-pctpar">—</div>
-          <div class="kpi-foot" id="ep-pctpar-foot">—</div>
-        </div>
+        <div class="kpi"><div class="kpi-accent green"></div><div class="kpi-lbl" id="ep-leads-lbl">EP Leads to Date</div><div class="kpi-val" id="ep-leads">—</div><div class="kpi-foot" id="ep-leads-foot">—</div></div>
+        <div class="kpi"><div class="kpi-accent gold"></div><div class="kpi-lbl">EP Monthly Goal</div><div class="kpi-val" id="ep-goal">—</div><div class="kpi-foot" id="ep-goal-pct">—</div></div>
+        <div class="kpi"><div class="kpi-accent"></div><div class="kpi-lbl" id="ep-par-lbl">EP Linear PAR</div><div class="kpi-val" id="ep-par">—</div><div class="kpi-foot" id="ep-par-foot">—</div></div>
+        <div class="kpi"><div class="kpi-accent red"></div><div class="kpi-lbl" id="ep-vspar-lbl">EP vs PAR</div><div class="kpi-val" id="ep-vspar">—</div><div class="kpi-foot" id="ep-vspar-foot">—</div></div>
+        <div class="kpi"><div class="kpi-accent"></div><div class="kpi-lbl" id="ep-proj-lbl">EP Projected Total</div><div class="kpi-val" id="ep-proj">—</div><div class="kpi-foot" id="ep-proj-foot">at current rate</div></div>
+        <div class="kpi"><div class="kpi-accent gold"></div><div class="kpi-lbl" id="ep-pctpar-lbl">EP % to PAR</div><div class="kpi-val" id="ep-pctpar">—</div><div class="kpi-foot" id="ep-pctpar-foot">—</div></div>
       </div>
-
       <div class="card" id="card-pace-ep">
         <div class="card-title">Daily Cumulative Pacing — EngagePro (All Sources)</div>
         <div class="card-sub" id="ep-chart-sub">Actual EP leads vs linear PAR line through month end</div>
-        <div class="chart-wrap" style="height:220px">
-          <canvas id="chartPaceEP"></canvas>
-        </div>
+        <div class="chart-wrap" style="height:220px"><canvas id="chartPaceEP"></canvas></div>
       </div>
     </div>
 
-    <!-- ════════ MEMBERSHIP SALES COLUMN ════════ -->
+    <!-- MEMBERSHIP SALES COLUMN -->
     <div>
       <div class="sec-label first">Membership Sales — <span id="ms-month-label"></span></div>
-
       <div class="kpi-strip kpi-strip-2x3">
-        <div class="kpi">
-          <div class="kpi-accent green"></div>
-          <div class="kpi-lbl" id="ms-leads-lbl">Sales to Date</div>
-          <div class="kpi-val" id="ms-leads">—</div>
-          <div class="kpi-foot" id="ms-leads-foot">—</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-accent gold"></div>
-          <div class="kpi-lbl">Monthly Goal</div>
-          <div class="kpi-val" id="ms-goal">—</div>
-          <div class="kpi-foot" id="ms-goal-pct">—</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-accent"></div>
-          <div class="kpi-lbl" id="ms-par-lbl">Linear PAR</div>
-          <div class="kpi-val" id="ms-par">—</div>
-          <div class="kpi-foot" id="ms-par-foot">—</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-accent red"></div>
-          <div class="kpi-lbl" id="ms-vspar-lbl">vs PAR</div>
-          <div class="kpi-val" id="ms-vspar">—</div>
-          <div class="kpi-foot" id="ms-vspar-foot">—</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-accent"></div>
-          <div class="kpi-lbl" id="ms-proj-lbl">Projected Total</div>
-          <div class="kpi-val" id="ms-proj">—</div>
-          <div class="kpi-foot" id="ms-proj-foot">at current rate</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-accent gold"></div>
-          <div class="kpi-lbl" id="ms-pctpar-lbl">% to PAR</div>
-          <div class="kpi-val" id="ms-pctpar">—</div>
-          <div class="kpi-foot" id="ms-pctpar-foot">—</div>
-        </div>
+        <div class="kpi"><div class="kpi-accent green"></div><div class="kpi-lbl" id="ms-leads-lbl">Sales to Date</div><div class="kpi-val" id="ms-leads">—</div><div class="kpi-foot" id="ms-leads-foot">—</div></div>
+        <div class="kpi"><div class="kpi-accent gold"></div><div class="kpi-lbl">Monthly Goal</div><div class="kpi-val" id="ms-goal">—</div><div class="kpi-foot" id="ms-goal-pct">—</div></div>
+        <div class="kpi"><div class="kpi-accent"></div><div class="kpi-lbl" id="ms-par-lbl">Linear PAR</div><div class="kpi-val" id="ms-par">—</div><div class="kpi-foot" id="ms-par-foot">—</div></div>
+        <div class="kpi"><div class="kpi-accent red"></div><div class="kpi-lbl" id="ms-vspar-lbl">vs PAR</div><div class="kpi-val" id="ms-vspar">—</div><div class="kpi-foot" id="ms-vspar-foot">—</div></div>
+        <div class="kpi"><div class="kpi-accent"></div><div class="kpi-lbl" id="ms-proj-lbl">Projected Total</div><div class="kpi-val" id="ms-proj">—</div><div class="kpi-foot" id="ms-proj-foot">at current rate</div></div>
+        <div class="kpi"><div class="kpi-accent gold"></div><div class="kpi-lbl" id="ms-pctpar-lbl">% to PAR</div><div class="kpi-val" id="ms-pctpar">—</div><div class="kpi-foot" id="ms-pctpar-foot">—</div></div>
       </div>
-
       <div class="card" id="card-pace-ms">
         <div class="card-title">Daily Cumulative Pacing — Membership Sales</div>
         <div class="card-sub" id="ms-chart-sub">Actual sales vs linear PAR line through month end</div>
-        <div class="chart-wrap" style="height:220px">
-          <canvas id="chartPaceMS"></canvas>
-        </div>
+        <div class="chart-wrap" style="height:220px"><canvas id="chartPaceMS"></canvas></div>
       </div>
     </div>
-
   </div>
 
-  <!-- Facility + Channel -->
+  <!-- ── BLENDED CPL STRIP ── -->
+  <div class="sec-label" id="cpl-strip-label">Paid Media Efficiency — <span id="cpl-strip-month">—</span></div>
+  <div class="cpl-strip" id="cpl-strip-wrap">
+    <div class="cpl-card primary">
+      <div class="cpl-icon">30d</div>
+      <div class="cpl-body">
+        <div class="cpl-lbl">Blended CPL — 30-day rolling</div>
+        <div class="cpl-val" id="cpl-30d-val">—</div>
+        <div class="cpl-foot" id="cpl-30d-foot">—</div>
+      </div>
+    </div>
+    <div class="cpl-card">
+      <div class="cpl-icon">7d</div>
+      <div class="cpl-body">
+        <div class="cpl-lbl">Blended CPL — 7-day rolling</div>
+        <div class="cpl-val" id="cpl-7d-val">—</div>
+        <div class="cpl-foot" id="cpl-7d-foot">—</div>
+      </div>
+    </div>
+    <div class="cpl-card">
+      <div class="cpl-icon">90d</div>
+      <div class="cpl-body">
+        <div class="cpl-lbl">Blended CPL — 90-day rolling</div>
+        <div class="cpl-val" id="cpl-90d-val">—</div>
+        <div class="cpl-foot" id="cpl-90d-foot">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lead Detail -->
   <div class="sec-label">Lead Detail — <span id="detail-month-label">—</span></div>
   <div class="grid-1-2">
     <div class="card">
@@ -529,15 +488,15 @@ body {
 
 <!-- ════════ VIEW: YEAR-OVER-YEAR ════════ -->
 <div class="view" id="view-samemonth">
-  <div class="sec-label first" id="yoy-label">Year-over-Year — May Comparison</div>
+  <div class="sec-label first" id="yoy-label">Year-over-Year — Comparison</div>
   <div class="grid-2-1">
     <div class="card">
       <div class="card-title">Same Month — Actuals vs Goal</div>
-      <div class="card-sub" id="yoy-sub">Comparing May across available years</div>
+      <div class="card-sub" id="yoy-sub">Comparing across available years</div>
       <div class="chart-wrap" style="height:230px"><canvas id="chartYOY"></canvas></div>
     </div>
     <div class="card">
-      <div class="card-title" id="yoy-table-title">May — Year Comparison</div>
+      <div class="card-title" id="yoy-table-title">Year Comparison</div>
       <div class="card-sub">actuals and goals</div>
       <div id="yoy-table-wrap"></div>
     </div>
@@ -547,16 +506,16 @@ body {
 
 <!-- ════════ VIEW: SPEND & CPL ════════ -->
 <div class="view" id="view-spend">
-  <div class="sec-label first">Paid Media Spend & Cost Per Lead — Current Month</div>
+
+  <div class="sec-label first">Paid Media Spend — Current Month</div>
   <div class="spend-grid">
     <div class="spend-plat">
       <div class="spend-logo g">G</div>
       <div style="flex:1">
         <div class="card-title" style="margin-bottom:12px">Google Paid</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-          <div><div class="spend-val" id="g-leads">—</div><div class="spend-lbl">CPC leads MTD</div></div>
-          <div><div class="spend-val spend-pending" id="g-spend">—</div><div class="spend-lbl">spend MTD</div></div>
-          <div><div class="spend-val spend-pending" id="g-cpl">—</div><div class="spend-lbl">cost per lead</div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><div class="spend-val" id="g-spend">—</div><div class="spend-lbl">spend MTD</div></div>
+          <div><div class="spend-val" id="g-impressions">—</div><div class="spend-lbl">impressions MTD</div></div>
         </div>
       </div>
     </div>
@@ -564,22 +523,42 @@ body {
       <div class="spend-logo m">M</div>
       <div style="flex:1">
         <div class="card-title" style="margin-bottom:12px">Meta Paid</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-          <div><div class="spend-val" id="m-leads">—</div><div class="spend-lbl">CPC leads MTD</div></div>
-          <div><div class="spend-val spend-pending" id="m-spend">—</div><div class="spend-lbl">spend MTD</div></div>
-          <div><div class="spend-val spend-pending" id="m-cpl">—</div><div class="spend-lbl">cost per lead</div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><div class="spend-val" id="m-spend">—</div><div class="spend-lbl">spend MTD</div></div>
+          <div><div class="spend-val" id="m-impressions">—</div><div class="spend-lbl">impressions MTD</div></div>
         </div>
       </div>
     </div>
   </div>
   <div class="spend-await">
     Spend data populates automatically once <b>membership_acquisition = TRUE</b> rows are present in the spend tab.<br>
-    Exclude Lakefront Live and brand/awareness campaigns. CPL = monthly spend ÷ CPC leads.
+    Exclude Lakefront Live and brand/awareness campaigns.
   </div>
-  <div class="sec-label" style="margin-top:24px">Paid Lead Volume — Rolling 12 Months</div>
+
+  <!-- CPL Trend Chart -->
+  <div class="sec-label" style="margin-top:24px">Blended CPL Trend — <span id="spend-cpl-month-label">Current Month</span></div>
+  <div class="card mb">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:4px">
+      <div>
+        <div class="card-title">Cost Per Lead — Rolling Averages</div>
+        <div class="card-sub">Total paid media spend ÷ total marketing leads — trailing windows through each day</div>
+      </div>
+      <div class="cpl-target-badge">Target $30 – $35</div>
+    </div>
+    <div class="cpl-legend">
+      <div class="cpl-legend-item"><div class="cpl-legend-line" style="background:#1C3A6E;height:2.5px"></div> 7-day rolling</div>
+      <div class="cpl-legend-item"><div class="cpl-legend-line" style="background:#E8A020;height:2.5px"></div> 30-day rolling</div>
+      <div class="cpl-legend-item"><div class="cpl-legend-line" style="background:#3A7D3A;height:2.5px"></div> 90-day rolling</div>
+      <div class="cpl-legend-item"><div class="cpl-legend-line" style="background:rgba(46,125,50,.25);height:8px;border-radius:2px"></div> target band</div>
+    </div>
+    <div class="chart-wrap" style="height:260px"><canvas id="chartCPLTrend"></canvas></div>
+  </div>
+
+  <!-- Rolling 12 months paid lead volume -->
+  <div class="sec-label">Paid Lead Volume — Rolling 12 Months</div>
   <div class="card">
     <div class="card-title">Google Paid vs Meta Paid — Monthly Lead Volume</div>
-    <div class="card-sub">Spend CPL trend will appear here once spend data is connected</div>
+    <div class="card-sub">CPC leads by platform per month</div>
     <div class="chart-wrap" style="height:230px"><canvas id="chartPaidRolling"></canvas></div>
   </div>
 </div>
@@ -596,27 +575,20 @@ body {
       <p>This table is the canonical reference. New combinations are added deliberately as new channels are activated; leads with malformed or unrecognized values get corrected at the source.</p>
     </div>
   </div>
-
   <div class="card mb">
     <div class="card-title">Source / Medium Reference</div>
     <div class="card-sub">grouped by category — matches the "By Channel" categorization on the This Month tab</div>
     <table class="ch-table">
-      <thead><tr>
-        <th>Source</th>
-        <th>Medium</th>
-        <th>Category</th>
-        <th>Notes</th>
-      </tr></thead>
+      <thead><tr><th>Source</th><th>Medium</th><th>Category</th><th>Notes</th></tr></thead>
       <tbody id="utm-table-body"></tbody>
     </table>
   </div>
-
   <div class="card">
     <div class="card-title">Usage Notes</div>
     <ul style="font-size:13px;line-height:1.7;color:var(--text);padding-left:20px">
       <li style="margin-bottom:6px">Google campaign types (Search, Display, Demand Gen, Performance Max) are distinguished via the <b>Campaign</b> field naming convention, not via separate Medium values — ensure campaign names consistently include the type.</li>
       <li style="margin-bottom:6px"><b>crm</b> as a source reflects the CRM as a marketing investment channel, analogous to "google / paid." It's applied when a CRM-driven communication (email, SMS, or app announcement) produces a conversion event — not at original lead capture.</li>
-      <li style="margin-bottom:6px">All offline physical materials (signage, flyers, direct mail, collateral) use a QR code as the lead capture mechanism, attributed as <b>Source=offline</b>. "offline / qr" covers most signage and poster-based generation; "offline / mail" is reserved for direct mail (vanity URL or QR code may be present).</li>
+      <li style="margin-bottom:6px">All offline physical materials (signage, flyers, direct mail, collateral) use a QR code as the lead capture mechanism, attributed as <b>Source=offline</b>. "offline / qr" covers most signage and poster-based generation; "offline / mail" is reserved for direct mail.</li>
       <li style="margin-bottom:6px">"bing / paid", "tiktok / paid", "reddit / social", "reddit / paid", and "ai / paid" aren't yet active but are expected — they'll be added when those channels go live.</li>
       <li><b>prospect_wizard</b> will be deprecated when SalesIQ goes live; leads will flow into their true source buckets with upstream UTM parameters passed correctly.</li>
     </ul>
@@ -627,20 +599,14 @@ body {
 <!-- ════════ VIEW: PROMOTIONS CALENDAR ════════ -->
 <div class="view" id="view-promo">
   <div class="sec-label first">Promotions Calendar — Membership Promotions Master Calendar</div>
-
-  <!-- Always On -->
   <div class="card mb" style="border-left:4px solid var(--green)">
     <div class="card-title" style="color:var(--green)">Always On — All 12 Months</div>
     <div class="card-sub" style="margin-bottom:0" id="promo-always-on-text">Loading…</div>
   </div>
-
-  <!-- PAR Trigger explainer -->
   <div class="card mb" style="border-left:4px solid #9B59B6">
     <div class="card-title" style="color:#9B59B6">Layer 5 — Mid-Month PAR Trigger</div>
     <div class="card-sub" style="margin-bottom:0" id="promo-par-trigger-text">Loading…</div>
   </div>
-
-  <!-- 12-month reference table -->
   <div class="card">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
       <div>
@@ -649,12 +615,7 @@ body {
       </div>
     </div>
     <table class="ch-table" style="margin-top:12px">
-      <thead><tr>
-        <th style="min-width:70px">Month</th>
-        <th>Layer 2 — Referral</th>
-        <th>Layer 3 — Monthly Offer</th>
-        <th>Layer 4 — Flash Sale</th>
-      </tr></thead>
+      <thead><tr><th style="min-width:70px">Month</th><th>Layer 2 — Referral</th><th>Layer 3 — Monthly Offer</th><th>Layer 4 — Flash Sale</th></tr></thead>
       <tbody id="promo-table-body"></tbody>
     </table>
   </div>
@@ -664,7 +625,7 @@ body {
 
 <script>
 // ============================================================
-// COLOR SYSTEM — source|medium keyed, category families
+// COLOR SYSTEM
 // ============================================================
 const CATEGORY_TAG_COLORS = {
   'Search':                         { bg: '#E8F5E9', text: '#1B5E20' },
@@ -674,942 +635,620 @@ const CATEGORY_TAG_COLORS = {
   'Referral & Partnerships':        { bg: '#EEF3FF', text: '#1C3A6E' },
   'Direct, Untracked & Unresolved': { bg: '#F2F5F9', text: '#5A6E82' },
 };
-
 const CHANNEL_COLORS = {
-  // Search — Green family
-  'google|cpc':           '#1A6B35',
-  'google|organic':       '#34A853',
-  'bing|organic':         '#5FAD72',
-  'other_search|organic': '#89C49A',
-  'ai|organic':           '#B2D9BC',
-  // Social — Orange/Red family
-  'meta|cpc':             '#C0392B',
-  'meta|organic':         '#E44D26',
-  'tiktok|organic':       '#F0845A',
-  // Email & SMS — Gold/Amber family
-  'crm|sms':              '#E8A020',
-  'crm|email':            '#C47F10',
-  'crm|app':              '#0077B6',
-  'newsletter|email':     '#F0BA55',
-  // Offline & Physical — Brown/Tan family
-  'offline|qr':           '#8B6914',
-  'offline|mail':         '#A07820',
-  'offline|event':        '#B89040',
-  // Referral & Partnerships — Navy family
-  'member|referral':      '#1C3A6E',
-  'partner|email':        '#2E5299',
-  'partner|qr':           '#3D66B8',
-  'partner|unknown':      '#5A7ED4',
-  'web_referral|web':     '#7A9AE0',
-  // Direct, Untracked & Unresolved — Gray family
-  'direct|direct':            '#5A6E82',
-  'prospect_wizard|chatbot':  '#9B59B6',
-  'unknown|unknown':          '#95A5A6',
+  'google|cpc':'#1A6B35','google|organic':'#34A853','bing|organic':'#5FAD72',
+  'other_search|organic':'#89C49A','ai|organic':'#B2D9BC',
+  'meta|cpc':'#C0392B','meta|organic':'#E44D26','tiktok|organic':'#F0845A',
+  'crm|sms':'#E8A020','crm|email':'#C47F10','crm|app':'#0077B6','newsletter|email':'#F0BA55',
+  'offline|qr':'#8B6914','offline|mail':'#A07820','offline|event':'#B89040',
+  'member|referral':'#1C3A6E','partner|email':'#2E5299','partner|qr':'#3D66B8',
+  'partner|unknown':'#5A7ED4','web_referral|web':'#7A9AE0',
+  'direct|direct':'#5A6E82','prospect_wizard|chatbot':'#9B59B6','unknown|unknown':'#95A5A6',
 };
-
 function channelColor(source, medium) {
-  const key = (source||'').toLowerCase().trim() + '|' + (medium||'').toLowerCase().trim();
-  return CHANNEL_COLORS[key] || '#95A5A6';
+  const key = (source||'').toLowerCase().trim()+'|'+(medium||'').toLowerCase().trim();
+  return CHANNEL_COLORS[key]||'#95A5A6';
 }
 function categoryTagStyle(category) {
-  return CATEGORY_TAG_COLORS[category] || { bg: '#F2F5F9', text: '#5A6E82' };
+  return CATEGORY_TAG_COLORS[category]||{bg:'#F2F5F9',text:'#5A6E82'};
 }
+
+// CPL target band
+const CPL_TARGET_LOW  = 30;
+const CPL_TARGET_HIGH = 35;
 
 // ============================================================
 // STATE
 // ============================================================
 const D = {
   meta: {
-    current_ym: '2026-06', current_month_label: 'June 2026',
-    days_elapsed: 11, days_in_month: 30,
-    current_goal: 1480, leads_to_date: 382,
-    par_to_date: 543, vs_par: -161,
-    pct_of_goal: 25.81, projected_month_total: 1042,
-    // EngagePro fields
-    ep_goal: 1850, ep_leads_to_date: 561,
-    ep_par_to_date: 678, ep_vs_par: -117,
-    ep_pct_of_goal: 30.32, ep_projected_total: 1530,
-    // Membership Sales fields
-    ms_goal: 925, ms_sales_to_date: 406,
-    ms_par_to_date: 401, ms_vs_par: 5,
-    ms_pct_of_goal: 43.89, ms_projected_total: 937,
+    current_ym:'2026-06', current_month_label:'June 2026',
+    days_elapsed:23, days_in_month:30,
+    current_goal:1480, leads_to_date:1013,
+    par_to_date:1135, vs_par:-122,
+    pct_of_goal:68.45, projected_month_total:1321,
+    ep_goal:1850, ep_leads_to_date:1143, ep_par_to_date:1418, ep_vs_par:-275,
+    ep_pct_of_goal:61.78, ep_projected_total:1491,
+    ms_goal:925, ms_sales_to_date:690, ms_par_to_date:709, ms_vs_par:-19,
+    ms_pct_of_goal:74.59, ms_projected_total:900,
   },
-  daily_all: [],
-  channels_all: [],
-  facilities_all: [],
-  rolling_12: [
-    {yearmo:'2025-05',label:'May 25',actuals:0,   goal:1470},
-    {yearmo:'2025-06',label:'Jun 25',actuals:0,   goal:1900},
-    {yearmo:'2025-07',label:'Jul 25',actuals:0,   goal:1100},
-    {yearmo:'2025-08',label:'Aug 25',actuals:0,   goal:740},
-    {yearmo:'2025-09',label:'Sep 25',actuals:0,   goal:550},
-    {yearmo:'2025-10',label:'Oct 25',actuals:0,   goal:500},
-    {yearmo:'2025-11',label:'Nov 25',actuals:0,   goal:630},
-    {yearmo:'2025-12',label:'Dec 25',actuals:0,   goal:600},
-    {yearmo:'2026-01',label:'Jan 26',actuals:704, goal:750},
-    {yearmo:'2026-02',label:'Feb 26',actuals:646, goal:660},
-    {yearmo:'2026-03',label:'Mar 26',actuals:559, goal:710},
-    {yearmo:'2026-04',label:'Apr 26',actuals:653, goal:970},
-    {yearmo:'2026-05',label:'May 26',actuals:841, goal:1300},
-    {yearmo:'2026-06',label:'Jun 26*',actuals:382, goal:1480,partial:true},
-  ],
-  channel_rolling: {},
-  facility_rolling: {},
-  same_month: [], fy: {},
-  spend_mtd: {
-    google: {impressions:0,clicks:0,spend:0,leads:0,cpl:null},
-    meta:   {impressions:0,clicks:0,spend:0,leads:0,cpl:null},
+  daily_all:[], channels_all:[], facilities_all:[],
+  rolling_12:[],
+  channel_rolling:{}, facility_rolling:{},
+  same_month:[], fy:{},
+  spend_mtd:{
+    google:{impressions:0,clicks:0,spend:0},
+    meta:  {impressions:0,clicks:0,spend:0},
   },
-  promo_always_on: '7-day free trial · First month free on any annual membership · Value-added packages (VAPs) at point of purchase only',
-  promo_par_trigger: 'If pacing is ≤90% to PAR after the 14th of the month, a "pay nothing until [next month]" offer becomes available. Approval routes through the SVP of CP&S when trigger conditions are met.',
-  promo_months: [
-    { month_num:1,  month_name:'January',   referral:'Window closed', monthly_offer:'Fit Kit (exercise bands, foam roller, etc.)', flash_sale:'' },
-    { month_num:2,  month_name:'February',  referral:'Window A opens — Refer 4 new members during this window → Earn a year of free membership', monthly_offer:'Free annual membership to KidSpace', flash_sale:'' },
-    { month_num:3,  month_name:'March',     referral:'Window A active — Refer 4 new members during this window → Earn a year of free membership', monthly_offer:'Free picnic set', flash_sale:'March Madness — offer TBD' },
-    { month_num:4,  month_name:'April',     referral:'Window A closes — Refer 4 new members during this window → Earn a year of free membership', monthly_offer:'Lock in the lowest rate — last month at current rates before May 1 annual increase; rate locked for duration of annual contract, deadline April 30', flash_sale:'' },
-    { month_num:5,  month_name:'May',       referral:'Window closed', monthly_offer:'Branded Towel', flash_sale:'Memorial Day — offer TBD' },
-    { month_num:6,  month_name:'June',      referral:'Window closed', monthly_offer:'Branded water bottle (Yeti or similar)', flash_sale:'' },
-    { month_num:7,  month_name:'July',      referral:'Window closed', monthly_offer:'Pick Your Perk (selection of programmatic options, e.g. racquet sports lessons, art center lessons, martial arts sessions)', flash_sale:'Remaining ~140 branded towels' },
-    { month_num:8,  month_name:'August',    referral:'Window B opens — Refer 4 new members during this window → Earn a year of free membership', monthly_offer:'Free annual membership to KidSpace', flash_sale:'' },
-    { month_num:9,  month_name:'September', referral:'Window B active — Refer 4 new members during this window → Earn a year of free membership', monthly_offer:'Branded yoga mat', flash_sale:'Labor Day — offer TBD' },
-    { month_num:10, month_name:'October',   referral:'Window B closes — Refer 4 new members during this window → Earn a year of free membership', monthly_offer:'Free Golf Lesson package (also available with purchase of any golf membership)', flash_sale:'' },
-    { month_num:11, month_name:'November',  referral:'Holiday gift referral (Window B closed) — Members gift a December membership to a non-member; if recipient joins by Jan 1, referring member earns 2nd month of PT or Group Training free', monthly_offer:'Pick Your Perk (also includes option of donation to local nonprofit)', flash_sale:'Black Friday — offer TBD' },
-    { month_num:12, month_name:'December',  referral:'Window closed', monthly_offer:'Winter hat', flash_sale:'' },
-  ],
+  cpl_daily: [], // Section 16: [{day_date, spend_7d, leads_7d, cpl_7d, spend_30d, leads_30d, cpl_30d, spend_90d, leads_90d, cpl_90d}]
+  promo_always_on:'',
+  promo_par_trigger:'',
+  promo_months:[],
 };
 
 let selectedYM = '';
 
 // ============================================================
-// MONTH PICKER HELPERS
+// HELPERS
 // ============================================================
 function ymToLabel(ym) {
-  if (!ym) return '—';
-  const [y, m] = ym.split('-').map(Number);
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  if(!ym) return '—';
+  const [y,m]=ym.split('-').map(Number);
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return `${months[m-1]} ${String(y).slice(2)}`;
 }
-
 function ymToFullLabel(ym) {
-  if (!ym) return '—';
-  const [y, m] = ym.split('-').map(Number);
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  if(!ym) return '—';
+  const [y,m]=ym.split('-').map(Number);
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
   return `${months[m-1]} ${y}`;
+}
+function daysInMonth(ym) {
+  const [y,m]=ym.split('-').map(Number);
+  return new Date(y,m,0).getDate();
+}
+function fmt$(v) { return v!=null&&v>0?'$'+Math.round(v).toLocaleString():'—'; }
+function fmtCPL(v) { return v!=null&&v>0?'$'+v.toFixed(2):'—'; }
+
+function cplColorClass(cpl) {
+  if(!cpl||cpl<=0) return '';
+  if(cpl<=CPL_TARGET_HIGH) return 'on-target';
+  return 'over-target';
 }
 
 function populateMonthPicker() {
-  const sel = document.getElementById('month-select');
-  sel.innerHTML = '';
-  const months = [...D.rolling_12].reverse();
-
-  const hasCurrentMonth = months.some(m => m.yearmo === D.meta.current_ym);
-  if (!hasCurrentMonth) {
-    months.unshift({
-      yearmo:  D.meta.current_ym,
-      label:   D.meta.current_month_label,
-      actuals: D.meta.leads_to_date,
-      goal:    D.meta.current_goal,
-      partial: true,
-    });
-  }
-
-  months.forEach(m => {
-    const opt = document.createElement('option');
-    opt.value = m.yearmo;
-    opt.textContent = ymToFullLabel(m.yearmo) + (m.yearmo === D.meta.current_ym ? ' (current)' : '');
-    if (m.yearmo === D.meta.current_ym) opt.className = 'is-current';
-    if (m.yearmo === selectedYM) opt.selected = true;
+  const sel=document.getElementById('month-select');
+  sel.innerHTML='';
+  const months=[...D.rolling_12].reverse();
+  const hasCurrentMonth=months.some(m=>m.yearmo===D.meta.current_ym);
+  if(!hasCurrentMonth) months.unshift({yearmo:D.meta.current_ym,label:D.meta.current_month_label,actuals:D.meta.leads_to_date,goal:D.meta.current_goal,partial:true});
+  months.forEach(m=>{
+    const opt=document.createElement('option');
+    opt.value=m.yearmo;
+    opt.textContent=ymToFullLabel(m.yearmo)+(m.yearmo===D.meta.current_ym?' (current)':'');
+    if(m.yearmo===D.meta.current_ym) opt.className='is-current';
+    if(m.yearmo===selectedYM) opt.selected=true;
     sel.appendChild(opt);
   });
 }
 
 function onMonthChange(ym) {
-  selectedYM = ym;
-  const isCurrent = ym === D.meta.current_ym;
-
-  const banner = document.getElementById('prior-banner');
-  if (!isCurrent) {
-    banner.classList.add('show');
-    document.getElementById('prior-banner-month').textContent = ymToFullLabel(ym);
-  } else {
-    banner.classList.remove('show');
-  }
-
-  if (isCurrent) {
-    document.getElementById('hdr-day').textContent = D.meta.days_elapsed;
-    document.getElementById('hdr-dim').textContent = D.meta.days_in_month;
-  } else {
-    const dim = daysInMonth(ym);
-    document.getElementById('hdr-day').textContent = dim;
-    document.getElementById('hdr-dim').textContent = dim;
-  }
-
-  const monthTab = document.querySelector('.nav-tab');
-  if (!monthTab.classList.contains('on')) {
-    switchView('month', monthTab);
-  }
-
+  selectedYM=ym;
+  const isCurrent=ym===D.meta.current_ym;
+  const banner=document.getElementById('prior-banner');
+  if(!isCurrent){banner.classList.add('show');document.getElementById('prior-banner-month').textContent=ymToFullLabel(ym);}
+  else{banner.classList.remove('show');}
+  if(isCurrent){document.getElementById('hdr-day').textContent=D.meta.days_elapsed;document.getElementById('hdr-dim').textContent=D.meta.days_in_month;}
+  else{const dim=daysInMonth(ym);document.getElementById('hdr-day').textContent=dim;document.getElementById('hdr-dim').textContent=dim;}
+  const monthTab=document.querySelector('.nav-tab');
+  if(!monthTab.classList.contains('on')) switchView('month',monthTab);
   buildMonthView();
 }
-
-function jumpToCurrentMonth() {
-  const sel = document.getElementById('month-select');
-  sel.value = D.meta.current_ym;
-  onMonthChange(D.meta.current_ym);
-}
-
-function daysInMonth(ym) {
-  const [y, m] = ym.split('-').map(Number);
-  return new Date(y, m, 0).getDate();
-}
+function jumpToCurrentMonth(){const sel=document.getElementById('month-select');sel.value=D.meta.current_ym;onMonthChange(D.meta.current_ym);}
 
 // ============================================================
 // DATA ACCESSORS
 // ============================================================
 function getMonthMeta(ym) {
-  if (ym === D.meta.current_ym) return D.meta;
-  const row = D.rolling_12.find(r => r.yearmo === ym) || {};
-  const dim = daysInMonth(ym);
-  const actuals = row.actuals || 0;
-  const goal    = row.goal    || 0;
+  if(ym===D.meta.current_ym) return D.meta;
+  const row=D.rolling_12.find(r=>r.yearmo===ym)||{};
+  const dim=daysInMonth(ym);
+  const actuals=row.actuals||0, goal=row.goal||0;
   return {
-    current_ym:            ym,
-    current_month_label:   ymToFullLabel(ym),
-    days_in_month:         dim,
-    days_elapsed:          dim,
-    current_goal:          goal,
-    leads_to_date:         actuals,
-    par_to_date:           goal,
-    vs_par:                actuals - goal,
-    pct_of_goal:           goal > 0 ? Math.round(actuals / goal * 1000) / 10 : 0,
-    projected_month_total: actuals,
-    // EP fields not available for historical months yet
-    ep_goal: 0, ep_leads_to_date: 0, ep_par_to_date: 0,
-    ep_vs_par: 0, ep_pct_of_goal: 0, ep_projected_total: 0,
-    // MS fields not available for historical months yet
-    ms_goal: 0, ms_sales_to_date: 0, ms_par_to_date: 0,
-    ms_vs_par: 0, ms_pct_of_goal: 0, ms_projected_total: 0,
+    current_ym:ym, current_month_label:ymToFullLabel(ym),
+    days_in_month:dim, days_elapsed:dim,
+    current_goal:goal, leads_to_date:actuals, par_to_date:goal,
+    vs_par:actuals-goal,
+    pct_of_goal:goal>0?Math.round(actuals/goal*1000)/10:0,
+    projected_month_total:actuals,
+    ep_goal:0,ep_leads_to_date:0,ep_par_to_date:0,ep_vs_par:0,ep_pct_of_goal:0,ep_projected_total:0,
+    ms_goal:0,ms_sales_to_date:0,ms_par_to_date:0,ms_vs_par:0,ms_pct_of_goal:0,ms_projected_total:0,
   };
 }
-
-function getDailyMTD(ym) {
-  return D.daily_all.filter(r => r.yearmo === ym);
+function getDailyMTD(ym){return D.daily_all.filter(r=>r.yearmo===ym);}
+function sortChannels(rows){return[...rows].sort((a,b)=>b.leads-a.leads);}
+function getChannelsMTD(ym){
+  const rows=D.channels_all.filter(r=>r.yearmo===ym);
+  if(rows.length>0) return sortChannels(rows);
+  if(ym===D.meta.current_ym&&D.channels_mtd&&D.channels_mtd.length>0) return sortChannels(D.channels_mtd);
+  return[];
 }
-
-function sortChannels(rows) {
-  return [...rows].sort((a,b) => b.leads - a.leads);
+function getFacilitiesMTD(ym){
+  const rows=D.facilities_all.filter(r=>r.yearmo===ym);
+  if(rows.length>0) return rows;
+  if(ym===D.meta.current_ym&&D.facilities_mtd&&D.facilities_mtd.length>0) return D.facilities_mtd;
+  return[];
 }
-
-function getChannelsMTD(ym) {
-  const rows = D.channels_all.filter(r => r.yearmo === ym);
-  if (rows.length > 0) return sortChannels(rows);
-  if (ym === D.meta.current_ym && D.channels_mtd && D.channels_mtd.length > 0) return sortChannels(D.channels_mtd);
-  return [];
-}
-
-function getFacilitiesMTD(ym) {
-  const rows = D.facilities_all.filter(r => r.yearmo === ym);
-  if (rows.length > 0) return rows;
-  if (ym === D.meta.current_ym && D.facilities_mtd && D.facilities_mtd.length > 0) return D.facilities_mtd;
-  return [];
-}
-
-// Does this month have any EngagePro data?
-function hasEPData(ym, m, daily) {
-  if (m.ep_goal > 0 || m.ep_leads_to_date > 0) return true;
-  return daily.some(d => (d.ep_cumulative_leads || 0) > 0);
-}
-
-// Does this month have any Membership Sales data?
-function hasMSData(ym, m, daily) {
-  if (m.ms_goal > 0 || m.ms_sales_to_date > 0) return true;
-  return daily.some(d => (d.ms_cumulative_sales || 0) > 0);
-}
+function hasEPData(ym,m,daily){if(m.ep_goal>0||m.ep_leads_to_date>0) return true;return daily.some(d=>(d.ep_cumulative_leads||0)>0);}
+function hasMSData(ym,m,daily){if(m.ms_goal>0||m.ms_sales_to_date>0) return true;return daily.some(d=>(d.ms_cumulative_sales||0)>0);}
 
 // ============================================================
 // CHARTS
 // ============================================================
-const charts = {};
-function dc(id) { if(charts[id]){charts[id].destroy();delete charts[id];} }
-const MONO = "'DM Mono', monospace";
-const SANS = "'Barlow', sans-serif";
-const baseScale = {
-  x: { grid:{display:false}, ticks:{font:{family:MONO,size:10}} },
-  y: { grid:{color:'#E8EDF5'}, ticks:{font:{family:MONO,size:10}} }
-};
-const paceScale = {
-  x: { grid:{display:false}, ticks:{font:{family:MONO,size:10}, callback:function(val, idx){ const day = idx+1; return (day===1||day%5===0) ? day : ''; } } },
-  y: { grid:{color:'#E8EDF5'}, ticks:{font:{family:MONO,size:10}} }
-};
-const basePlugins = {
-  legend: { labels:{font:{family:MONO,size:10},boxWidth:8,padding:12} },
-  tooltip: { titleFont:{family:SANS,size:12}, bodyFont:{family:MONO,size:11} }
-};
+const charts={};
+function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
+const MONO="'DM Mono', monospace";
+const SANS="'Barlow', sans-serif";
+const baseScale={x:{grid:{display:false},ticks:{font:{family:MONO,size:10}}},y:{grid:{color:'#E8EDF5'},ticks:{font:{family:MONO,size:10}}}};
+const paceScale={x:{grid:{display:false},ticks:{font:{family:MONO,size:10},callback:function(val,idx){const day=idx+1;return(day===1||day%5===0)?day:'';}}},y:{grid:{color:'#E8EDF5'},ticks:{font:{family:MONO,size:10}}}};
+const basePlugins={legend:{labels:{font:{family:MONO,size:10},boxWidth:8,padding:12}},tooltip:{titleFont:{family:SANS,size:12},bodyFont:{family:MONO,size:11}}};
 
-function switchView(id, btn) {
+function switchView(id,btn){
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('on'));
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
   btn.classList.add('on');
   document.getElementById('view-'+id).classList.add('on');
 }
 
-// ============================================================
-// % TO PAR + vs PAR FOOTER HELPERS
-// ============================================================
-function pctToPar(toDate, par) {
-  if (!par || par <= 0) return 0;
-  return Math.round(toDate / par * 1000) / 10;
-}
-
-// For the vs-PAR card footer: replaces "ahead of pace"/"behind of pace" wording
-// with a daily-rate figure, since the sign/color of the headline already
-// communicates ahead/behind.
-function vsParFooter(toDate, par, daysElapsed, daysInMonth, goal, vsPar) {
-  const daysRem = daysInMonth - daysElapsed;
-  if (daysRem <= 0) {
-    return vsPar >= 0 ? 'finished ahead of pace' : 'finished behind pace';
-  }
-  if (vsPar < 0) {
-    // behind — show daily rate needed to close gap and hit linear PAR by month end
-    // (i.e. rate needed to catch up to where PAR will be at month end, which is goal)
-    const needed = Math.max(0, goal - toDate);
-    return `${Math.ceil(needed / daysRem).toLocaleString()}/day needed to reach goal`;
-  } else {
-    return `${Math.abs(vsPar).toLocaleString()} ahead of pace`;
-  }
+function pctToPar(toDate,par){if(!par||par<=0) return 0;return Math.round(toDate/par*1000)/10;}
+function vsParFooter(toDate,par,daysElapsed,daysInMonth,goal,vsPar){
+  const daysRem=daysInMonth-daysElapsed;
+  if(daysRem<=0) return vsPar>=0?'finished ahead of pace':'finished behind pace';
+  if(vsPar<0){const needed=Math.max(0,goal-toDate);return`${Math.ceil(needed/daysRem).toLocaleString()}/day needed to reach goal`;}
+  return`${Math.abs(vsPar).toLocaleString()} ahead of pace`;
 }
 
 // ============================================================
 // THIS MONTH VIEW
 // ============================================================
 function buildMonthView() {
-  const ym       = selectedYM || D.meta.current_ym;
-  const isCurrent = ym === D.meta.current_ym;
-  const m        = getMonthMeta(ym);
-  const daily    = getDailyMTD(ym);
-  const channels = getChannelsMTD(ym);
-  const facilities = getFacilitiesMTD(ym);
-  const epActive = hasEPData(ym, m, daily);
-  const msActive = hasMSData(ym, m, daily);
+  const ym=selectedYM||D.meta.current_ym;
+  const isCurrent=ym===D.meta.current_ym;
+  const m=getMonthMeta(ym);
+  const daily=getDailyMTD(ym);
+  const channels=getChannelsMTD(ym);
+  const facilities=getFacilitiesMTD(ym);
+  const epActive=hasEPData(ym,m,daily);
+  const msActive=hasMSData(ym,m,daily);
 
-  // Section labels
-  document.getElementById('pace-month-label').textContent = m.current_month_label;
-  document.getElementById('ep-month-label').textContent = m.current_month_label;
-  document.getElementById('ms-month-label').textContent = m.current_month_label;
-  document.getElementById('detail-month-label').textContent = m.current_month_label;
+  document.getElementById('pace-month-label').textContent=m.current_month_label;
+  document.getElementById('ep-month-label').textContent=m.current_month_label;
+  document.getElementById('ms-month-label').textContent=m.current_month_label;
+  document.getElementById('detail-month-label').textContent=m.current_month_label;
+  document.getElementById('cpl-strip-month').textContent=m.current_month_label;
 
-  // ── KPI CARD LABELS (adapt for prior vs current month) — MARKETING STRIP ──
-  if (isCurrent) {
-    document.getElementById('k-leads-lbl').textContent  = 'Leads to Date';
-    document.getElementById('k-leads-foot').textContent = `Day ${m.days_elapsed} of ${m.days_in_month}`;
-    document.getElementById('k-par-lbl').textContent    = 'Linear PAR';
-    document.getElementById('k-par-foot').textContent   = `expected at day ${m.days_elapsed}`;
-    document.getElementById('k-vspar-lbl').textContent  = 'vs PAR';
-    document.getElementById('k-proj-lbl').textContent   = 'Projected Total';
-    document.getElementById('k-proj-foot').textContent  = 'at current rate';
-    document.getElementById('k-pctpar-lbl').textContent = '% to PAR';
-    document.getElementById('k-vspar-foot').textContent = vsParFooter(m.leads_to_date, m.par_to_date, m.days_elapsed, m.days_in_month, m.current_goal, m.vs_par);
+  // Marketing KPI labels
+  if(isCurrent){
+    document.getElementById('k-leads-lbl').textContent='Leads to Date';
+    document.getElementById('k-leads-foot').textContent=`Day ${m.days_elapsed} of ${m.days_in_month}`;
+    document.getElementById('k-par-lbl').textContent='Linear PAR';
+    document.getElementById('k-par-foot').textContent=`expected at day ${m.days_elapsed}`;
+    document.getElementById('k-vspar-lbl').textContent='vs PAR';
+    document.getElementById('k-proj-lbl').textContent='Projected Total';
+    document.getElementById('k-proj-foot').textContent='at current rate';
+    document.getElementById('k-pctpar-lbl').textContent='% to PAR';
+    document.getElementById('k-vspar-foot').textContent=vsParFooter(m.leads_to_date,m.par_to_date,m.days_elapsed,m.days_in_month,m.current_goal,m.vs_par);
   } else {
-    document.getElementById('k-leads-lbl').textContent  = 'Final Total';
-    document.getElementById('k-leads-foot').textContent = `${m.days_in_month}-day month`;
-    document.getElementById('k-par-lbl').textContent    = 'Monthly Goal';
-    document.getElementById('k-par-foot').textContent   = 'full month target';
-    document.getElementById('k-vspar-lbl').textContent  = 'vs Goal';
-    document.getElementById('k-proj-lbl').textContent   = 'Goal Attainment';
-    document.getElementById('k-proj-foot').textContent  = 'final result';
-    document.getElementById('k-pctpar-lbl').textContent = '% to Goal';
-    document.getElementById('k-vspar-foot').textContent = m.vs_par >= 0 ? `+${m.vs_par.toLocaleString()} over goal` : `${m.vs_par.toLocaleString()} under goal`;
+    document.getElementById('k-leads-lbl').textContent='Final Total';
+    document.getElementById('k-leads-foot').textContent=`${m.days_in_month}-day month`;
+    document.getElementById('k-par-lbl').textContent='Monthly Goal';
+    document.getElementById('k-par-foot').textContent='full month target';
+    document.getElementById('k-vspar-lbl').textContent='vs Goal';
+    document.getElementById('k-proj-lbl').textContent='Goal Attainment';
+    document.getElementById('k-proj-foot').textContent='final result';
+    document.getElementById('k-pctpar-lbl').textContent='% to Goal';
+    document.getElementById('k-vspar-foot').textContent=m.vs_par>=0?`+${m.vs_par.toLocaleString()} over goal`:`${m.vs_par.toLocaleString()} under goal`;
   }
 
-  // ── KPI VALUES — MARKETING ──
-  document.getElementById('k-leads').textContent      = m.leads_to_date.toLocaleString();
-  document.getElementById('k-goal').textContent       = m.current_goal.toLocaleString();
-  document.getElementById('k-goal-pct').textContent   = `${m.pct_of_goal}% achieved`;
-  document.getElementById('k-par').textContent        = isCurrent ? m.par_to_date.toLocaleString() : m.current_goal.toLocaleString();
-  document.getElementById('k-vspar').textContent      = (m.vs_par >= 0 ? '+' : '') + m.vs_par.toLocaleString();
-  document.getElementById('k-vspar').className        = 'kpi-val ' + (m.vs_par >= 0 ? 'ahead' : 'behind');
-  document.getElementById('k-proj').textContent       = isCurrent
-    ? m.projected_month_total.toLocaleString()
-    : m.pct_of_goal + '%';
+  document.getElementById('k-leads').textContent=m.leads_to_date.toLocaleString();
+  document.getElementById('k-goal').textContent=m.current_goal.toLocaleString();
+  document.getElementById('k-goal-pct').textContent=`${m.pct_of_goal}% achieved`;
+  document.getElementById('k-par').textContent=isCurrent?m.par_to_date.toLocaleString():m.current_goal.toLocaleString();
+  document.getElementById('k-vspar').textContent=(m.vs_par>=0?'+':'')+m.vs_par.toLocaleString();
+  document.getElementById('k-vspar').className='kpi-val '+(m.vs_par>=0?'ahead':'behind');
+  document.getElementById('k-proj').textContent=isCurrent?m.projected_month_total.toLocaleString():m.pct_of_goal+'%';
+  const parBasis=isCurrent?m.par_to_date:m.current_goal;
+  const pctPar=pctToPar(m.leads_to_date,parBasis);
+  document.getElementById('k-pctpar').textContent=`${pctPar}%`;
+  document.getElementById('k-pctpar').className='kpi-val '+(pctPar>=100?'ahead':'behind');
+  document.getElementById('k-pctpar-foot').textContent=isCurrent?'of linear PAR':'of monthly goal';
+  document.getElementById('pace-chart-sub').textContent=isCurrent?'Actual leads vs linear PAR line through month end':'Final daily cumulative — completed month';
 
-  const parBasis = isCurrent ? m.par_to_date : m.current_goal;
-  const pctPar = pctToPar(m.leads_to_date, parBasis);
-  document.getElementById('k-pctpar').textContent = `${pctPar}%`;
-  document.getElementById('k-pctpar').className = 'kpi-val ' + (pctPar >= 100 ? 'ahead' : 'behind');
-  document.getElementById('k-pctpar-foot').textContent = isCurrent ? 'of linear PAR' : 'of monthly goal';
+  // ── EP + MS columns ──
+  const epSection=document.getElementById('ep-month-label').closest('.sec-label');
+  const epColumn=epSection.parentElement;
+  const msSection=document.getElementById('ms-month-label').closest('.sec-label');
+  const msColumn=msSection.parentElement;
+  const outerGrid=epColumn.parentElement;
+  epColumn.style.display=epActive?'':'none';
+  msColumn.style.display=msActive?'':'none';
+  const activeCols=1+(epActive?1:0)+(msActive?1:0);
+  outerGrid.style.gridTemplateColumns=activeCols===3?'':(activeCols===2?'1fr 1fr':'1fr');
 
-  // ── CHART subtitle — MARKETING ──
-  document.getElementById('pace-chart-sub').textContent = isCurrent
-    ? 'Actual leads vs linear PAR line through month end'
-    : 'Final daily cumulative — completed month';
-
-  // ── ENGAGEPRO + MEMBERSHIP SALES COLUMNS ──
-  const epSection = document.getElementById('ep-month-label').closest('.sec-label');
-  const epColumn = epSection.parentElement; // the EP column div
-  const msSection = document.getElementById('ms-month-label').closest('.sec-label');
-  const msColumn = msSection.parentElement; // the MS column div
-  const outerGrid = epColumn.parentElement; // top-level grid-3 (marketing col + EP col + MS col)
-  const epChartCard = document.getElementById('card-pace-ep');
-
-  epColumn.style.display = epActive ? '' : 'none';
-  msColumn.style.display = msActive ? '' : 'none';
-  const activeCols = 1 + (epActive ? 1 : 0) + (msActive ? 1 : 0);
-  outerGrid.style.gridTemplateColumns = activeCols === 3 ? '' : (activeCols === 2 ? '1fr 1fr' : '1fr');
-
-  if (epActive) {
-    if (isCurrent) {
-      document.getElementById('ep-leads-lbl').textContent = 'EP Leads to Date';
-      document.getElementById('ep-leads-foot').textContent = `Day ${m.days_elapsed} of ${m.days_in_month}`;
-      document.getElementById('ep-par-lbl').textContent = 'EP Linear PAR';
-      document.getElementById('ep-par-foot').textContent = `expected at day ${m.days_elapsed}`;
-      document.getElementById('ep-vspar-lbl').textContent = 'EP vs PAR';
-      document.getElementById('ep-proj-lbl').textContent = 'EP Projected Total';
-      document.getElementById('ep-proj-foot').textContent = 'at current rate';
-      document.getElementById('ep-pctpar-lbl').textContent = 'EP % to PAR';
-      document.getElementById('ep-vspar-foot').textContent = vsParFooter(m.ep_leads_to_date, m.ep_par_to_date, m.days_elapsed, m.days_in_month, m.ep_goal, m.ep_vs_par);
+  if(epActive){
+    if(isCurrent){
+      document.getElementById('ep-leads-lbl').textContent='EP Leads to Date';
+      document.getElementById('ep-leads-foot').textContent=`Day ${m.days_elapsed} of ${m.days_in_month}`;
+      document.getElementById('ep-par-lbl').textContent='EP Linear PAR';
+      document.getElementById('ep-par-foot').textContent=`expected at day ${m.days_elapsed}`;
+      document.getElementById('ep-vspar-lbl').textContent='EP vs PAR';
+      document.getElementById('ep-proj-lbl').textContent='EP Projected Total';
+      document.getElementById('ep-proj-foot').textContent='at current rate';
+      document.getElementById('ep-pctpar-lbl').textContent='EP % to PAR';
+      document.getElementById('ep-vspar-foot').textContent=vsParFooter(m.ep_leads_to_date,m.ep_par_to_date,m.days_elapsed,m.days_in_month,m.ep_goal,m.ep_vs_par);
     } else {
-      document.getElementById('ep-leads-lbl').textContent = 'EP Final Total';
-      document.getElementById('ep-leads-foot').textContent = `${m.days_in_month}-day month`;
-      document.getElementById('ep-par-lbl').textContent = 'EP Monthly Goal';
-      document.getElementById('ep-par-foot').textContent = 'full month target';
-      document.getElementById('ep-vspar-lbl').textContent = 'EP vs Goal';
-      document.getElementById('ep-proj-lbl').textContent = 'EP Goal Attainment';
-      document.getElementById('ep-proj-foot').textContent = 'final result';
-      document.getElementById('ep-pctpar-lbl').textContent = 'EP % to Goal';
-      document.getElementById('ep-vspar-foot').textContent = m.ep_vs_par >= 0 ? `+${m.ep_vs_par.toLocaleString()} over goal` : `${m.ep_vs_par.toLocaleString()} under goal`;
+      document.getElementById('ep-leads-lbl').textContent='EP Final Total';
+      document.getElementById('ep-leads-foot').textContent=`${m.days_in_month}-day month`;
+      document.getElementById('ep-par-lbl').textContent='EP Monthly Goal';
+      document.getElementById('ep-par-foot').textContent='full month target';
+      document.getElementById('ep-vspar-lbl').textContent='EP vs Goal';
+      document.getElementById('ep-proj-lbl').textContent='EP Goal Attainment';
+      document.getElementById('ep-proj-foot').textContent='final result';
+      document.getElementById('ep-pctpar-lbl').textContent='EP % to Goal';
+      document.getElementById('ep-vspar-foot').textContent=m.ep_vs_par>=0?`+${m.ep_vs_par.toLocaleString()} over goal`:`${m.ep_vs_par.toLocaleString()} under goal`;
     }
-
-    document.getElementById('ep-leads').textContent = m.ep_leads_to_date.toLocaleString();
-    document.getElementById('ep-goal').textContent = m.ep_goal.toLocaleString();
-    document.getElementById('ep-goal-pct').textContent = `${m.ep_pct_of_goal}% achieved`;
-    document.getElementById('ep-par').textContent = isCurrent ? m.ep_par_to_date.toLocaleString() : m.ep_goal.toLocaleString();
-    document.getElementById('ep-vspar').textContent = (m.ep_vs_par >= 0 ? '+' : '') + m.ep_vs_par.toLocaleString();
-    document.getElementById('ep-vspar').className = 'kpi-val ' + (m.ep_vs_par >= 0 ? 'ahead' : 'behind');
-    document.getElementById('ep-proj').textContent = isCurrent ? m.ep_projected_total.toLocaleString() : m.ep_pct_of_goal + '%';
-
-    const epParBasis = isCurrent ? m.ep_par_to_date : m.ep_goal;
-    const epPctPar = pctToPar(m.ep_leads_to_date, epParBasis);
-    document.getElementById('ep-pctpar').textContent = `${epPctPar}%`;
-    document.getElementById('ep-pctpar').className = 'kpi-val ' + (epPctPar >= 100 ? 'ahead' : 'behind');
-    document.getElementById('ep-pctpar-foot').textContent = isCurrent ? 'of linear PAR' : 'of monthly goal';
-
-    document.getElementById('ep-chart-sub').textContent = isCurrent
-      ? 'Actual EP leads vs linear PAR line through month end'
-      : 'Final daily cumulative — completed month';
+    document.getElementById('ep-leads').textContent=m.ep_leads_to_date.toLocaleString();
+    document.getElementById('ep-goal').textContent=m.ep_goal.toLocaleString();
+    document.getElementById('ep-goal-pct').textContent=`${m.ep_pct_of_goal}% achieved`;
+    document.getElementById('ep-par').textContent=isCurrent?m.ep_par_to_date.toLocaleString():m.ep_goal.toLocaleString();
+    document.getElementById('ep-vspar').textContent=(m.ep_vs_par>=0?'+':'')+m.ep_vs_par.toLocaleString();
+    document.getElementById('ep-vspar').className='kpi-val '+(m.ep_vs_par>=0?'ahead':'behind');
+    document.getElementById('ep-proj').textContent=isCurrent?m.ep_projected_total.toLocaleString():m.ep_pct_of_goal+'%';
+    const epParBasis=isCurrent?m.ep_par_to_date:m.ep_goal;
+    const epPctPar=pctToPar(m.ep_leads_to_date,epParBasis);
+    document.getElementById('ep-pctpar').textContent=`${epPctPar}%`;
+    document.getElementById('ep-pctpar').className='kpi-val '+(epPctPar>=100?'ahead':'behind');
+    document.getElementById('ep-pctpar-foot').textContent=isCurrent?'of linear PAR':'of monthly goal';
+    document.getElementById('ep-chart-sub').textContent=isCurrent?'Actual EP leads vs linear PAR line through month end':'Final daily cumulative — completed month';
   }
 
-  if (msActive) {
-    if (isCurrent) {
-      document.getElementById('ms-leads-lbl').textContent = 'Sales to Date';
-      document.getElementById('ms-leads-foot').textContent = `Day ${m.days_elapsed} of ${m.days_in_month}`;
-      document.getElementById('ms-par-lbl').textContent = 'Linear PAR';
-      document.getElementById('ms-par-foot').textContent = `expected at day ${m.days_elapsed}`;
-      document.getElementById('ms-vspar-lbl').textContent = 'vs PAR';
-      document.getElementById('ms-proj-lbl').textContent = 'Projected Total';
-      document.getElementById('ms-proj-foot').textContent = 'at current rate';
-      document.getElementById('ms-pctpar-lbl').textContent = '% to PAR';
-      document.getElementById('ms-vspar-foot').textContent = vsParFooter(m.ms_sales_to_date, m.ms_par_to_date, m.days_elapsed, m.days_in_month, m.ms_goal, m.ms_vs_par);
+  if(msActive){
+    if(isCurrent){
+      document.getElementById('ms-leads-lbl').textContent='Sales to Date';
+      document.getElementById('ms-leads-foot').textContent=`Day ${m.days_elapsed} of ${m.days_in_month}`;
+      document.getElementById('ms-par-lbl').textContent='Linear PAR';
+      document.getElementById('ms-par-foot').textContent=`expected at day ${m.days_elapsed}`;
+      document.getElementById('ms-vspar-lbl').textContent='vs PAR';
+      document.getElementById('ms-proj-lbl').textContent='Projected Total';
+      document.getElementById('ms-proj-foot').textContent='at current rate';
+      document.getElementById('ms-pctpar-lbl').textContent='% to PAR';
+      document.getElementById('ms-vspar-foot').textContent=vsParFooter(m.ms_sales_to_date,m.ms_par_to_date,m.days_elapsed,m.days_in_month,m.ms_goal,m.ms_vs_par);
     } else {
-      document.getElementById('ms-leads-lbl').textContent = 'Final Total';
-      document.getElementById('ms-leads-foot').textContent = `${m.days_in_month}-day month`;
-      document.getElementById('ms-par-lbl').textContent = 'Monthly Goal';
-      document.getElementById('ms-par-foot').textContent = 'full month target';
-      document.getElementById('ms-vspar-lbl').textContent = 'vs Goal';
-      document.getElementById('ms-proj-lbl').textContent = 'Goal Attainment';
-      document.getElementById('ms-proj-foot').textContent = 'final result';
-      document.getElementById('ms-pctpar-lbl').textContent = '% to Goal';
-      document.getElementById('ms-vspar-foot').textContent = m.ms_vs_par >= 0 ? `+${m.ms_vs_par.toLocaleString()} over goal` : `${m.ms_vs_par.toLocaleString()} under goal`;
+      document.getElementById('ms-leads-lbl').textContent='Final Total';
+      document.getElementById('ms-leads-foot').textContent=`${m.days_in_month}-day month`;
+      document.getElementById('ms-par-lbl').textContent='Monthly Goal';
+      document.getElementById('ms-par-foot').textContent='full month target';
+      document.getElementById('ms-vspar-lbl').textContent='vs Goal';
+      document.getElementById('ms-proj-lbl').textContent='Goal Attainment';
+      document.getElementById('ms-proj-foot').textContent='final result';
+      document.getElementById('ms-pctpar-lbl').textContent='% to Goal';
+      document.getElementById('ms-vspar-foot').textContent=m.ms_vs_par>=0?`+${m.ms_vs_par.toLocaleString()} over goal`:`${m.ms_vs_par.toLocaleString()} under goal`;
     }
-
-    document.getElementById('ms-leads').textContent = m.ms_sales_to_date.toLocaleString();
-    document.getElementById('ms-goal').textContent = m.ms_goal.toLocaleString();
-    document.getElementById('ms-goal-pct').textContent = `${m.ms_pct_of_goal}% achieved`;
-    document.getElementById('ms-par').textContent = isCurrent ? m.ms_par_to_date.toLocaleString() : m.ms_goal.toLocaleString();
-    document.getElementById('ms-vspar').textContent = (m.ms_vs_par >= 0 ? '+' : '') + m.ms_vs_par.toLocaleString();
-    document.getElementById('ms-vspar').className = 'kpi-val ' + (m.ms_vs_par >= 0 ? 'ahead' : 'behind');
-    document.getElementById('ms-proj').textContent = isCurrent ? m.ms_projected_total.toLocaleString() : m.ms_pct_of_goal + '%';
-
-    const msParBasis = isCurrent ? m.ms_par_to_date : m.ms_goal;
-    const msPctPar = pctToPar(m.ms_sales_to_date, msParBasis);
-    document.getElementById('ms-pctpar').textContent = `${msPctPar}%`;
-    document.getElementById('ms-pctpar').className = 'kpi-val ' + (msPctPar >= 100 ? 'ahead' : 'behind');
-    document.getElementById('ms-pctpar-foot').textContent = isCurrent ? 'of linear PAR' : 'of monthly goal';
-
-    document.getElementById('ms-chart-sub').textContent = isCurrent
-      ? 'Actual sales vs linear PAR line through month end'
-      : 'Final daily cumulative — completed month';
+    document.getElementById('ms-leads').textContent=m.ms_sales_to_date.toLocaleString();
+    document.getElementById('ms-goal').textContent=m.ms_goal.toLocaleString();
+    document.getElementById('ms-goal-pct').textContent=`${m.ms_pct_of_goal}% achieved`;
+    document.getElementById('ms-par').textContent=isCurrent?m.ms_par_to_date.toLocaleString():m.ms_goal.toLocaleString();
+    document.getElementById('ms-vspar').textContent=(m.ms_vs_par>=0?'+':'')+m.ms_vs_par.toLocaleString();
+    document.getElementById('ms-vspar').className='kpi-val '+(m.ms_vs_par>=0?'ahead':'behind');
+    document.getElementById('ms-proj').textContent=isCurrent?m.ms_projected_total.toLocaleString():m.ms_pct_of_goal+'%';
+    const msParBasis=isCurrent?m.ms_par_to_date:m.ms_goal;
+    const msPctPar=pctToPar(m.ms_sales_to_date,msParBasis);
+    document.getElementById('ms-pctpar').textContent=`${msPctPar}%`;
+    document.getElementById('ms-pctpar').className='kpi-val '+(msPctPar>=100?'ahead':'behind');
+    document.getElementById('ms-pctpar-foot').textContent=isCurrent?'of linear PAR':'of monthly goal';
+    document.getElementById('ms-chart-sub').textContent=isCurrent?'Actual sales vs linear PAR line through month end':'Final daily cumulative — completed month';
   }
 
-  // ── CHANNEL / FACILITY table subtitles ──
-  const subLabel = isCurrent ? 'leads this month' : `leads — ${m.current_month_label}`;
-  document.getElementById('ch-sub').textContent  = subLabel + ' — all sources';
-  document.getElementById('fac-sub').textContent = subLabel;
+  // ── CPL STRIP ──
+  buildCPLStrip(isCurrent);
 
-  // ── PACING CHART — MARKETING ──
+  document.getElementById('ch-sub').textContent=(isCurrent?'leads this month':`leads — ${m.current_month_label}`)+' — all sources';
+  document.getElementById('fac-sub').textContent=isCurrent?'leads this month':`leads — ${m.current_month_label}`;
+
+  // ── PACING CHARTS ──
+  const labels=Array.from({length:m.days_in_month},(_,i)=>i+1);
+
+  // Marketing pacing
   dc('pace');
-  const labels     = Array.from({length: m.days_in_month}, (_,i) => i+1);
-  const cumActuals = labels.map(dayNum => {
-    if (dayNum > m.days_elapsed) return null;
-    const entry = daily.find(d => d.day === dayNum);
-    return entry ? entry.cumulative : null;
+  const cumActuals=labels.map(dayNum=>{
+    if(dayNum>m.days_elapsed) return null;
+    const entry=daily.find(d=>d.day===dayNum);
+    return entry?entry.cumulative:null;
   });
-  let lastKnown = 0;
-  for (let i = 0; i < m.days_elapsed; i++) {
-    if (cumActuals[i] > 0) { lastKnown = cumActuals[i]; }
-    else if (!cumActuals[i]) { cumActuals[i] = lastKnown; }
-  }
-  const parLine = labels.map(d => Math.round(m.current_goal * d / m.days_in_month));
+  let lastKnown=0;
+  for(let i=0;i<m.days_elapsed;i++){if(cumActuals[i]>0){lastKnown=cumActuals[i];}else if(!cumActuals[i]){cumActuals[i]=lastKnown;}}
+  const parLine=labels.map(d=>Math.round(m.current_goal*d/m.days_in_month));
+  const hasDaily=daily.length>0;
+  const actualDataset=hasDaily?{label:'Leads (cumulative)',data:cumActuals,borderColor:m.vs_par>=0?'#3A7D3A':'#C0392B',backgroundColor:m.vs_par>=0?'rgba(58,125,58,.08)':'rgba(192,57,43,.08)',borderWidth:2.5,pointRadius:0,tension:0.3,fill:true,spanGaps:false}:{label:'Final Total (no daily data)',data:labels.map(()=>m.leads_to_date),borderColor:m.vs_par>=0?'#3A7D3A':'#C0392B',backgroundColor:'transparent',borderWidth:2,pointRadius:0,borderDash:[6,3],tension:0,fill:false};
+  charts['pace']=new Chart(document.getElementById('chartPace').getContext('2d'),{type:'line',data:{labels,datasets:[actualDataset,{label:'Linear PAR',data:parLine,borderColor:'#E8A020',borderWidth:1.5,pointRadius:0,borderDash:[5,4],tension:0,fill:false},{label:'Goal',data:Array(m.days_in_month).fill(m.current_goal),borderColor:'rgba(28,58,110,.25)',borderWidth:1,pointRadius:0,borderDash:[2,4],fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{...basePlugins,legend:{display:true,position:'top',labels:{font:{family:MONO,size:10},boxWidth:8,padding:12}}},scales:paceScale}});
 
-  const hasDaily = daily.length > 0;
-  const actualDataset = hasDaily
-    ? {
-        label: 'Leads (cumulative)', data: cumActuals,
-        borderColor: m.vs_par >= 0 ? '#3A7D3A' : '#C0392B',
-        backgroundColor: m.vs_par >= 0 ? 'rgba(58,125,58,.08)' : 'rgba(192,57,43,.08)',
-        borderWidth: 2.5, pointRadius: 0, tension: 0.3, fill: true, spanGaps: false,
-      }
-    : {
-        label: 'Final Total (no daily data)',
-        data: labels.map(() => m.leads_to_date),
-        borderColor: m.vs_par >= 0 ? '#3A7D3A' : '#C0392B',
-        backgroundColor: 'transparent',
-        borderWidth: 2, pointRadius: 0, borderDash: [6, 3], tension: 0, fill: false,
-      };
-
-  charts['pace'] = new Chart(document.getElementById('chartPace').getContext('2d'), {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [
-        actualDataset,
-        {
-          label: 'Linear PAR', data: parLine,
-          borderColor: '#E8A020', borderWidth: 1.5, pointRadius: 0,
-          borderDash: [5,4], tension: 0, fill: false,
-        },
-        {
-          label: 'Goal', data: Array(m.days_in_month).fill(m.current_goal),
-          borderColor: 'rgba(28,58,110,.25)', borderWidth: 1, pointRadius: 0,
-          borderDash: [2,4], fill: false,
-        }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { ...basePlugins, legend:{display:true,position:'top',labels:{font:{family:MONO,size:10},boxWidth:8,padding:12}} },
-      scales: paceScale,
-    }
-  });
-
-  // ── PACING CHART — ENGAGEPRO ──
-  if (epActive) {
+  // EP pacing
+  if(epActive){
     dc('paceEP');
-    const epCumActuals = labels.map(dayNum => {
-      if (dayNum > m.days_elapsed) return null;
-      const entry = daily.find(d => d.day === dayNum);
-      return entry ? (entry.ep_cumulative_leads || null) : null;
-    });
-    let epLastKnown = 0;
-    for (let i = 0; i < m.days_elapsed; i++) {
-      if (epCumActuals[i] > 0) { epLastKnown = epCumActuals[i]; }
-      else if (!epCumActuals[i]) { epCumActuals[i] = epLastKnown; }
-    }
-    // Use stored ep_par_cumulative if present, else linear from ep_goal
-    const epParLine = labels.map((d,i) => {
-      const entry = daily.find(dd => dd.day === d);
-      if (entry && entry.ep_par_cumulative) return entry.ep_par_cumulative;
-      return Math.round(m.ep_goal * d / m.days_in_month);
-    });
-
-    const epHasDaily = daily.some(d => (d.ep_cumulative_leads||0) > 0);
-    const epActualDataset = epHasDaily
-      ? {
-          label: 'EP Leads (cumulative)', data: epCumActuals,
-          borderColor: m.ep_vs_par >= 0 ? '#3A7D3A' : '#5A6E82',
-          backgroundColor: m.ep_vs_par >= 0 ? 'rgba(58,125,58,.08)' : 'rgba(90,110,130,.10)',
-          borderWidth: 2.5, pointRadius: 0, tension: 0.3, fill: true, spanGaps: false,
-        }
-      : {
-          label: 'EP Final Total (no daily data)',
-          data: labels.map(() => m.ep_leads_to_date),
-          borderColor: '#5A6E82',
-          backgroundColor: 'transparent',
-          borderWidth: 2, pointRadius: 0, borderDash: [6, 3], tension: 0, fill: false,
-        };
-
-    charts['paceEP'] = new Chart(document.getElementById('chartPaceEP').getContext('2d'), {
-      type: 'line',
-      data: {
-        labels,
-        datasets: [
-          epActualDataset,
-          {
-            label: 'EP Linear PAR', data: epParLine,
-            borderColor: '#9B59B6', borderWidth: 1.5, pointRadius: 0,
-            borderDash: [5,4], tension: 0, fill: false,
-          },
-          {
-            label: 'EP Goal', data: Array(m.days_in_month).fill(m.ep_goal),
-            borderColor: 'rgba(90,110,130,.25)', borderWidth: 1, pointRadius: 0,
-            borderDash: [2,4], fill: false,
-          }
-        ]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        plugins: { ...basePlugins, legend:{display:true,position:'top',labels:{font:{family:MONO,size:10},boxWidth:8,padding:12}} },
-        scales: paceScale,
-      }
-    });
+    const epCumActuals=labels.map(dayNum=>{if(dayNum>m.days_elapsed) return null;const entry=daily.find(d=>d.day===dayNum);return entry?(entry.ep_cumulative_leads||null):null;});
+    let epLastKnown=0;for(let i=0;i<m.days_elapsed;i++){if(epCumActuals[i]>0){epLastKnown=epCumActuals[i];}else if(!epCumActuals[i]){epCumActuals[i]=epLastKnown;}}
+    const epParLine=labels.map((d,i)=>{const entry=daily.find(dd=>dd.day===d);if(entry&&entry.ep_par_cumulative) return entry.ep_par_cumulative;return Math.round(m.ep_goal*d/m.days_in_month);});
+    const epHasDaily=daily.some(d=>(d.ep_cumulative_leads||0)>0);
+    const epActualDataset=epHasDaily?{label:'EP Leads (cumulative)',data:epCumActuals,borderColor:m.ep_vs_par>=0?'#3A7D3A':'#5A6E82',backgroundColor:m.ep_vs_par>=0?'rgba(58,125,58,.08)':'rgba(90,110,130,.10)',borderWidth:2.5,pointRadius:0,tension:0.3,fill:true,spanGaps:false}:{label:'EP Final Total (no daily data)',data:labels.map(()=>m.ep_leads_to_date),borderColor:'#5A6E82',backgroundColor:'transparent',borderWidth:2,pointRadius:0,borderDash:[6,3],tension:0,fill:false};
+    charts['paceEP']=new Chart(document.getElementById('chartPaceEP').getContext('2d'),{type:'line',data:{labels,datasets:[epActualDataset,{label:'EP Linear PAR',data:epParLine,borderColor:'#9B59B6',borderWidth:1.5,pointRadius:0,borderDash:[5,4],tension:0,fill:false},{label:'EP Goal',data:Array(m.days_in_month).fill(m.ep_goal),borderColor:'rgba(90,110,130,.25)',borderWidth:1,pointRadius:0,borderDash:[2,4],fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{...basePlugins,legend:{display:true,position:'top',labels:{font:{family:MONO,size:10},boxWidth:8,padding:12}}},scales:paceScale}});
   }
 
-  // ── PACING CHART — MEMBERSHIP SALES ──
-  if (msActive) {
+  // MS pacing
+  if(msActive){
     dc('paceMS');
-    const msCumActuals = labels.map(dayNum => {
-      if (dayNum > m.days_elapsed) return null;
-      const entry = daily.find(d => d.day === dayNum);
-      return entry ? (entry.ms_cumulative_sales || null) : null;
-    });
-    let msLastKnown = 0;
-    for (let i = 0; i < m.days_elapsed; i++) {
-      if (msCumActuals[i] > 0) { msLastKnown = msCumActuals[i]; }
-      else if (!msCumActuals[i]) { msCumActuals[i] = msLastKnown; }
-    }
-    // Use stored ms_par_cumulative if present, else linear from ms_goal
-    const msParLine = labels.map((d,i) => {
-      const entry = daily.find(dd => dd.day === d);
-      if (entry && entry.ms_par_cumulative) return entry.ms_par_cumulative;
-      return Math.round(m.ms_goal * d / m.days_in_month);
-    });
-
-    const msHasDaily = daily.some(d => (d.ms_cumulative_sales||0) > 0);
-    const msActualDataset = msHasDaily
-      ? {
-          label: 'Sales (cumulative)', data: msCumActuals,
-          borderColor: m.ms_vs_par >= 0 ? '#3A7D3A' : '#C0392B',
-          backgroundColor: m.ms_vs_par >= 0 ? 'rgba(58,125,58,.08)' : 'rgba(192,57,43,.08)',
-          borderWidth: 2.5, pointRadius: 0, tension: 0.3, fill: true, spanGaps: false,
-        }
-      : {
-          label: 'Final Total (no daily data)',
-          data: labels.map(() => m.ms_sales_to_date),
-          borderColor: '#5A6E82',
-          backgroundColor: 'transparent',
-          borderWidth: 2, pointRadius: 0, borderDash: [6, 3], tension: 0, fill: false,
-        };
-
-    charts['paceMS'] = new Chart(document.getElementById('chartPaceMS').getContext('2d'), {
-      type: 'line',
-      data: {
-        labels,
-        datasets: [
-          msActualDataset,
-          {
-            label: 'Linear PAR', data: msParLine,
-            borderColor: '#2980B9', borderWidth: 1.5, pointRadius: 0,
-            borderDash: [5,4], tension: 0, fill: false,
-          },
-          {
-            label: 'Goal', data: Array(m.days_in_month).fill(m.ms_goal),
-            borderColor: 'rgba(28,58,110,.25)', borderWidth: 1, pointRadius: 0,
-            borderDash: [2,4], fill: false,
-          }
-        ]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        plugins: { ...basePlugins, legend:{display:true,position:'top',labels:{font:{family:MONO,size:10},boxWidth:8,padding:12}} },
-        scales: paceScale,
-      }
-    });
+    const msCumActuals=labels.map(dayNum=>{if(dayNum>m.days_elapsed) return null;const entry=daily.find(d=>d.day===dayNum);return entry?(entry.ms_cumulative_sales||null):null;});
+    let msLastKnown=0;for(let i=0;i<m.days_elapsed;i++){if(msCumActuals[i]>0){msLastKnown=msCumActuals[i];}else if(!msCumActuals[i]){msCumActuals[i]=msLastKnown;}}
+    const msParLine=labels.map((d,i)=>{const entry=daily.find(dd=>dd.day===d);if(entry&&entry.ms_par_cumulative) return entry.ms_par_cumulative;return Math.round(m.ms_goal*d/m.days_in_month);});
+    const msHasDaily=daily.some(d=>(d.ms_cumulative_sales||0)>0);
+    const msActualDataset=msHasDaily?{label:'Sales (cumulative)',data:msCumActuals,borderColor:m.ms_vs_par>=0?'#3A7D3A':'#C0392B',backgroundColor:m.ms_vs_par>=0?'rgba(58,125,58,.08)':'rgba(192,57,43,.08)',borderWidth:2.5,pointRadius:0,tension:0.3,fill:true,spanGaps:false}:{label:'Final Total (no daily data)',data:labels.map(()=>m.ms_sales_to_date),borderColor:'#5A6E82',backgroundColor:'transparent',borderWidth:2,pointRadius:0,borderDash:[6,3],tension:0,fill:false};
+    charts['paceMS']=new Chart(document.getElementById('chartPaceMS').getContext('2d'),{type:'line',data:{labels,datasets:[msActualDataset,{label:'Linear PAR',data:msParLine,borderColor:'#2980B9',borderWidth:1.5,pointRadius:0,borderDash:[5,4],tension:0,fill:false},{label:'Goal',data:Array(m.days_in_month).fill(m.ms_goal),borderColor:'rgba(28,58,110,.25)',borderWidth:1,pointRadius:0,borderDash:[2,4],fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{...basePlugins,legend:{display:true,position:'top',labels:{font:{family:MONO,size:10},boxWidth:8,padding:12}}},scales:paceScale}});
   }
 
-  // ── CHANNEL TABLE (already sorted desc by getChannelsMTD) ──
-  const chMax = Math.max(...channels.map(c=>c.leads), 1);
-  document.getElementById('ch-mtd-wrap').innerHTML = channels.length > 0 ? `
-    <table class="ch-table">
-      <thead><tr>
-        <th>Channel</th>
-        <th>Category</th>
-        <th class="r">Leads</th>
-        <th style="min-width:80px">Share</th>
-      </tr></thead>
-      <tbody>
-        ${channels.map(c => {
-          const ts = categoryTagStyle(c.category);
-          const tag = `<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-family:'DM Mono',monospace;font-weight:500;background:${ts.bg};color:${ts.text};white-space:nowrap;">${c.category||'—'}</span>`;
-          return `<tr>
-            <td><span class="ch-dot" style="background:${c.color}"></span>${c.channel}</td>
-            <td>${tag}</td>
-            <td class="r">${c.leads}</td>
-            <td><span class="bar-mini" style="width:${Math.round(c.leads/chMax*80)}px;background:${c.color};opacity:.8"></span></td>
-          </tr>`;
-        }).join('')}
-      </tbody>
-    </table>` : `<div style="color:var(--mid);font-family:'DM Mono',monospace;font-size:12px;padding:16px 0">No channel data for this month yet.</div>`;
+  // Channel table
+  const chMax=Math.max(...channels.map(c=>c.leads),1);
+  document.getElementById('ch-mtd-wrap').innerHTML=channels.length>0?`<table class="ch-table"><thead><tr><th>Channel</th><th>Category</th><th class="r">Leads</th><th style="min-width:80px">Share</th></tr></thead><tbody>${channels.map(c=>{const ts=categoryTagStyle(c.category);const tag=`<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-family:'DM Mono',monospace;font-weight:500;background:${ts.bg};color:${ts.text};white-space:nowrap;">${c.category||'—'}</span>`;return`<tr><td><span class="ch-dot" style="background:${c.color}"></span>${c.channel}</td><td>${tag}</td><td class="r">${c.leads}</td><td><span class="bar-mini" style="width:${Math.round(c.leads/chMax*80)}px;background:${c.color};opacity:.8"></span></td></tr>`;}).join('')}</tbody></table>`:`<div style="color:var(--mid);font-family:'DM Mono',monospace;font-size:12px;padding:16px 0">No channel data for this month yet.</div>`;
 
-  // ── FACILITY TABLE ──
-  document.getElementById('fac-mtd-wrap').innerHTML = facilities.length > 0 ? `
-    <table class="ch-table">
-      <thead><tr><th>Facility</th><th class="r">Leads</th></tr></thead>
-      <tbody>${facilities.map(f=>`<tr><td>${f.facility}</td><td class="r">${f.leads}</td></tr>`).join('')}</tbody>
-    </table>` : `<div style="color:var(--mid);font-family:'DM Mono',monospace;font-size:12px;padding:16px 0">No facility data for this month yet.</div>`;
+  // Facility table
+  document.getElementById('fac-mtd-wrap').innerHTML=facilities.length>0?`<table class="ch-table"><thead><tr><th>Facility</th><th class="r">Leads</th></tr></thead><tbody>${facilities.map(f=>`<tr><td>${f.facility}</td><td class="r">${f.leads}</td></tr>`).join('')}</tbody></table>`:`<div style="color:var(--mid);font-family:'DM Mono',monospace;font-size:12px;padding:16px 0">No facility data for this month yet.</div>`;
 }
 
 // ============================================================
-// ROLLING 12 VIEW — unchanged
+// CPL STRIP — homepage blended CPL cards
+// ============================================================
+function buildCPLStrip(isCurrent) {
+  // Use the last populated row from cpl_daily for current values
+  const rows = D.cpl_daily.filter(r => r.cpl_30d > 0 || r.cpl_7d > 0);
+  const last = rows.length > 0 ? rows[rows.length - 1] : null;
+
+  // 30-day (primary)
+  const cpl30 = last ? last.cpl_30d : null;
+  const spend30 = last ? last.spend_30d : null;
+  const leads30 = last ? last.leads_30d : null;
+  document.getElementById('cpl-30d-val').textContent = fmtCPL(cpl30);
+  document.getElementById('cpl-30d-val').className = 'cpl-val ' + cplColorClass(cpl30);
+  document.getElementById('cpl-30d-foot').textContent = (spend30 && leads30)
+    ? `${fmt$(spend30)} spend · ${leads30.toLocaleString()} leads`
+    : isCurrent ? 'spend data loading' : '—';
+
+  // 7-day
+  const cpl7 = last ? last.cpl_7d : null;
+  const spend7 = last ? last.spend_7d : null;
+  const leads7 = last ? last.leads_7d : null;
+  document.getElementById('cpl-7d-val').textContent = fmtCPL(cpl7);
+  document.getElementById('cpl-7d-val').className = 'cpl-val ' + cplColorClass(cpl7);
+  document.getElementById('cpl-7d-foot').textContent = (spend7 && leads7)
+    ? `${fmt$(spend7)} spend · ${leads7.toLocaleString()} leads`
+    : '—';
+
+  // 90-day
+  const cpl90 = last ? last.cpl_90d : null;
+  const spend90 = last ? last.spend_90d : null;
+  const leads90 = last ? last.leads_90d : null;
+  document.getElementById('cpl-90d-val').textContent = fmtCPL(cpl90);
+  document.getElementById('cpl-90d-val').className = 'cpl-val ' + cplColorClass(cpl90);
+  document.getElementById('cpl-90d-foot').textContent = (spend90 && leads90)
+    ? `${fmt$(spend90)} spend · ${leads90.toLocaleString()} leads`
+    : '—';
+
+  // Hide strip entirely if no CPL data at all
+  const stripWrap = document.getElementById('cpl-strip-wrap');
+  const stripLabel = document.getElementById('cpl-strip-label');
+  const hasAnyCPL = cpl30 || cpl7 || cpl90;
+  stripWrap.style.display = hasAnyCPL ? '' : 'none';
+  stripLabel.style.display = hasAnyCPL ? '' : 'none';
+}
+
+// ============================================================
+// ROLLING 12 VIEW
 // ============================================================
 function buildRollingView() {
-  const labels = D.rolling_12.map(d=>d.label);
-
+  const labels=D.rolling_12.map(d=>d.label);
   dc('rolling');
-  charts['rolling'] = new Chart(document.getElementById('chartRolling').getContext('2d'), {
-    data: {
-      labels,
-      datasets: [
-        { type:'bar', label:'Actual Leads', data:D.rolling_12.map(d=>d.actuals),
-          backgroundColor:D.rolling_12.map(d=>d.partial?'rgba(28,58,110,.4)':d.actuals>=d.goal?'rgba(58,125,58,.7)':'rgba(28,58,110,.65)'),
-          borderRadius:4 },
-        { type:'line', label:'Goal', data:D.rolling_12.map(d=>d.goal),
-          borderColor:'#E8A020', borderWidth:2, pointBackgroundColor:'#E8A020',
-          pointRadius:4, tension:0.3, fill:false }
+  charts['rolling']=new Chart(document.getElementById('chartRolling').getContext('2d'),{data:{labels,datasets:[{type:'bar',label:'Actual Leads',data:D.rolling_12.map(d=>d.actuals),backgroundColor:D.rolling_12.map(d=>d.partial?'rgba(28,58,110,.4)':d.actuals>=d.goal?'rgba(58,125,58,.7)':'rgba(28,58,110,.65)'),borderRadius:4},{type:'line',label:'Goal',data:D.rolling_12.map(d=>d.goal),borderColor:'#E8A020',borderWidth:2,pointBackgroundColor:'#E8A020',pointRadius:4,tension:0.3,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{...basePlugins},scales:{...baseScale}}});
+  dc('chrolling');
+  const chKeys=Object.keys(D.channel_rolling).filter(k=>D.channel_rolling[k].data&&D.channel_rolling[k].data.some(v=>v>0));
+  charts['chrolling']=new Chart(document.getElementById('chartChRolling').getContext('2d'),{type:'bar',data:{labels,datasets:chKeys.map(k=>({label:k,data:D.channel_rolling[k].data,backgroundColor:D.channel_rolling[k].color,borderRadius:2}))},options:{responsive:true,maintainAspectRatio:false,plugins:{...basePlugins,legend:{display:true,position:'top',labels:{font:{family:MONO,size:9},boxWidth:8,padding:8}}},scales:{x:{stacked:true,grid:{display:false},ticks:{font:{family:MONO,size:9}}},y:{stacked:true,grid:{color:'#E8EDF5'},ticks:{font:{family:MONO,size:10}}}}}});
+  dc('facrolling');
+  const facKeys=['Supreme Sports Club','Columbia Athletic Club','Columbia Gym',"Hobbit's Glen"];
+  const facColors=['#1C3A6E','#3A7D3A','#E8A020','#4285F4'];
+  charts['facrolling']=new Chart(document.getElementById('chartFacRolling').getContext('2d'),{type:'line',data:{labels,datasets:facKeys.map((k,i)=>({label:k,data:D.facility_rolling[k]||Array(13).fill(0),borderColor:facColors[i],backgroundColor:facColors[i]+'20',borderWidth:2.5,pointRadius:3,tension:0.3,fill:false}))},options:{responsive:true,maintainAspectRatio:false,plugins:{...basePlugins,legend:{display:true,position:'top',labels:{font:{family:MONO,size:9},boxWidth:8,padding:8}}},scales:baseScale}});
+}
+
+// ============================================================
+// FISCAL YEAR VIEW
+// ============================================================
+let activeFY='FY2027';
+function switchFY(fy,btn){document.querySelectorAll('.fy-tab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');activeFY=fy;renderFYChart();}
+function renderFYChart(){
+  dc('fy');
+  const current=D.fy[activeFY]||[];
+  const compare=activeFY==='FY2027'?D.fy['FY2026']:null;
+  const labels=['May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'];
+  const padTo12=arr=>{const o=[...arr];while(o.length<12)o.push(null);return o;};
+  const datasets=[{type:'bar',label:`${activeFY} Actuals`,data:padTo12(current.map(d=>d.cum_actuals)),backgroundColor:'rgba(28,58,110,.55)',borderRadius:4},{type:'line',label:`${activeFY} Goal`,data:padTo12(current.map(d=>d.cum_goal)),borderColor:'#E8A020',borderWidth:2,pointBackgroundColor:'#E8A020',pointRadius:4,tension:0.3,fill:false}];
+  if(compare) datasets.push({type:'line',label:'FY2026 Actuals (ref)',data:padTo12(compare.map(d=>d.cum_actuals)),borderColor:'#95A5A6',borderWidth:1.5,pointRadius:3,borderDash:[4,3],tension:0.3,fill:false});
+  charts['fy']=new Chart(document.getElementById('chartFY').getContext('2d'),{data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{...basePlugins},scales:baseScale}});
+  document.getElementById('fy-chart-title').textContent=`${activeFY} — Cumulative Leads vs Cumulative Goal`;
+  document.getElementById('fy-table-wrap').innerHTML=`<div class="card-title" style="margin-bottom:4px">${activeFY} Monthly Detail</div><div class="card-sub">monthly and cumulative leads vs goal</div><table class="comp-table"><thead><tr><th>Month</th><th class="r">Mo. Goal</th><th class="r">Mo. Actuals</th><th class="r">Cum. Goal</th><th class="r">Cum. Actuals</th></tr></thead><tbody>${current.map(d=>`<tr><td>${d.label}</td><td class="r">${d.goal.toLocaleString()}</td><td class="r">${d.actuals>0?d.actuals.toLocaleString():d.partial?d.actuals.toLocaleString():'<span style="color:var(--mid)">—</span>'}</td><td class="r">${d.cum_goal.toLocaleString()}</td><td class="r">${d.cum_actuals>0||d.partial?d.cum_actuals.toLocaleString():'<span style="color:var(--mid)">—</span>'}</td></tr>`).join('')}</tbody></table>`;
+}
+
+// ============================================================
+// YOY VIEW
+// ============================================================
+function buildYOYView(){
+  const sm=D.same_month;
+  const currentMonth=D.meta.current_month_label.split(' ')[0];
+  document.getElementById('yoy-label').textContent=`Year-over-Year — ${currentMonth} Comparison`;
+  document.getElementById('yoy-sub').textContent=`Comparing ${currentMonth} across available years`;
+  document.getElementById('yoy-table-title').textContent=`${currentMonth} — Year Comparison`;
+  dc('yoy');
+  charts['yoy']=new Chart(document.getElementById('chartYOY').getContext('2d'),{type:'bar',data:{labels:sm.map(d=>d.period),datasets:[{label:'Actuals',data:sm.map(d=>d.actuals),backgroundColor:['rgba(28,58,110,.7)','rgba(28,58,110,.35)','rgba(28,58,110,.2)'],borderRadius:6},{label:'Goal',data:sm.map(d=>d.goal),type:'line',borderColor:'#E8A020',borderWidth:2,pointBackgroundColor:'#E8A020',pointRadius:5,fill:false,tension:0.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{...basePlugins},scales:baseScale}});
+  document.getElementById('yoy-table-wrap').innerHTML=`<table class="comp-table"><thead><tr><th>Period</th><th class="r">Goal</th><th class="r">Actuals</th><th class="r">% of Goal</th></tr></thead><tbody>${sm.map((d,i)=>`<tr class="${i===0?'highlight':''}"><td>${d.period}</td><td class="r">${d.goal.toLocaleString()}</td><td class="r">${d.actuals>0?d.actuals.toLocaleString():i===0?d.actuals.toLocaleString():'<span style="color:var(--mid)">pending</span>'}</td><td class="r">${d.actuals>0||i===0?Math.round(d.actuals/d.goal*100)+'%':'<span style="color:var(--mid)">—</span>'}</td></tr>`).join('')}</tbody></table>`;
+}
+
+// ============================================================
+// SPEND VIEW
+// ============================================================
+function buildSpendView() {
+  const s=D.spend_mtd;
+  document.getElementById('g-spend').textContent=s.google.spend>0?'$'+Math.round(s.google.spend).toLocaleString():'—';
+  document.getElementById('g-impressions').textContent=s.google.impressions>0?s.google.impressions.toLocaleString():'—';
+  document.getElementById('m-spend').textContent=s.meta.spend>0?'$'+Math.round(s.meta.spend).toLocaleString():'—';
+  document.getElementById('m-impressions').textContent=s.meta.impressions>0?s.meta.impressions.toLocaleString():'—';
+
+  // Label the CPL trend section with current month
+  document.getElementById('spend-cpl-month-label').textContent=D.meta.current_month_label;
+
+  // ── CPL TREND CHART ──
+  dc('cplTrend');
+  const cplRows=D.cpl_daily.filter(r=>r.day_date);
+  const cplLabels=cplRows.map(r=>{
+    const d=new Date(r.day_date);
+    return(d.getMonth()+1)+'/'+(d.getDate());
+  });
+  const cpl7data  = cplRows.map(r=>r.cpl_7d  >0?r.cpl_7d  :null);
+  const cpl30data = cplRows.map(r=>r.cpl_30d >0?r.cpl_30d :null);
+  const cpl90data = cplRows.map(r=>r.cpl_90d >0?r.cpl_90d :null);
+
+  // Target band as a plugin
+  const targetBandPlugin = {
+    id:'targetBand',
+    beforeDraw(chart){
+      const{ctx,chartArea,scales}=chart;
+      if(!chartArea) return;
+      const yLow=scales.y.getPixelForValue(CPL_TARGET_LOW);
+      const yHigh=scales.y.getPixelForValue(CPL_TARGET_HIGH);
+      ctx.save();
+      ctx.fillStyle='rgba(46,125,50,.10)';
+      ctx.fillRect(chartArea.left,yHigh,chartArea.right-chartArea.left,yLow-yHigh);
+      // target band border lines
+      ctx.strokeStyle='rgba(46,125,50,.3)';
+      ctx.lineWidth=1;
+      ctx.setLineDash([4,3]);
+      ctx.beginPath();ctx.moveTo(chartArea.left,yLow);ctx.lineTo(chartArea.right,yLow);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(chartArea.left,yHigh);ctx.lineTo(chartArea.right,yHigh);ctx.stroke();
+      ctx.restore();
+    }
+  };
+
+  charts['cplTrend']=new Chart(document.getElementById('chartCPLTrend').getContext('2d'),{
+    type:'line',
+    plugins:[targetBandPlugin],
+    data:{
+      labels:cplLabels,
+      datasets:[
+        {label:'7-day rolling',data:cpl7data,borderColor:'#1C3A6E',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.3,spanGaps:false},
+        {label:'30-day rolling',data:cpl30data,borderColor:'#E8A020',backgroundColor:'transparent',borderWidth:2.5,pointRadius:0,tension:0.3,spanGaps:false},
+        {label:'90-day rolling',data:cpl90data,borderColor:'#3A7D3A',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.3,spanGaps:false,borderDash:[6,3]},
       ]
     },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{...basePlugins}, scales:{...baseScale} }
-  });
-
-  dc('chrolling');
-  const chKeys = Object.keys(D.channel_rolling).filter(k =>
-    D.channel_rolling[k].data && D.channel_rolling[k].data.some(v=>v>0)
-  );
-  charts['chrolling'] = new Chart(document.getElementById('chartChRolling').getContext('2d'), {
-    type:'bar',
-    data:{
-      labels,
-      datasets: chKeys.map(k=>({
-        label:k, data:D.channel_rolling[k].data,
-        backgroundColor:D.channel_rolling[k].color, borderRadius:2,
-      }))
-    },
     options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{...basePlugins,legend:{display:true,position:'top',labels:{font:{family:MONO,size:9},boxWidth:8,padding:8}}},
-      scales:{ x:{stacked:true,grid:{display:false},ticks:{font:{family:MONO,size:9}}}, y:{stacked:true,grid:{color:'#E8EDF5'},ticks:{font:{family:MONO,size:10}}} }
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          titleFont:{family:SANS,size:12},bodyFont:{family:MONO,size:11},
+          callbacks:{label:ctx=>`${ctx.dataset.label}: $${ctx.parsed.y.toFixed(2)}`}
+        }
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{family:MONO,size:10},maxTicksLimit:15}},
+        y:{
+          grid:{color:'#E8EDF5'},
+          ticks:{font:{family:MONO,size:10},callback:v=>'$'+v},
+          suggestedMin:0,
+        }
+      }
     }
   });
 
-  dc('facrolling');
-  const facKeys   = ['Supreme Sports Club','Columbia Athletic Club','Columbia Gym',"Hobbit's Glen"];
-  const facColors = ['#1C3A6E','#3A7D3A','#E8A020','#4285F4'];
-  charts['facrolling'] = new Chart(document.getElementById('chartFacRolling').getContext('2d'), {
-    type:'line',
-    data:{
-      labels,
-      datasets: facKeys.map((k,i)=>({
-        label:k, data:D.facility_rolling[k]||Array(13).fill(0),
-        borderColor:facColors[i], backgroundColor:facColors[i]+'20',
-        borderWidth:2.5, pointRadius:3, tension:0.3, fill:false
-      }))
-    },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{...basePlugins,legend:{display:true,position:'top',labels:{font:{family:MONO,size:9},boxWidth:8,padding:8}}}, scales:baseScale }
-  });
-}
-
-// ============================================================
-// FISCAL YEAR VIEW — unchanged
-// ============================================================
-let activeFY = 'FY2027';
-function switchFY(fy, btn) {
-  document.querySelectorAll('.fy-tab').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  activeFY = fy;
-  renderFYChart();
-}
-function renderFYChart() {
-  dc('fy');
-  const current = D.fy[activeFY] || [];
-  const compare = activeFY==='FY2027' ? D.fy['FY2026'] : null;
-  const labels  = ['May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'];
-  const padTo12 = arr => { const o=[...arr]; while(o.length<12) o.push(null); return o; };
-  const datasets = [
-    { type:'bar',  label:`${activeFY} Actuals`, data:padTo12(current.map(d=>d.cum_actuals)), backgroundColor:'rgba(28,58,110,.55)', borderRadius:4 },
-    { type:'line', label:`${activeFY} Goal`,    data:padTo12(current.map(d=>d.cum_goal)),    borderColor:'#E8A020', borderWidth:2, pointBackgroundColor:'#E8A020', pointRadius:4, tension:0.3, fill:false },
-  ];
-  if (compare) datasets.push({
-    type:'line', label:'FY2026 Actuals (ref)',
-    data:padTo12(compare.map(d=>d.cum_actuals)),
-    borderColor:'#95A5A6', borderWidth:1.5, pointRadius:3, borderDash:[4,3], tension:0.3, fill:false
-  });
-  charts['fy'] = new Chart(document.getElementById('chartFY').getContext('2d'), {
-    data:{ labels, datasets },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{...basePlugins}, scales:baseScale }
-  });
-  document.getElementById('fy-chart-title').textContent = `${activeFY} — Cumulative Leads vs Cumulative Goal`;
-  document.getElementById('fy-table-wrap').innerHTML = `
-    <div class="card-title" style="margin-bottom:4px">${activeFY} Monthly Detail</div>
-    <div class="card-sub">monthly and cumulative leads vs goal</div>
-    <table class="comp-table">
-      <thead><tr><th>Month</th><th class="r">Mo. Goal</th><th class="r">Mo. Actuals</th><th class="r">Cum. Goal</th><th class="r">Cum. Actuals</th></tr></thead>
-      <tbody>${current.map(d=>`
-        <tr>
-          <td>${d.label}</td>
-          <td class="r">${d.goal.toLocaleString()}</td>
-          <td class="r">${d.actuals>0?d.actuals.toLocaleString():d.partial?d.actuals.toLocaleString():'<span style="color:var(--mid)">—</span>'}</td>
-          <td class="r">${d.cum_goal.toLocaleString()}</td>
-          <td class="r">${d.cum_actuals>0||d.partial?d.cum_actuals.toLocaleString():'<span style="color:var(--mid)">—</span>'}</td>
-        </tr>`).join('')}
-      </tbody>
-    </table>`;
-}
-
-// ============================================================
-// YEAR-OVER-YEAR VIEW — unchanged
-// ============================================================
-function buildYOYView() {
-  const sm = D.same_month;
-  const currentMonth = D.meta.current_month_label.split(' ')[0];
-  document.getElementById('yoy-label').textContent       = `Year-over-Year — ${currentMonth} Comparison`;
-  document.getElementById('yoy-sub').textContent         = `Comparing ${currentMonth} across available years`;
-  document.getElementById('yoy-table-title').textContent = `${currentMonth} — Year Comparison`;
-  dc('yoy');
-  charts['yoy'] = new Chart(document.getElementById('chartYOY').getContext('2d'), {
-    type:'bar',
-    data:{
-      labels:sm.map(d=>d.period),
-      datasets:[
-        { label:'Actuals', data:sm.map(d=>d.actuals), backgroundColor:['rgba(28,58,110,.7)','rgba(28,58,110,.35)','rgba(28,58,110,.2)'], borderRadius:6 },
-        { label:'Goal', data:sm.map(d=>d.goal), type:'line', borderColor:'#E8A020', borderWidth:2, pointBackgroundColor:'#E8A020', pointRadius:5, fill:false, tension:0.3 }
-      ]
-    },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{...basePlugins}, scales:baseScale }
-  });
-  document.getElementById('yoy-table-wrap').innerHTML = `
-    <table class="comp-table">
-      <thead><tr><th>Period</th><th class="r">Goal</th><th class="r">Actuals</th><th class="r">% of Goal</th></tr></thead>
-      <tbody>${sm.map((d,i)=>`
-        <tr class="${i===0?'highlight':''}">
-          <td>${d.period}</td>
-          <td class="r">${d.goal.toLocaleString()}</td>
-          <td class="r">${d.actuals>0?d.actuals.toLocaleString():i===0?d.actuals.toLocaleString():'<span style="color:var(--mid)">pending</span>'}</td>
-          <td class="r">${d.actuals>0||i===0?Math.round(d.actuals/d.goal*100)+'%':'<span style="color:var(--mid)">—</span>'}</td>
-        </tr>`).join('')}
-      </tbody>
-    </table>`;
-}
-
-// ============================================================
-// SPEND VIEW — unchanged
-// ============================================================
-function buildSpendView() {
-  const s = D.spend_mtd;
-  document.getElementById('g-leads').textContent = s.google.leads||'—';
-  document.getElementById('g-spend').textContent = s.google.spend>0?'$'+s.google.spend.toLocaleString():'—';
-  document.getElementById('g-cpl').textContent   = s.google.cpl?'$'+s.google.cpl.toFixed(2):'—';
-  document.getElementById('m-leads').textContent = s.meta.leads||'—';
-  document.getElementById('m-spend').textContent = s.meta.spend>0?'$'+s.meta.spend.toLocaleString():'—';
-  document.getElementById('m-cpl').textContent   = s.meta.cpl?'$'+s.meta.cpl.toFixed(2):'—';
-
+  // ── PAID LEAD VOLUME ROLLING 12 ──
   dc('paidrolling');
-  const labels     = D.rolling_12.map(d=>d.label);
-  const googleData = D.channel_rolling['google cpc']  ? D.channel_rolling['google cpc'].data  :
-                     D.channel_rolling['Google Paid']  ? D.channel_rolling['Google Paid'].data  : Array(13).fill(0);
-  const metaData   = D.channel_rolling['meta cpc']    ? D.channel_rolling['meta cpc'].data    :
-                     D.channel_rolling['Meta Paid']    ? D.channel_rolling['Meta Paid'].data    : Array(13).fill(0);
-  charts['paidrolling'] = new Chart(document.getElementById('chartPaidRolling').getContext('2d'), {
-    type:'bar',
-    data:{
-      labels,
-      datasets:[
-        { label:'Google CPC', data:googleData, backgroundColor:channelColor('google','cpc'), borderRadius:4 },
-        { label:'Meta CPC',   data:metaData,   backgroundColor:channelColor('meta','cpc'),   borderRadius:4 },
-      ]
-    },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{...basePlugins}, scales:baseScale }
+  const r12labels=D.rolling_12.map(d=>d.label);
+  // Build google/meta CPC lead arrays from spend_rolling
+  const googleLeads=D.rolling_12.map(d=>{
+    const mo=D.spend_rolling[d.yearmo];
+    return mo&&mo.google?mo.google.leads:0;
   });
+  const metaLeads=D.rolling_12.map(d=>{
+    const mo=D.spend_rolling[d.yearmo];
+    return mo&&mo.meta?mo.meta.leads:0;
+  });
+  charts['paidrolling']=new Chart(document.getElementById('chartPaidRolling').getContext('2d'),{
+    type:'bar',
+    data:{labels:r12labels,datasets:[
+      {label:'Google CPC',data:googleLeads,backgroundColor:channelColor('google','cpc'),borderRadius:4},
+      {label:'Meta CPC',  data:metaLeads,  backgroundColor:channelColor('meta','cpc'),  borderRadius:4},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{...basePlugins},scales:baseScale}
+  });
+}
+
+// ============================================================
+// UTM VIEW
+// ============================================================
+const UTM_TAXONOMY=[
+  {source:'google',medium:'cpc',category:'Search',notes:'Google paid search (Google Ads). Use Campaign field to distinguish Search, Display, Demand Gen, and PMax campaign types.'},
+  {source:'google',medium:'organic',category:'Search',notes:'Organic Google search results.'},
+  {source:'other_search',medium:'organic',category:'Search',notes:'Organic search results from platforms such as Bing, DuckDuckGo, etc.'},
+  {source:'ai',medium:'organic',category:'Search',notes:'Inbound clicks from AI tools — ChatGPT, Perplexity, Gemini, etc. Use Content field to identify the specific tool.'},
+  {source:'meta',medium:'cpc',category:'Social',notes:'Paid Facebook, Instagram and Threads ads.'},
+  {source:'meta',medium:'organic',category:'Social',notes:'Unpaid Facebook and Instagram posts and content.'},
+  {source:'tiktok',medium:'organic',category:'Social',notes:'Unpaid TikTok posts and content.'},
+  {source:'newsletter',medium:'email',category:'Email & SMS',notes:'CA editorial newsletters (Do More with CA — Families Edition & Lakefront Live, CA Digest). Use Content field to identify the specific newsletter.'},
+  {source:'crm',medium:'email',category:'Email & SMS',notes:'Nurture email campaigns sent via marketing CRM.'},
+  {source:'crm',medium:'sms',category:'Email & SMS',notes:'SMS / text promotions sent via marketing.'},
+  {source:'crm',medium:'app',category:'Email & SMS',notes:'Club announcements sent via the Club Automation app.'},
+  {source:'offline',medium:'qr',category:'Offline & Physical',notes:'QR codes on signage, digital displays, open space signs, direct mail, and physical collateral.'},
+  {source:'offline',medium:'mail',category:'Offline & Physical',notes:'Direct mail — postcards, mailers where a vanity URL or QR code is used.'},
+  {source:'offline',medium:'event',category:'Offline & Physical',notes:'Structured in-person events — open houses, community events, and similar.'},
+  {source:'member',medium:'referral',category:'Referral & Partnerships',notes:'A member generates a lead — either by nominating a friend via the referral program form, or via a member advocate floor capture.'},
+  {source:'partner',medium:'email',category:'Referral & Partnerships',notes:'Partner newsletter link — property managers, real estate agents, employers. Use Campaign field for specific partner name.'},
+  {source:'partner',medium:'qr',category:'Referral & Partnerships',notes:'Partner QR code on noticeboard flyer or printed materials. Use Campaign for partner name, Content for placement.'},
+  {source:'partner',medium:'unknown',category:'Referral & Partnerships',notes:'Partner shares a plain link with no specific medium identifiable.'},
+  {source:'web_referral',medium:'web',category:'Referral & Partnerships',notes:'Inbound clicks from third-party websites — directories, press mentions, external site links.'},
+  {source:'direct',medium:'direct',category:'Direct, Untracked & Unresolved',notes:'No referrer detected or untagged traffic.'},
+  {source:'prospect_wizard',medium:'chatbot',category:'Direct, Untracked & Unresolved',notes:'Website chatbot captures. Upstream source unattributable. Temporary — will be deprecated when SalesIQ goes live.'},
+  {source:'unknown',medium:'unknown',category:'Direct, Untracked & Unresolved',notes:'Unresolvable attribution — HANDL failures, form wiring gaps, or other data loss.'},
+];
+function buildUTMView(){
+  document.getElementById('utm-table-body').innerHTML=UTM_TAXONOMY.map(row=>{
+    const ts=categoryTagStyle(row.category);
+    const color=channelColor(row.source,row.medium);
+    const tag=`<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-family:'DM Mono',monospace;font-weight:500;background:${ts.bg};color:${ts.text};white-space:nowrap;">${row.category}</span>`;
+    return`<tr><td><span class="ch-dot" style="background:${color}"></span><span class="mono">${row.source}</span></td><td class="mono">${row.medium}</td><td>${tag}</td><td style="font-size:12px;color:var(--text)">${row.notes}</td></tr>`;
+  }).join('');
+}
+
+// ============================================================
+// PROMO VIEW
+// ============================================================
+function buildPromoView(){
+  document.getElementById('promo-always-on-text').textContent=(D.promo_always_on&&D.promo_always_on.trim())?D.promo_always_on:'Always-on offer details have not been added to the promotions tab yet.';
+  document.getElementById('promo-par-trigger-text').textContent=(D.promo_par_trigger&&D.promo_par_trigger.trim())?D.promo_par_trigger:'If lead pacing is at or below 90% of PAR after the 14th of the month, a "pay nothing until [next month]" offer becomes available.';
+  const rows=D.promo_months||[];
+  const currentMonthNum=parseInt(D.meta.current_ym.split('-')[1],10);
+  document.getElementById('promo-table-body').innerHTML=rows.length>0?rows.map(r=>{
+    const isCurrent=r.month_num===currentMonthNum;
+    return`<tr class="promo-month-row${isCurrent?' is-current':''}"><td>${r.month_name}${isCurrent?' <span class="mono" style="font-size:10px;color:var(--navy);font-weight:700">— CURRENT</span>':''}</td><td style="font-size:12px;color:var(--text)">${r.referral||'—'}</td><td style="font-size:12px;color:var(--text)">${r.monthly_offer||'—'}</td><td style="font-size:12px;color:var(--text)">${r.flash_sale||'—'}</td></tr>`;
+  }).join(''):`<tr><td colspan="4" style="color:var(--mid);font-family:'DM Mono',monospace;font-size:12px;padding:16px 0">No promotions found.</td></tr>`;
 }
 
 // ============================================================
 // INIT
 // ============================================================
-// ============================================================
-// UTM TAXONOMY — static reference data
-// ============================================================
-const UTM_TAXONOMY = [
-  { source:'google', medium:'cpc', category:'Search', notes:'Google paid search (Google Ads). Use Campaign field to distinguish Search, Display, Demand Gen, and PMax campaign types.' },
-  { source:'google', medium:'organic', category:'Search', notes:'Organic Google search results.' },
-  { source:'other_search', medium:'organic', category:'Search', notes:'Organic search results from platforms such as Bing, DuckDuckGo, etc.' },
-  { source:'ai', medium:'organic', category:'Search', notes:'Inbound clicks from AI tools — ChatGPT, Perplexity, Gemini, etc. Use Content field to identify the specific tool.' },
-  { source:'meta', medium:'cpc', category:'Social', notes:'Paid Facebook, Instagram and Threads ads.' },
-  { source:'meta', medium:'organic', category:'Social', notes:'Unpaid Facebook and Instagram posts and content.' },
-  { source:'tiktok', medium:'organic', category:'Social', notes:'Unpaid TikTok posts and content.' },
-  { source:'newsletter', medium:'email', category:'Email & SMS', notes:'CA editorial newsletters (Do More with CA — Families Edition & Lakefront Live, CA Digest). Use Content field to identify the specific newsletter.' },
-  { source:'crm', medium:'email', category:'Email & SMS', notes:'Nurture email campaigns sent via marketing CRM.' },
-  { source:'crm', medium:'sms', category:'Email & SMS', notes:'SMS / text promotions sent via marketing.' },
-  { source:'crm', medium:'app', category:'Email & SMS', notes:'Club announcements sent via the Club Automation app.' },
-  { source:'offline', medium:'qr', category:'Offline & Physical', notes:'QR codes on signage, digital displays, open space signs, direct mail, and physical collateral. All offline print/physical materials should use a QR code for lead capture.' },
-  { source:'offline', medium:'mail', category:'Offline & Physical', notes:'Direct mail — postcards, mailers where a vanity URL or QR code is used.' },
-  { source:'offline', medium:'event', category:'Offline & Physical', notes:'Structured in-person events — open houses, community events, and similar.' },
-  { source:'member', medium:'referral', category:'Referral & Partnerships', notes:'A member generates a lead — either by nominating a friend via the referral program form, or via a member advocate floor capture.' },
-  { source:'partner', medium:'email', category:'Referral & Partnerships', notes:'Partner newsletter link — property managers, real estate agents, employers. Use Campaign field for specific partner name.' },
-  { source:'partner', medium:'qr', category:'Referral & Partnerships', notes:'Partner QR code on noticeboard flyer or printed materials. Use Campaign for partner name, Content for placement.' },
-  { source:'partner', medium:'unknown', category:'Referral & Partnerships', notes:'Partner shares a plain link with no specific medium identifiable. Use Campaign for partner name.' },
-  { source:'web_referral', medium:'web', category:'Referral & Partnerships', notes:'Inbound clicks from third-party websites — directories, press mentions, external site links. No human/organizational relationship; distinct from partner / unknown.' },
-  { source:'direct', medium:'direct', category:'Direct, Untracked & Unresolved', notes:'No referrer detected or untagged traffic.' },
-  { source:'prospect_wizard', medium:'chatbot', category:'Direct, Untracked & Unresolved', notes:'Website chatbot captures. Upstream source unattributable. Temporary — will be deprecated when SalesIQ goes live.' },
-  { source:'unknown', medium:'unknown', category:'Direct, Untracked & Unresolved', notes:'Unresolvable attribution — HANDL failures, form wiring gaps, or other data loss.' },
-];
-
-function buildUTMView() {
-  const tbody = document.getElementById('utm-table-body');
-  tbody.innerHTML = UTM_TAXONOMY.map(row => {
-    const ts = categoryTagStyle(row.category);
-    const color = channelColor(row.source, row.medium);
-    const tag = `<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-family:'DM Mono',monospace;font-weight:500;background:${ts.bg};color:${ts.text};white-space:nowrap;">${row.category}</span>`;
-    return `<tr>
-      <td><span class="ch-dot" style="background:${color}"></span><span class="mono">${row.source}</span></td>
-      <td class="mono">${row.medium}</td>
-      <td>${tag}</td>
-      <td style="font-size:12px;color:var(--text)">${row.notes}</td>
-    </tr>`;
-  }).join('');
-}
-
-// ============================================================
-// PROMOTIONS CALENDAR — 12-month reference table
-// ============================================================
-const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-
-function buildPromoView() {
-  // Always On text
-  document.getElementById('promo-always-on-text').textContent =
-    (D.promo_always_on && D.promo_always_on.trim())
-      ? D.promo_always_on
-      : 'Always-on offer details have not been added to the promotions tab yet.';
-
-  // PAR Trigger explainer text
-  document.getElementById('promo-par-trigger-text').textContent =
-    (D.promo_par_trigger && D.promo_par_trigger.trim())
-      ? D.promo_par_trigger
-      : 'If lead pacing is at or below 90% of PAR after the 14th of the month, a "pay nothing until [next month]" offer becomes available. Approval routes through the SVP of CP&S when trigger conditions are met.';
-
-  const rows = D.promo_months || [];
-  const currentMonthNum = parseInt(D.meta.current_ym.split('-')[1], 10); // 1-12
-
-  document.getElementById('promo-table-body').innerHTML = rows.length > 0 ? rows.map(r => {
-    const isCurrent = r.month_num === currentMonthNum;
-    return `<tr class="promo-month-row${isCurrent ? ' is-current' : ''}">
-      <td>${r.month_name}${isCurrent ? ' <span class="mono" style="font-size:10px;color:var(--navy);font-weight:700">— CURRENT</span>' : ''}</td>
-      <td style="font-size:12px;color:var(--text)">${r.referral || '—'}</td>
-      <td style="font-size:12px;color:var(--text)">${r.monthly_offer || '—'}</td>
-      <td style="font-size:12px;color:var(--text)">${r.flash_sale || '—'}</td>
-    </tr>`;
-  }).join('') : `<tr><td colspan="4" style="color:var(--mid);font-family:'DM Mono',monospace;font-size:12px;padding:16px 0">No promotions found in the promotions tab.</td></tr>`;
-}
-
-
-function init() {
-  selectedYM = D.meta.current_ym;
+function init(){
+  selectedYM=D.meta.current_ym;
   populateMonthPicker();
   updateHeaderMeta();
   buildMonthView();
@@ -1621,16 +1260,16 @@ function init() {
   buildPromoView();
 }
 
-document.addEventListener('DOMContentLoaded', fetchAndInit);
+document.addEventListener('DOMContentLoaded',fetchAndInit);
 
 // ============================================================
-// GOOGLE SHEETS FETCH
+// GOOGLE SHEETS FETCH + PARSE
 // ============================================================
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRg5tpv26JoTflxw6q5aDV_HNtGeLHgae3rbwrm8H6y567Ju5dQtGoZvPFXSuy0DaGPSwhqSikskTgT/pub?gid=0&single=true&output=csv';
+const SHEET_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vRg5tpv26JoTflxw6q5aDV_HNtGeLHgae3rbwrm8H6y567Ju5dQtGoZvPFXSuy0DaGPSwhqSikskTgT/pub?gid=0&single=true&output=csv';
 
-function parseCSV(text) {
+function parseCSV(text){
   const rows=[];
-  for (const line of text.split('\n')) {
+  for(const line of text.split('\n')){
     if(!line.trim()){rows.push([]);continue;}
     const row=[];let cur='',inQuote=false;
     for(let i=0;i<line.length;i++){
@@ -1655,8 +1294,8 @@ function findSection(rows,n){
 }
 
 function getSectionRows(rows,sectionIdx){
-  if(sectionIdx<0) return [];
-  const skip=['NOTE','FORMULA','PASTE','INSTRUCTIONS','col','SECTION','Google Sheets','Build','This','yearmo','channel','facility','platform','metric','period','fy','day_num'];
+  if(sectionIdx<0) return[];
+  const skip=['NOTE','FORMULA','PASTE','INSTRUCTIONS','col','SECTION','Google Sheets','Build','This','yearmo','channel','facility','platform','metric','period','fy','day_num','day_date'];
   const data=[];let i=sectionIdx+1;
   while(i<rows.length){
     const row=rows[i];
@@ -1675,7 +1314,7 @@ function str(v){return(v||'').toString().trim();}
 function parseSummaries(rows){
   const LD={};
 
-  // SECTION 3 — now includes EngagePro KV rows appended after the original block
+  // SECTION 3
   const s3idx=findSection(rows,3);const s3kv={};
   if(s3idx>=0){
     let i=s3idx+2;
@@ -1690,108 +1329,65 @@ function parseSummaries(rows){
   const rawEpPct=num(s3kv['engagepro_pct_of_goal']);
   const rawMsPct=num(s3kv['membership_sales_pct_of_goal']);
   LD.meta={
-    current_ym:            str(s3kv['current_yearmo'])       ||'—',
-    current_month_label:   str(s3kv['current_month_label'])  ||'—',
-    days_in_month:         num(s3kv['days_in_month'])        ||31,
-    days_elapsed:          num(s3kv['days_elapsed'])         ||1,
-    current_goal:          num(s3kv['current_goal'])         ||0,
-    leads_to_date:         num(s3kv['leads_to_date'])        ||0,
-    par_to_date:           num(s3kv['par_to_date'])          ||0,
-    vs_par:                num(s3kv['vs_par'])               ||0,
-    pct_of_goal:           rawPct<2?Math.round(rawPct*1000)/10:rawPct,
-    projected_month_total: num(s3kv['projected_month_total'])||0,
-    // EngagePro
-    ep_goal:               num(s3kv['engagepro_goal'])              ||0,
-    ep_leads_to_date:      num(s3kv['engagepro_leads_to_date'])     ||0,
-    ep_par_to_date:        num(s3kv['engagepro_par_to_date'])       ||0,
-    ep_vs_par:             num(s3kv['engagepro_vs_par'])            ||0,
-    ep_pct_of_goal:        rawEpPct<2&&rawEpPct>0?Math.round(rawEpPct*1000)/10:rawEpPct,
-    ep_projected_total:    num(s3kv['engagepro_projected_total'])   ||0,
-    // Membership Sales
-    ms_goal:               num(s3kv['membership_sales_goal'])            ||0,
-    ms_sales_to_date:      num(s3kv['membership_sales_to_date'])         ||0,
-    ms_par_to_date:        num(s3kv['membership_sales_par_to_date'])     ||0,
-    ms_vs_par:             num(s3kv['membership_sales_vs_par'])          ||0,
-    ms_pct_of_goal:        rawMsPct<2&&rawMsPct>0?Math.round(rawMsPct*1000)/10:rawMsPct,
-    ms_projected_total:    num(s3kv['membership_sales_projected_total'])||0,
+    current_ym:           str(s3kv['current_yearmo'])      ||'—',
+    current_month_label:  str(s3kv['current_month_label']) ||'—',
+    days_in_month:        num(s3kv['days_in_month'])       ||31,
+    days_elapsed:         num(s3kv['days_elapsed'])        ||1,
+    current_goal:         num(s3kv['current_goal'])        ||0,
+    leads_to_date:        num(s3kv['leads_to_date'])       ||0,
+    par_to_date:          num(s3kv['par_to_date'])         ||0,
+    vs_par:               num(s3kv['vs_par'])              ||0,
+    pct_of_goal:          rawPct<2?Math.round(rawPct*1000)/10:rawPct,
+    projected_month_total:num(s3kv['projected_month_total'])||0,
+    ep_goal:              num(s3kv['engagepro_goal'])             ||0,
+    ep_leads_to_date:     num(s3kv['engagepro_leads_to_date'])    ||0,
+    ep_par_to_date:       num(s3kv['engagepro_par_to_date'])      ||0,
+    ep_vs_par:            num(s3kv['engagepro_vs_par'])           ||0,
+    ep_pct_of_goal:       rawEpPct<2&&rawEpPct>0?Math.round(rawEpPct*1000)/10:rawEpPct,
+    ep_projected_total:   num(s3kv['engagepro_projected_total'])  ||0,
+    ms_goal:              num(s3kv['membership_sales_goal'])           ||0,
+    ms_sales_to_date:     num(s3kv['membership_sales_to_date'])        ||0,
+    ms_par_to_date:       num(s3kv['membership_sales_par_to_date'])    ||0,
+    ms_vs_par:            num(s3kv['membership_sales_vs_par'])         ||0,
+    ms_pct_of_goal:       rawMsPct<2&&rawMsPct>0?Math.round(rawMsPct*1000)/10:rawMsPct,
+    ms_projected_total:   num(s3kv['membership_sales_projected_total'])||0,
   };
 
-  // ── SECTION 4 — yearmo | day_num | leads_on_day | cumulative_leads | par_cumulative | vs_par
-  //                | ep_leads_on_day | ep_cumulative_leads | ep_par_cumulative | ep_vs_par
-  //                | ms_sales_on_day | ms_cumulative_sales | ms_par_cumulative | ms_vs_par ──
-  const s4rows = getSectionRows(rows, findSection(rows, 4));
-  LD.daily_all = [];
-  LD.daily_mtd = [];
-  s4rows.forEach(r => {
-    const firstCell = str(r[0]);
-    if (!firstCell) return;
+  // SECTION 4
+  const s4rows=getSectionRows(rows,findSection(rows,4));
+  LD.daily_all=[];LD.daily_mtd=[];
+  s4rows.forEach(r=>{
+    const firstCell=str(r[0]);if(!firstCell) return;
     let entry;
-    if (firstCell.includes('-')) {
-      entry = {
-        yearmo: firstCell, day: num(r[1]), leads_day: num(r[2]), cumulative: num(r[3]), par: num(r[4]), vs_par_day: num(r[5]),
-        ep_leads_on_day:     num(r[6]),
-        ep_cumulative_leads: num(r[7]),
-        ep_par_cumulative:   num(r[8]),
-        ep_vs_par_day:       num(r[9]),
-        ms_sales_on_day:     num(r[10]),
-        ms_cumulative_sales: num(r[11]),
-        ms_par_cumulative:   num(r[12]),
-        ms_vs_par_day:       num(r[13]),
-      };
+    if(firstCell.includes('-')){
+      entry={yearmo:firstCell,day:num(r[1]),leads_day:num(r[2]),cumulative:num(r[3]),par:num(r[4]),vs_par_day:num(r[5]),ep_leads_on_day:num(r[6]),ep_cumulative_leads:num(r[7]),ep_par_cumulative:num(r[8]),ep_vs_par_day:num(r[9]),ms_sales_on_day:num(r[10]),ms_cumulative_sales:num(r[11]),ms_par_cumulative:num(r[12]),ms_vs_par_day:num(r[13])};
     } else {
-      // Old format fallback (no EP/MS columns)
-      entry = {
-        yearmo: LD.meta.current_ym, day: num(r[0]), leads_day: num(r[2]), cumulative: num(r[3]), par: num(r[4]),
-        ep_leads_on_day: 0, ep_cumulative_leads: 0, ep_par_cumulative: 0, ep_vs_par_day: 0,
-        ms_sales_on_day: 0, ms_cumulative_sales: 0, ms_par_cumulative: 0, ms_vs_par_day: 0,
-      };
+      entry={yearmo:LD.meta.current_ym,day:num(r[0]),leads_day:num(r[2]),cumulative:num(r[3]),par:num(r[4]),ep_leads_on_day:0,ep_cumulative_leads:0,ep_par_cumulative:0,ep_vs_par_day:0,ms_sales_on_day:0,ms_cumulative_sales:0,ms_par_cumulative:0,ms_vs_par_day:0};
     }
-    if (entry.day > 0 || firstCell.includes('-')) {
-      LD.daily_all.push(entry);
-      if (entry.yearmo === LD.meta.current_ym) LD.daily_mtd.push(entry);
-    }
+    if(entry.day>0||firstCell.includes('-')){LD.daily_all.push(entry);if(entry.yearmo===LD.meta.current_ym)LD.daily_mtd.push(entry);}
   });
 
-  // SECTION 5 — unchanged
+  // SECTION 5
   const s5rows=getSectionRows(rows,findSection(rows,5));
-  LD.rolling_12=s5rows.map(r=>({
-    yearmo:str(r[0]),label:str(r[1]),actuals:num(r[2]),goal:num(r[3]),
-    partial:str(r[0])===LD.meta.current_ym,
-  }));
+  LD.rolling_12=s5rows.map(r=>({yearmo:str(r[0]),label:str(r[1]),actuals:num(r[2]),goal:num(r[3]),partial:str(r[0])===LD.meta.current_ym}));
 
-  // SECTION 6 — channels (now sorted desc by leads for ALL months)
-  const s6rows = getSectionRows(rows, findSection(rows, 6));
-  LD.channels_all = [];
-  LD.channels_mtd = [];
-  s6rows.forEach(r => {
-    const firstCell = str(r[0]);
-    if (!firstCell) return;
-    if (firstCell.includes('-') && firstCell.length === 7) {
-      const entry = {
-        yearmo:   firstCell,
-        channel:  str(r[1]), source: str(r[2]), medium: str(r[3]),
-        leads:    num(r[4]), category: str(r[5]),
-        color:    channelColor(str(r[2]), str(r[3])),
-      };
-      if (entry.leads > 0) {
-        LD.channels_all.push(entry);
-        if (entry.yearmo === LD.meta.current_ym) LD.channels_mtd.push(entry);
-      }
+  // SECTION 6
+  const s6rows=getSectionRows(rows,findSection(rows,6));
+  LD.channels_all=[];LD.channels_mtd=[];
+  s6rows.forEach(r=>{
+    const firstCell=str(r[0]);if(!firstCell) return;
+    if(firstCell.includes('-')&&firstCell.length===7){
+      const entry={yearmo:firstCell,channel:str(r[1]),source:str(r[2]),medium:str(r[3]),leads:num(r[4]),category:str(r[5]),color:channelColor(str(r[2]),str(r[3]))};
+      if(entry.leads>0){LD.channels_all.push(entry);if(entry.yearmo===LD.meta.current_ym)LD.channels_mtd.push(entry);}
     } else {
-      const entry = {
-        yearmo:   LD.meta.current_ym,
-        channel:  firstCell, source: str(r[1]), medium: str(r[2]),
-        leads:    num(r[3]), category: str(r[4]),
-        color:    channelColor(str(r[1]), str(r[2])),
-      };
-      if (entry.leads > 0) { LD.channels_all.push(entry); LD.channels_mtd.push(entry); }
+      const entry={yearmo:LD.meta.current_ym,channel:firstCell,source:str(r[1]),medium:str(r[2]),leads:num(r[3]),category:str(r[4]),color:channelColor(str(r[1]),str(r[2]))};
+      if(entry.leads>0){LD.channels_all.push(entry);LD.channels_mtd.push(entry);}
     }
   });
-  // Sort everything desc by leads (current month list + the all-months pool used for prior months)
-  LD.channels_mtd.sort((a,b) => b.leads - a.leads);
-  LD.channels_all.sort((a,b) => b.leads - a.leads);
+  LD.channels_mtd.sort((a,b)=>b.leads-a.leads);
+  LD.channels_all.sort((a,b)=>b.leads-a.leads);
 
-  // SECTION 7 — unchanged
+  // SECTION 7
   const s7idx=findSection(rows,7);
   LD.channel_rolling={};
   if(s7idx>=0){
@@ -1802,35 +1398,27 @@ function parseSummaries(rows){
       const ch=str(r[0]);
       if(ch&&!ch.startsWith('NOTE')&&!ch.startsWith('FORMULA')&&!ch.startsWith('This')){
         const source=str(r[1]||''),medium=str(r[2]||''),category=str(r[15]||'');
-        LD.channel_rolling[ch]={
-          data:r.slice(3,15).map(v=>num(v)),
-          source,medium,category,
-          color:channelColor(source,medium),
-        };
+        LD.channel_rolling[ch]={data:r.slice(3,15).map(v=>num(v)),source,medium,category,color:channelColor(source,medium)};
       }
       i++;
     }
   }
 
-  // SECTION 8 — unchanged
-  const s8rows = getSectionRows(rows, findSection(rows, 8));
-  LD.facilities_all = [];
-  LD.facilities_mtd = [];
-  s8rows.forEach(r => {
-    const firstCell = str(r[0]);
-    if (!firstCell) return;
-    if (firstCell.includes('-') && firstCell.length === 7) {
-      const entry = { yearmo: firstCell, facility: str(r[1]), leads: num(r[2]) };
-      LD.facilities_all.push(entry);
-      if (entry.yearmo === LD.meta.current_ym) LD.facilities_mtd.push(entry);
+  // SECTION 8
+  const s8rows=getSectionRows(rows,findSection(rows,8));
+  LD.facilities_all=[];LD.facilities_mtd=[];
+  s8rows.forEach(r=>{
+    const firstCell=str(r[0]);if(!firstCell) return;
+    if(firstCell.includes('-')&&firstCell.length===7){
+      const entry={yearmo:firstCell,facility:str(r[1]),leads:num(r[2])};
+      LD.facilities_all.push(entry);if(entry.yearmo===LD.meta.current_ym)LD.facilities_mtd.push(entry);
     } else {
-      const entry = { yearmo: LD.meta.current_ym, facility: firstCell, leads: num(r[1]) };
-      LD.facilities_all.push(entry);
-      LD.facilities_mtd.push(entry);
+      const entry={yearmo:LD.meta.current_ym,facility:firstCell,leads:num(r[1])};
+      LD.facilities_all.push(entry);LD.facilities_mtd.push(entry);
     }
   });
 
-  // SECTION 9 — unchanged
+  // SECTION 9
   const s9idx=findSection(rows,9);
   LD.facility_rolling={};
   if(s9idx>=0){
@@ -1839,25 +1427,22 @@ function parseSummaries(rows){
       const r=rows[i];
       if(!r[0]||r[0].startsWith('SECTION')||r.every(c=>!c||c.trim()==='')) break;
       const fac=str(r[0]);
-      if(fac&&!fac.startsWith('NOTE')&&!fac.startsWith('FORMULA')){
-        LD.facility_rolling[fac]=r.slice(1,13).map(v=>num(v));
-      }
+      if(fac&&!fac.startsWith('NOTE')&&!fac.startsWith('FORMULA')) LD.facility_rolling[fac]=r.slice(1,13).map(v=>num(v));
       i++;
     }
   }
 
-  // SECTION 10 — unchanged
+  // SECTION 10 — spend current month (impressions, clicks, spend per platform)
   const s10rows=getSectionRows(rows,findSection(rows,10));
-  LD.spend_mtd={google:{leads:0,spend:0,impressions:0,clicks:0,cpl:null},meta:{leads:0,spend:0,impressions:0,clicks:0,cpl:null}};
+  LD.spend_mtd={google:{leads:0,spend:0,impressions:0,clicks:0},meta:{leads:0,spend:0,impressions:0,clicks:0}};
   s10rows.forEach(r=>{
     const plat=str(r[0]).toLowerCase();
     if(plat==='google'||plat==='meta'){
-      const spend=num(r[3]),leads=num(r[4]);
-      LD.spend_mtd[plat]={impressions:num(r[1]),clicks:num(r[2]),spend,leads,cpl:(spend>0&&leads>0)?Math.round(spend/leads*100)/100:null};
+      LD.spend_mtd[plat]={impressions:num(r[1]),clicks:num(r[2]),spend:num(r[3]),leads:num(r[4])};
     }
   });
 
-  // SECTION 11 — unchanged
+  // SECTION 11 — spend rolling 12
   LD.spend_rolling={};
   const s11rows=getSectionRows(rows,findSection(rows,11));
   s11rows.forEach(r=>{
@@ -1868,7 +1453,7 @@ function parseSummaries(rows){
     LD.spend_rolling[ym][plat]={impressions:num(r[2]),clicks:num(r[3]),spend,leads,cpl:(spend>0&&leads>0)?Math.round(spend/leads*100)/100:null};
   });
 
-  // SECTION 12 — unchanged
+  // SECTION 12 — fiscal year
   LD.fy={};
   const s12rows=getSectionRows(rows,findSection(rows,12));
   s12rows.forEach(r=>{
@@ -1878,42 +1463,60 @@ function parseSummaries(rows){
     LD.fy[fy].push({seq:num(r[1]),ym:str(r[2]),label:str(r[3]),goal:num(r[4]),actuals:num(r[5]),cum_goal:num(r[6]),cum_actuals:num(r[7]),partial:str(r[2])===LD.meta.current_ym});
   });
 
-  // SECTION 13 — unchanged
+  // SECTION 13 — same month YOY
   const s13rows=getSectionRows(rows,findSection(rows,13));
-  LD.same_month=s13rows.map(r=>({
-    period:str(r[0]),yearmo:str(r[1]),label:str(r[2]),
-    actuals:num(r[3]),goal:num(r[4]),
-    days_elapsed:LD.meta.days_elapsed,days_in_month:LD.meta.days_in_month,
-  }));
+  LD.same_month=s13rows.map(r=>({period:str(r[0]),yearmo:str(r[1]),label:str(r[2]),actuals:num(r[3]),goal:num(r[4]),days_elapsed:LD.meta.days_elapsed,days_in_month:LD.meta.days_in_month}));
 
-  // SECTION 14 — PROMOTIONS: STANDING TEXT (KV rows)
-  // col A=metric, col B=value: "always_on_description" and "par_trigger_description"
+  // SECTION 14 — promotions standing text
   const s14idx=findSection(rows,14);
-  LD.promo_always_on='';
-  LD.promo_par_trigger='';
+  LD.promo_always_on='';LD.promo_par_trigger='';
   if(s14idx>=0){
     let i=s14idx+2;
     while(i<rows.length){
       const r=rows[i];
       if(!r[0]||r[0].startsWith('SECTION')) break;
       if(r[0]&&!r[0].startsWith('NOTE')){
-        if(r[0].trim()==='always_on_description')      LD.promo_always_on=str(r[1]);
-        if(r[0].trim()==='par_trigger_description')    LD.promo_par_trigger=str(r[1]);
+        if(r[0].trim()==='always_on_description')   LD.promo_always_on=str(r[1]);
+        if(r[0].trim()==='par_trigger_description') LD.promo_par_trigger=str(r[1]);
       }
       i++;
     }
   }
 
-  // SECTION 15 — PROMOTIONS CALENDAR — 12-month reference table
-  // columns: month_num | month_name | referral | monthly_offer | flash_sale
+  // SECTION 15 — promotions calendar
   const s15rows=getSectionRows(rows,findSection(rows,15));
-  LD.promo_months=s15rows.map(r=>({
-    month_num:    num(r[0]),
-    month_name:   str(r[1]),
-    referral:     str(r[2]),
-    monthly_offer:str(r[3]),
-    flash_sale:   str(r[4]),
-  })).filter(p=>p.month_num>0);
+  LD.promo_months=s15rows.map(r=>({month_num:num(r[0]),month_name:str(r[1]),referral:str(r[2]),monthly_offer:str(r[3]),flash_sale:str(r[4])})).filter(p=>p.month_num>0);
+
+  // SECTION 16 — CPL rolling daily
+  // columns: day_date | spend_7d | leads_7d | cpl_7d | spend_30d | leads_30d | cpl_30d | spend_90d | leads_90d | cpl_90d
+  LD.cpl_daily=[];
+  const s16idx=findSection(rows,16);
+  if(s16idx>=0){
+    let i=s16idx+2; // skip header row
+    while(i<rows.length){
+      const r=rows[i];
+      if(!r[0]||r[0].startsWith('SECTION')||r.every(c=>!c||c.trim()==='')) break;
+      const firstCell=str(r[0]);
+      // Skip header row if it snuck through
+      if(firstCell==='day_date'){i++;continue;}
+      // Only parse rows that look like dates
+      if(firstCell&&(firstCell.includes('/')||firstCell.includes('-'))&&str(r[2])!==''){
+        LD.cpl_daily.push({
+          day_date:  firstCell,
+          spend_7d:  num(r[1]),
+          leads_7d:  num(r[2]),
+          cpl_7d:    num(r[3]),
+          spend_30d: num(r[4]),
+          leads_30d: num(r[5]),
+          cpl_30d:   num(r[6]),
+          spend_90d: num(r[7]),
+          leads_90d: num(r[8]),
+          cpl_90d:   num(r[9]),
+        });
+      }
+      i++;
+    }
+  }
 
   return LD;
 }
@@ -1927,12 +1530,12 @@ async function fetchAndInit(){
     const rows=parseCSV(text);
     const live=parseSummaries(rows);
     Object.assign(D,live);
-    selectedYM = D.meta.current_ym;
+    selectedYM=D.meta.current_ym;
     showLoading(false);
     init();
   }catch(err){
     console.warn('Live fetch failed, using demo data:',err);
-    selectedYM = D.meta.current_ym;
+    selectedYM=D.meta.current_ym;
     showLoading(false);
     showBanner('⚠ Demo data — sheet not yet connected or published. ('+err.message+')');
     init();
@@ -1942,8 +1545,8 @@ async function fetchAndInit(){
 function showLoading(on){document.getElementById('loading-overlay').style.display=on?'flex':'none';}
 function showBanner(msg){const b=document.getElementById('data-banner');b.textContent=msg;b.style.display='block';}
 function updateHeaderMeta(){
-  document.getElementById('hdr-day').textContent  = D.meta.days_elapsed||'—';
-  document.getElementById('hdr-dim').textContent  = D.meta.days_in_month||'—';
+  document.getElementById('hdr-day').textContent=D.meta.days_elapsed||'—';
+  document.getElementById('hdr-dim').textContent=D.meta.days_in_month||'—';
   if(D.meta.current_ym&&D.meta.current_ym!=='—'){
     const[y,m]=D.meta.current_ym.split('-').map(Number);
     document.getElementById('hdr-fy').textContent=m>=5?y+1:y;
