@@ -1369,10 +1369,10 @@ function buildPromoView(){
       </colgroup>
       <thead>
         <tr style="border-bottom:2px solid var(--border)">
-          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left">Month</th>
-          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left">Layer 2 — Referral</th>
-          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left">Layer 3 — Monthly Offer</th>
-          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left">Layer 4 — Flash Sale</th>
+          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left;border-right:1px solid var(--border)">Month</th>
+          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left;border-right:1px solid var(--border)">Layer 2 — Referral</th>
+          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left;border-right:1px solid var(--border)">Layer 3 — Monthly Offer</th>
+          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left;border-right:1px solid var(--border)">Layer 4 — Flash Sale</th>
         </tr>
       </thead>
       <tbody>`;
@@ -1400,7 +1400,7 @@ function buildPromoView(){
     const currentBadge = isCurrent
       ? `<span style="display:block;font-family:'DM Mono',monospace;font-size:9px;font-weight:700;color:var(--gold);letter-spacing:.5px;margin-top:2px">CURRENT</span>`
       : '';
-    const monthCell = `<td style="padding:11px 12px;vertical-align:middle;${bottomBorder}">
+    const monthCell = `<td style="padding:11px 12px;vertical-align:middle;border-right:1px solid var(--border);${bottomBorder}">
         <span style="font-size:13px;font-weight:${isCurrent?'700':'500'};color:${isCurrent?'var(--navy)':'var(--text)'}">${r.month_name}</span>
         ${currentBadge}
       </td>`;
@@ -1416,24 +1416,24 @@ function buildPromoView(){
           <span style="display:inline-block;font-family:'DM Mono',monospace;font-size:9px;font-weight:700;background:var(--navy);color:#fff;padding:2px 8px;border-radius:4px;letter-spacing:.5px;margin-bottom:10px">${windowName}</span>
           <span style="display:block;font-size:12px;font-weight:600;color:var(--navy);line-height:1.5;margin-bottom:4px">Refer 4 new members → Earn a year of free membership</span>
           <span style="display:block;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid)">${monthSpan}</span>`;
-        referralCell = `<td rowspan="3" style="padding:14px 12px;vertical-align:middle;border-bottom:2px solid var(--border);border-right:1px solid var(--border);border-left:3px solid var(--navy)">${referralContent}</td>`;
+        referralCell = `<td rowspan="3" style="padding:14px 12px;vertical-align:middle;border-bottom:2px solid var(--border);border-right:1px solid var(--border);border-left:1px solid var(--border)">${referralContent}</td>`;
       } else {
         // Non-window row — normal single cell
         const isClosedText = r.referral==='Window closed';
-        referralContent = `<span style="font-size:12px;color:${isClosedText?'var(--mid)':'var(--text)'};${isClosedText?'font-style:italic':''}">${isClosedText ? '' : (linkify(r.referral)||'')}</span>`;
-        referralCell = `<td style="padding:11px 12px;vertical-align:middle;${bottomBorder}">${referralContent}</td>`;
+        referralContent = `<span style="font-size:12px;color:var(--text)">${isClosedText ? '' : (linkify(r.referral)||'')}</span>`;
+        referralCell = `<td style="padding:11px 12px;vertical-align:middle;border-right:1px solid var(--border);${bottomBorder}">${referralContent}</td>`;
       }
     }
 
     // Monthly offer cell
-    const offerCell = `<td style="padding:11px 12px;vertical-align:middle;font-size:12px;color:var(--text);line-height:1.5;${bottomBorder}">${linkify(r.monthly_offer)||''}</td>`;
+    const offerCell = `<td style="padding:11px 12px;vertical-align:middle;font-size:12px;color:var(--text);line-height:1.5;border-right:1px solid var(--border);${bottomBorder}">${linkify(r.monthly_offer)||''}</td>`;
 
     // Flash sale cell
     const flashText = linkify(r.flash_sale);
     const flashContent = flashText && flashText !== '—'
       ? `<span style="display:inline-block;font-size:11px;font-weight:600;color:#7A5200;background:#FDF3E0;padding:3px 9px;border-radius:5px;white-space:nowrap">${flashText}</span>`
       : '';
-    const flashCell = `<td style="padding:11px 12px;vertical-align:middle;${bottomBorder}">${flashContent}</td>`;
+    const flashCell = `<td style="padding:11px 12px;vertical-align:middle;border-right:1px solid var(--border);${bottomBorder}">${flashContent}</td>`;
 
     html += `<tr style="${rowBg}">${monthCell}${referralCell}${offerCell}${flashCell}</tr>`;
   });
