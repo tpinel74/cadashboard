@@ -400,31 +400,51 @@ body {
     </div>
   </div>
 
-  <!-- ── BLENDED CPL STRIP ── -->
+  <!-- ── BLENDED CPL SECTION ── -->
   <div class="sec-label" id="cpl-strip-label">Paid Media Efficiency — <span id="cpl-strip-month">—</span></div>
-  <div class="cpl-strip" id="cpl-strip-wrap">
-    <div class="cpl-card primary">
-      <div class="cpl-icon">30d</div>
-      <div class="cpl-body">
-        <div class="cpl-lbl">Blended CPL — 30-day rolling</div>
-        <div class="cpl-val" id="cpl-30d-val">—</div>
-        <div class="cpl-foot" id="cpl-30d-foot">—</div>
+  <div id="cpl-strip-wrap">
+    <!-- Rolling averages chart -->
+    <div class="card mb">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:4px">
+        <div>
+          <div class="card-title">Cost Per Lead — Rolling Averages</div>
+          <div class="card-sub">Total paid media spend ÷ total marketing leads — trailing windows through each day</div>
+        </div>
+        <div class="cpl-target-badge" id="homepage-target-badge">Target $25 – $35</div>
       </div>
-    </div>
-    <div class="cpl-card">
-      <div class="cpl-icon">7d</div>
-      <div class="cpl-body">
-        <div class="cpl-lbl">Blended CPL — 7-day rolling</div>
-        <div class="cpl-val" id="cpl-7d-val">—</div>
-        <div class="cpl-foot" id="cpl-7d-foot">—</div>
+      <div class="cpl-legend">
+        <div class="cpl-legend-item"><div class="cpl-legend-line" style="background:#1C3A6E;height:2.5px"></div> 7-day rolling</div>
+        <div class="cpl-legend-item"><div class="cpl-legend-line" style="background:#E8A020;height:2.5px"></div> 30-day rolling</div>
+        <div class="cpl-legend-item"><div class="cpl-legend-line" style="background:#3A7D3A;height:2.5px"></div> 90-day rolling</div>
+        <div class="cpl-legend-item"><div class="cpl-legend-line" style="background:rgba(46,125,50,.25);height:8px;border-radius:2px"></div> target band</div>
       </div>
+      <div class="chart-wrap" style="height:220px"><canvas id="chartCPLHome"></canvas></div>
     </div>
-    <div class="cpl-card">
-      <div class="cpl-icon">90d</div>
-      <div class="cpl-body">
-        <div class="cpl-lbl">Blended CPL — 90-day rolling</div>
-        <div class="cpl-val" id="cpl-90d-val">—</div>
-        <div class="cpl-foot" id="cpl-90d-foot">—</div>
+    <!-- Pills: 7d | 30d | 90d -->
+    <div class="cpl-strip">
+      <div class="cpl-card">
+        <div class="cpl-icon">7d</div>
+        <div class="cpl-body">
+          <div class="cpl-lbl">Blended CPL — 7-day rolling</div>
+          <div class="cpl-val" id="cpl-7d-val">—</div>
+          <div class="cpl-foot" id="cpl-7d-foot">—</div>
+        </div>
+      </div>
+      <div class="cpl-card primary">
+        <div class="cpl-icon">30d</div>
+        <div class="cpl-body">
+          <div class="cpl-lbl">Blended CPL — 30-day rolling</div>
+          <div class="cpl-val" id="cpl-30d-val">—</div>
+          <div class="cpl-foot" id="cpl-30d-foot">—</div>
+        </div>
+      </div>
+      <div class="cpl-card">
+        <div class="cpl-icon">90d</div>
+        <div class="cpl-body">
+          <div class="cpl-lbl">Blended CPL — 90-day rolling</div>
+          <div class="cpl-val" id="cpl-90d-val">—</div>
+          <div class="cpl-foot" id="cpl-90d-foot">—</div>
+        </div>
       </div>
     </div>
   </div>
@@ -543,7 +563,7 @@ body {
         <div class="card-title">Cost Per Lead — Rolling Averages</div>
         <div class="card-sub">Total paid media spend ÷ total marketing leads — trailing windows through each day</div>
       </div>
-      <div class="cpl-target-badge">Target $30 – $35</div>
+      <div class="cpl-target-badge">Target $25 – $35</div>
     </div>
     <div class="cpl-legend">
       <div class="cpl-legend-item"><div class="cpl-legend-line" style="background:#1C3A6E;height:2.5px"></div> 7-day rolling</div>
@@ -654,7 +674,7 @@ function categoryTagStyle(category) {
 }
 
 // CPL target band
-const CPL_TARGET_LOW  = 30;
+const CPL_TARGET_LOW  = 25;
 const CPL_TARGET_HIGH = 35;
 
 // ============================================================
@@ -1046,6 +1066,65 @@ function buildCPLStrip(isCurrent) {
   const hasAnyCPL = cpl30 || cpl7 || cpl90;
   stripWrap.style.display = hasAnyCPL ? '' : 'none';
   stripLabel.style.display = hasAnyCPL ? '' : 'none';
+
+  // ── Homepage CPL chart (same data as Spend tab chart) ──
+  dc('cplHome');
+  if(hasAnyCPL && D.cpl_daily.length > 0) {
+    const cplRows = D.cpl_daily.filter(r => r.day_date);
+    const cplLabels = cplRows.map(r => {
+      const d = new Date(r.day_date);
+      return (d.getMonth()+1)+'/'+(d.getDate());
+    });
+    const cpl7data  = cplRows.map(r => r.cpl_7d  > 0 ? r.cpl_7d  : null);
+    const cpl30data = cplRows.map(r => r.cpl_30d > 0 ? r.cpl_30d : null);
+    const cpl90data = cplRows.map(r => r.cpl_90d > 0 ? r.cpl_90d : null);
+
+    const targetBandPluginHome = {
+      id:'targetBandHome',
+      beforeDraw(chart){
+        const{ctx,chartArea,scales}=chart;
+        if(!chartArea) return;
+        const yLow  = scales.y.getPixelForValue(CPL_TARGET_LOW);
+        const yHigh = scales.y.getPixelForValue(CPL_TARGET_HIGH);
+        ctx.save();
+        ctx.fillStyle='rgba(46,125,50,.10)';
+        ctx.fillRect(chartArea.left, yHigh, chartArea.right-chartArea.left, yLow-yHigh);
+        ctx.strokeStyle='rgba(46,125,50,.3)';
+        ctx.lineWidth=1;
+        ctx.setLineDash([4,3]);
+        ctx.beginPath();ctx.moveTo(chartArea.left,yLow);ctx.lineTo(chartArea.right,yLow);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(chartArea.left,yHigh);ctx.lineTo(chartArea.right,yHigh);ctx.stroke();
+        ctx.restore();
+      }
+    };
+
+    charts['cplHome'] = new Chart(document.getElementById('chartCPLHome').getContext('2d'), {
+      type:'line',
+      plugins:[targetBandPluginHome],
+      data:{
+        labels:cplLabels,
+        datasets:[
+          {label:'7-day rolling', data:cpl7data,  borderColor:'#1C3A6E', backgroundColor:'transparent', borderWidth:2,   pointRadius:0, tension:0.3, spanGaps:false},
+          {label:'30-day rolling',data:cpl30data, borderColor:'#E8A020', backgroundColor:'transparent', borderWidth:2.5, pointRadius:0, tension:0.3, spanGaps:false},
+          {label:'90-day rolling',data:cpl90data, borderColor:'#3A7D3A', backgroundColor:'transparent', borderWidth:2,   pointRadius:0, tension:0.3, spanGaps:false, borderDash:[6,3]},
+        ]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{display:false},
+          tooltip:{
+            titleFont:{family:SANS,size:12}, bodyFont:{family:MONO,size:11},
+            callbacks:{label:ctx=>`${ctx.dataset.label}: $${ctx.parsed.y.toFixed(2)}`}
+          }
+        },
+        scales:{
+          x:{grid:{display:false}, ticks:{font:{family:MONO,size:10}, maxTicksLimit:12}},
+          y:{grid:{color:'#E8EDF5'}, ticks:{font:{family:MONO,size:10}, callback:v=>'$'+v}, suggestedMin:0}
+        }
+      }
+    });
+  }
 }
 
 // ============================================================
