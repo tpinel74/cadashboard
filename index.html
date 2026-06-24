@@ -618,12 +618,12 @@ body {
 
 <!-- ════════ VIEW: PROMOTIONS CALENDAR ════════ -->
 <div class="view" id="view-promo">
-  <div class="sec-label first">Membership Promotions Master Calendar</div>
+  <div class="sec-label first">Promotions Calendar — Membership Promotions Master Calendar</div>
 
   <!-- Always On -->
   <div class="card mb" style="border-left:4px solid var(--green)">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-      <div class="card-title" style="color:var(--green);margin-bottom:0">LAYER 1 - Always On</div>
+      <div class="card-title" style="color:var(--green);margin-bottom:0">Always On</div>
       <span style="font-family:'DM Mono',monospace;font-size:10px;background:#E8F5E9;color:#1B5E20;padding:2px 8px;border-radius:10px;font-weight:600">All 12 months</span>
     </div>
     <div style="font-size:13px;color:var(--text);line-height:1.6" id="promo-always-on-text">Loading…</div>
@@ -640,7 +640,7 @@ body {
   <!-- PAR Trigger — bottom, as a conditional footnote -->
   <div class="card" style="border-left:4px solid #9B59B6">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-      <div class="card-title" style="color:#9B59B6;margin-bottom:0">LAYER 5 - Mid-Month PAR Trigger</div>
+      <div class="card-title" style="color:#9B59B6;margin-bottom:0">Mid-Month PAR Trigger</div>
       <span style="font-family:'DM Mono',monospace;font-size:10px;background:#F3E8FF;color:#6B21A8;padding:2px 8px;border-radius:10px;font-weight:600">Conditional</span>
     </div>
     <div style="font-size:13px;color:var(--text);line-height:1.6" id="promo-par-trigger-text">Loading…</div>
@@ -1345,6 +1345,11 @@ function buildPromoView(){
 
   // Legend removed — window tinting dropped
 
+  // Strip parenthesized URLs that Google Sheets CSV export adds for hyperlinked cells
+  function stripUrls(text) {
+    return (text || '').replace(/\s*\(https?:\/\/[^)]+\)/g, '').trim();
+  }
+
   // ── Build table ──
   // Referral window months — cells will be merged with rowspan=3
   const SKIP_REFERRAL = [3,4,9,10]; // middle/last rows of each window — no referral cell rendered
@@ -1410,17 +1415,18 @@ function buildPromoView(){
       } else {
         // Non-window row — normal single cell
         const isClosedText = r.referral==='Window closed';
-        referralContent = `<span style="font-size:12px;color:${isClosedText?'var(--mid)':'var(--text)'};${isClosedText?'font-style:italic':''}">${r.referral||'—'}</span>`;
+        referralContent = `<span style="font-size:12px;color:${isClosedText?'var(--mid)':'var(--text)'};${isClosedText?'font-style:italic':''}">${stripUrls(r.referral)||'—'}</span>`;
         referralCell = `<td style="padding:11px 12px;vertical-align:middle;${bottomBorder}">${referralContent}</td>`;
       }
     }
 
     // Monthly offer cell
-    const offerCell = `<td style="padding:11px 12px;vertical-align:middle;font-size:12px;color:var(--text);line-height:1.5;${bottomBorder}">${r.monthly_offer||'—'}</td>`;
+    const offerCell = `<td style="padding:11px 12px;vertical-align:middle;font-size:12px;color:var(--text);line-height:1.5;${bottomBorder}">${stripUrls(r.monthly_offer)||'—'}</td>`;
 
     // Flash sale cell
-    const flashContent = r.flash_sale
-      ? `<span style="display:inline-block;font-size:11px;font-weight:600;color:#7A5200;background:#FDF3E0;padding:3px 9px;border-radius:5px;white-space:nowrap">${r.flash_sale}</span>`
+    const flashText = stripUrls(r.flash_sale);
+    const flashContent = flashText
+      ? `<span style="display:inline-block;font-size:11px;font-weight:600;color:#7A5200;background:#FDF3E0;padding:3px 9px;border-radius:5px;white-space:nowrap">${flashText}</span>`
       : `<span style="font-size:12px;color:var(--mid)">—</span>`;
     const flashCell = `<td style="padding:11px 12px;vertical-align:middle;${bottomBorder}">${flashContent}</td>`;
 
