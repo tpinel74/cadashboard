@@ -623,7 +623,7 @@ body {
   <!-- Always On -->
   <div class="card mb" style="border-left:4px solid var(--green)">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-      <div class="card-title" style="color:var(--green);margin-bottom:0">Always On</div>
+      <div class="card-title" style="color:var(--green);margin-bottom:0">Layer 1 — Always On</div>
       <span style="font-family:'DM Mono',monospace;font-size:10px;background:#E8F5E9;color:#1B5E20;padding:2px 8px;border-radius:10px;font-weight:600">All 12 months</span>
     </div>
     <div style="font-size:13px;color:var(--text);line-height:1.6" id="promo-always-on-text">Loading…</div>
@@ -640,7 +640,7 @@ body {
   <!-- PAR Trigger — bottom, as a conditional footnote -->
   <div class="card" style="border-left:4px solid #9B59B6">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-      <div class="card-title" style="color:#9B59B6;margin-bottom:0">Mid-Month PAR Trigger</div>
+      <div class="card-title" style="color:#9B59B6;margin-bottom:0">Layer 5 — Mid-Month PAR Trigger</div>
       <span style="font-family:'DM Mono',monospace;font-size:10px;background:#F3E8FF;color:#6B21A8;padding:2px 8px;border-radius:10px;font-weight:600">Conditional</span>
     </div>
     <div style="font-size:13px;color:var(--text);line-height:1.6" id="promo-par-trigger-text">Loading…</div>
@@ -1416,23 +1416,23 @@ function buildPromoView(){
           <span style="display:inline-block;font-family:'DM Mono',monospace;font-size:9px;font-weight:700;background:var(--navy);color:#fff;padding:2px 8px;border-radius:4px;letter-spacing:.5px;margin-bottom:10px">${windowName}</span>
           <span style="display:block;font-size:12px;font-weight:600;color:var(--navy);line-height:1.5;margin-bottom:4px">Refer 4 new members → Earn a year of free membership</span>
           <span style="display:block;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid)">${monthSpan}</span>`;
-        referralCell = `<td rowspan="3" style="padding:14px 12px;vertical-align:middle;border-bottom:2px solid var(--border);border-right:1px solid var(--border)">${referralContent}</td>`;
+        referralCell = `<td rowspan="3" style="padding:14px 12px;vertical-align:middle;border-bottom:2px solid var(--border);border-right:1px solid var(--border);border-left:3px solid var(--navy)">${referralContent}</td>`;
       } else {
         // Non-window row — normal single cell
         const isClosedText = r.referral==='Window closed';
-        referralContent = `<span style="font-size:12px;color:${isClosedText?'var(--mid)':'var(--text)'};${isClosedText?'font-style:italic':''}">${linkify(r.referral)||'—'}</span>`;
+        referralContent = `<span style="font-size:12px;color:${isClosedText?'var(--mid)':'var(--text)'};${isClosedText?'font-style:italic':''}">${isClosedText ? '' : (linkify(r.referral)||'')}</span>`;
         referralCell = `<td style="padding:11px 12px;vertical-align:middle;${bottomBorder}">${referralContent}</td>`;
       }
     }
 
     // Monthly offer cell
-    const offerCell = `<td style="padding:11px 12px;vertical-align:middle;font-size:12px;color:var(--text);line-height:1.5;${bottomBorder}">${linkify(r.monthly_offer)||'—'}</td>`;
+    const offerCell = `<td style="padding:11px 12px;vertical-align:middle;font-size:12px;color:var(--text);line-height:1.5;${bottomBorder}">${linkify(r.monthly_offer)||''}</td>`;
 
     // Flash sale cell
     const flashText = linkify(r.flash_sale);
-    const flashContent = flashText
+    const flashContent = flashText && flashText !== '—'
       ? `<span style="display:inline-block;font-size:11px;font-weight:600;color:#7A5200;background:#FDF3E0;padding:3px 9px;border-radius:5px;white-space:nowrap">${flashText}</span>`
-      : `<span style="font-size:12px;color:var(--mid)">—</span>`;
+      : '';
     const flashCell = `<td style="padding:11px 12px;vertical-align:middle;${bottomBorder}">${flashContent}</td>`;
 
     html += `<tr style="${rowBg}">${monthCell}${referralCell}${offerCell}${flashCell}</tr>`;
