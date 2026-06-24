@@ -619,25 +619,32 @@ body {
 <!-- ════════ VIEW: PROMOTIONS CALENDAR ════════ -->
 <div class="view" id="view-promo">
   <div class="sec-label first">Promotions Calendar — Membership Promotions Master Calendar</div>
+
+  <!-- Always On -->
   <div class="card mb" style="border-left:4px solid var(--green)">
-    <div class="card-title" style="color:var(--green)">Always On — All 12 Months</div>
-    <div class="card-sub" style="margin-bottom:0" id="promo-always-on-text">Loading…</div>
-  </div>
-  <div class="card mb" style="border-left:4px solid #9B59B6">
-    <div class="card-title" style="color:#9B59B6">Layer 5 — Mid-Month PAR Trigger</div>
-    <div class="card-sub" style="margin-bottom:0" id="promo-par-trigger-text">Loading…</div>
-  </div>
-  <div class="card">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-      <div>
-        <div class="card-title">Monthly Promotions Reference</div>
-        <div class="card-sub" style="margin-bottom:0">Layer 2 (Referral) · Layer 3 (Monthly Offer) · Layer 4 (Flash Sale) — current month highlighted</div>
-      </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <div class="card-title" style="color:var(--green);margin-bottom:0">Always On</div>
+      <span style="font-family:'DM Mono',monospace;font-size:10px;background:#E8F5E9;color:#1B5E20;padding:2px 8px;border-radius:10px;font-weight:600">All 12 months</span>
     </div>
-    <table class="ch-table" style="margin-top:12px">
-      <thead><tr><th style="min-width:70px">Month</th><th>Layer 2 — Referral</th><th>Layer 3 — Monthly Offer</th><th>Layer 4 — Flash Sale</th></tr></thead>
-      <tbody id="promo-table-body"></tbody>
-    </table>
+    <div style="font-size:13px;color:var(--text);line-height:1.6" id="promo-always-on-text">Loading…</div>
+  </div>
+
+  <!-- Main table -->
+  <div class="card mb" id="promo-table-card">
+    <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+      <div class="card-title">Monthly Promotions Reference</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap" id="promo-legend"></div>
+    </div>
+    <div id="promo-table-wrap"></div>
+  </div>
+
+  <!-- PAR Trigger — bottom, as a conditional footnote -->
+  <div class="card" style="border-left:4px solid #9B59B6">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <div class="card-title" style="color:#9B59B6;margin-bottom:0">Mid-Month PAR Trigger</div>
+      <span style="font-family:'DM Mono',monospace;font-size:10px;background:#F3E8FF;color:#6B21A8;padding:2px 8px;border-radius:10px;font-weight:600">Conditional</span>
+    </div>
+    <div style="font-size:13px;color:var(--text);line-height:1.6" id="promo-par-trigger-text">Loading…</div>
   </div>
 </div>
 
@@ -1313,14 +1320,123 @@ function buildUTMView(){
 // PROMO VIEW
 // ============================================================
 function buildPromoView(){
-  document.getElementById('promo-always-on-text').textContent=(D.promo_always_on&&D.promo_always_on.trim())?D.promo_always_on:'Always-on offer details have not been added to the promotions tab yet.';
-  document.getElementById('promo-par-trigger-text').textContent=(D.promo_par_trigger&&D.promo_par_trigger.trim())?D.promo_par_trigger:'If lead pacing is at or below 90% of PAR after the 14th of the month, a "pay nothing until [next month]" offer becomes available.';
-  const rows=D.promo_months||[];
-  const currentMonthNum=parseInt(D.meta.current_ym.split('-')[1],10);
-  document.getElementById('promo-table-body').innerHTML=rows.length>0?rows.map(r=>{
-    const isCurrent=r.month_num===currentMonthNum;
-    return`<tr class="promo-month-row${isCurrent?' is-current':''}"><td>${r.month_name}${isCurrent?' <span class="mono" style="font-size:10px;color:var(--navy);font-weight:700">— CURRENT</span>':''}</td><td style="font-size:12px;color:var(--text)">${r.referral||'—'}</td><td style="font-size:12px;color:var(--text)">${r.monthly_offer||'—'}</td><td style="font-size:12px;color:var(--text)">${r.flash_sale||'—'}</td></tr>`;
-  }).join(''):`<tr><td colspan="4" style="color:var(--mid);font-family:'DM Mono',monospace;font-size:12px;padding:16px 0">No promotions found.</td></tr>`;
+  document.getElementById('promo-always-on-text').textContent =
+    (D.promo_always_on&&D.promo_always_on.trim())
+      ? D.promo_always_on
+      : 'Always-on offer details have not been added yet.';
+  document.getElementById('promo-par-trigger-text').textContent =
+    (D.promo_par_trigger&&D.promo_par_trigger.trim())
+      ? D.promo_par_trigger
+      : 'If lead pacing is at or below 90% of PAR after the 14th of the month, a conditional offer activates.';
+
+  const rows = D.promo_months || [];
+  const currentMonthNum = parseInt(D.meta.current_ym.split('-')[1], 10);
+
+  if (!rows.length) {
+    document.getElementById('promo-table-wrap').innerHTML =
+      `<p style="color:var(--mid);font-family:'DM Mono',monospace;font-size:12px">No promotions data found.</p>`;
+    return;
+  }
+
+  // ── Referral window detection ──
+  // Group consecutive rows that share the same referral window theme
+  // Windows: Window A (Feb/Mar/Apr = months 2,3,4), Window B (Aug/Sep/Oct = 8,9,10)
+  const WINDOW_A = [2,3,4];
+  const WINDOW_B = [8,9,10];
+  const WINDOW_A_PHASES = {2:'Opens',3:'Active',4:'Closes'};
+  const WINDOW_B_PHASES = {8:'Opens',9:'Active',10:'Closes'};
+
+  // Legend
+  document.getElementById('promo-legend').innerHTML = `
+    <span style="display:inline-flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid)">
+      <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#EEF3FF;border:1.5px solid #1C3A6E"></span> Referral window
+    </span>
+    <span style="display:inline-flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid)">
+      <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#FFF8E1;border:1.5px solid #E8A020"></span> Current month
+    </span>`;
+
+  // ── Build table ──
+  let html = `
+    <table style="width:100%;border-collapse:collapse;table-layout:fixed">
+      <colgroup>
+        <col style="width:100px">
+        <col style="width:36%">
+        <col>
+        <col style="width:160px">
+      </colgroup>
+      <thead>
+        <tr style="border-bottom:2px solid var(--border)">
+          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left">Month</th>
+          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left">Referral</th>
+          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left">Monthly Offer</th>
+          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left">Flash Sale</th>
+        </tr>
+      </thead>
+      <tbody>`;
+
+  // Track which window rows we've started so we can draw the bracket
+  let windowAStarted = false, windowBStarted = false;
+
+  rows.forEach((r, idx) => {
+    const isCurrent  = r.month_num === currentMonthNum;
+    const inWindowA  = WINDOW_A.includes(r.month_num);
+    const inWindowB  = WINDOW_B.includes(r.month_num);
+    const inWindow   = inWindowA || inWindowB;
+    const phase      = inWindowA ? WINDOW_A_PHASES[r.month_num] : (inWindowB ? WINDOW_B_PHASES[r.month_num] : null);
+    const windowName = inWindowA ? 'Window A' : (inWindowB ? 'Window B' : null);
+    const isFirst    = (inWindowA && r.month_num===2) || (inWindowB && r.month_num===8);
+    const isLast     = (inWindowA && r.month_num===4) || (inWindowB && r.month_num===10);
+
+    // Row background
+    let rowBg = '';
+    if (isCurrent)    rowBg = 'background:#FFF8E1;';
+    else if (inWindow) rowBg = 'background:#F0F4FF;';
+
+    // Left border accent for window rows
+    const leftBorder = inWindow ? 'border-left:3px solid #1C3A6E;' : 'border-left:3px solid transparent;';
+
+    // Bottom border
+    const bottomBorder = isLast ? 'border-bottom:2px solid var(--border);' : 'border-bottom:1px solid var(--border);';
+
+    // Month cell content
+    const currentBadge = isCurrent
+      ? `<span style="display:block;font-family:'DM Mono',monospace;font-size:9px;font-weight:700;color:var(--gold);letter-spacing:.5px;margin-top:2px">CURRENT</span>`
+      : '';
+    const monthCell = `<td style="padding:11px 12px;vertical-align:top;${leftBorder}${bottomBorder}">
+        <span style="font-size:13px;font-weight:${isCurrent?'700':'500'};color:${isCurrent?'var(--navy)':'var(--text)'}">${r.month_name}</span>
+        ${currentBadge}
+      </td>`;
+
+    // Referral cell — show window badge on first row, phase on all rows
+    let referralContent;
+    if (inWindow) {
+      const windowBadge = isFirst
+        ? `<span style="display:inline-block;font-family:'DM Mono',monospace;font-size:9px;font-weight:700;background:var(--navy);color:#fff;padding:2px 7px;border-radius:4px;letter-spacing:.5px;margin-bottom:5px">${windowName}</span><br>`
+        : '';
+      const phaseLabel = `<span style="font-family:'DM Mono',monospace;font-size:10px;font-weight:600;color:var(--navy);opacity:.7;text-transform:uppercase;letter-spacing:.5px">${phase} · </span>`;
+      // Strip the verbose window description, just show the core offer
+      const coreText = r.referral.replace(/Window [AB] (opens|active|closes) — /i,'').replace(/Refer 4 new members during this window/i,'Refer 4 members').trim();
+      referralContent = `${windowBadge}${phaseLabel}<span style="font-size:12px;color:var(--text)">${coreText}</span>`;
+    } else {
+      referralContent = `<span style="font-size:12px;color:${r.referral&&r.referral!=='Window closed'?'var(--text)':'var(--mid)'};${r.referral==='Window closed'?'font-style:italic':''}">${r.referral||'—'}</span>`;
+    }
+
+    const referralCell = `<td style="padding:11px 12px;vertical-align:top;${bottomBorder}">${referralContent}</td>`;
+
+    // Monthly offer cell
+    const offerCell = `<td style="padding:11px 12px;vertical-align:top;font-size:12px;color:var(--text);${bottomBorder}">${r.monthly_offer||'—'}</td>`;
+
+    // Flash sale cell
+    const flashContent = r.flash_sale
+      ? `<span style="display:inline-block;font-size:11px;font-weight:600;color:#7A5200;background:#FDF3E0;padding:3px 8px;border-radius:5px">${r.flash_sale}</span>`
+      : `<span style="font-size:12px;color:var(--mid)">—</span>`;
+    const flashCell = `<td style="padding:11px 12px;vertical-align:top;${bottomBorder}">${flashContent}</td>`;
+
+    html += `<tr style="${rowBg}">${monthCell}${referralCell}${offerCell}${flashCell}</tr>`;
+  });
+
+  html += `</tbody></table>`;
+  document.getElementById('promo-table-wrap').innerHTML = html;
 }
 
 // ============================================================
