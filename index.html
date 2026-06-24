@@ -1343,8 +1343,6 @@ function buildPromoView(){
   // Windows: Window A (Feb/Mar/Apr = months 2,3,4), Window B (Aug/Sep/Oct = 8,9,10)
   const WINDOW_A = [2,3,4];
   const WINDOW_B = [8,9,10];
-  const WINDOW_A_PHASES = {2:'Opens',3:'Active',4:'Closes'};
-  const WINDOW_B_PHASES = {8:'Opens',9:'Active',10:'Closes'};
 
   // Legend
   document.getElementById('promo-legend').innerHTML = `
@@ -1356,13 +1354,16 @@ function buildPromoView(){
     </span>`;
 
   // ── Build table ──
+  // Referral window months — cells will be merged with rowspan=3
+  const SKIP_REFERRAL = [3,4,9,10]; // middle/last rows of each window — no referral cell rendered
+
   let html = `
     <table style="width:100%;border-collapse:collapse;table-layout:fixed">
       <colgroup>
-        <col style="width:100px">
-        <col style="width:36%">
+        <col style="width:110px">
+        <col style="width:28%">
         <col>
-        <col style="width:160px">
+        <col style="width:200px">
       </colgroup>
       <thead>
         <tr style="border-bottom:2px solid var(--border)">
@@ -1374,63 +1375,72 @@ function buildPromoView(){
       </thead>
       <tbody>`;
 
-  // Track which window rows we've started so we can draw the bracket
-  let windowAStarted = false, windowBStarted = false;
-
   rows.forEach((r, idx) => {
     const isCurrent  = r.month_num === currentMonthNum;
     const inWindowA  = WINDOW_A.includes(r.month_num);
     const inWindowB  = WINDOW_B.includes(r.month_num);
     const inWindow   = inWindowA || inWindowB;
-    const phase      = inWindowA ? WINDOW_A_PHASES[r.month_num] : (inWindowB ? WINDOW_B_PHASES[r.month_num] : null);
     const windowName = inWindowA ? 'Window A' : (inWindowB ? 'Window B' : null);
     const isFirst    = (inWindowA && r.month_num===2) || (inWindowB && r.month_num===8);
     const isLast     = (inWindowA && r.month_num===4) || (inWindowB && r.month_num===10);
+    const skipReferral = SKIP_REFERRAL.includes(r.month_num);
 
     // Row background
     let rowBg = '';
-    if (isCurrent)    rowBg = 'background:#FFF8E1;';
+    if (isCurrent)     rowBg = 'background:#FFF8E1;';
     else if (inWindow) rowBg = 'background:#F0F4FF;';
 
-    // Left border accent for window rows
+    // Left border
     const leftBorder = inWindow ? 'border-left:3px solid #1C3A6E;' : 'border-left:3px solid transparent;';
 
-    // Bottom border
-    const bottomBorder = isLast ? 'border-bottom:2px solid var(--border);' : 'border-bottom:1px solid var(--border);';
+    // Bottom border — stronger after each window block
+    const bottomBorder = isLast
+      ? 'border-bottom:2px solid var(--border);'
+      : 'border-bottom:1px solid var(--border);';
 
-    // Month cell content
+    // Month cell
     const currentBadge = isCurrent
       ? `<span style="display:block;font-family:'DM Mono',monospace;font-size:9px;font-weight:700;color:var(--gold);letter-spacing:.5px;margin-top:2px">CURRENT</span>`
       : '';
-    const monthCell = `<td style="padding:11px 12px;vertical-align:top;${leftBorder}${bottomBorder}">
+    const monthCell = `<td style="padding:11px 12px;vertical-align:middle;${leftBorder}${bottomBorder}">
         <span style="font-size:13px;font-weight:${isCurrent?'700':'500'};color:${isCurrent?'var(--navy)':'var(--text)'}">${r.month_name}</span>
         ${currentBadge}
       </td>`;
 
-    // Referral cell — show window badge on first row, phase on all rows
-    let referralContent;
-    if (inWindow) {
-      const windowBadge = isFirst
-        ? `<span style="display:inline-block;font-family:'DM Mono',monospace;font-size:9px;font-weight:700;background:var(--navy);color:#fff;padding:2px 7px;border-radius:4px;letter-spacing:.5px;margin-bottom:5px">${windowName}</span><br>`
-        : '';
-      const phaseLabel = `<span style="font-family:'DM Mono',monospace;font-size:10px;font-weight:600;color:var(--navy);opacity:.7;text-transform:uppercase;letter-spacing:.5px">${phase} · </span>`;
-      // Strip the verbose window description, just show the core offer
-      const coreText = r.referral.replace(/Window [AB] (opens|active|closes) — /i,'').replace(/Refer 4 new members during this window/i,'Refer 4 members').trim();
-      referralContent = `${windowBadge}${phaseLabel}<span style="font-size:12px;color:var(--text)">${coreText}</span>`;
-    } else {
-      referralContent = `<span style="font-size:12px;color:${r.referral&&r.referral!=='Window closed'?'var(--text)':'var(--mid)'};${r.referral==='Window closed'?'font-style:italic':''}">${r.referral||'—'}</span>`;
+    // Referral cell — rowspan=3 on first window row, omitted on subsequent rows
+    let referralCell = '';
+    if (!skipReferral) {
+      let referralContent;
+      if (inWindow && isFirst) {
+        // Merged cell spanning all 3 window months
+        const coreText = r.referral
+          .replace(/Window [AB] opens — /i,'')
+          .replace(/Refer 4 new members during this window/i,'Refer 4 members')
+          .trim();
+        referralContent = `
+          <span style="display:inline-block;font-family:'DM Mono',monospace;font-size:9px;font-weight:700;background:var(--navy);color:#fff;padding:2px 8px;border-radius:4px;letter-spacing:.5px;margin-bottom:8px">${windowName}</span>
+          <span style="display:block;font-size:12px;color:var(--text);line-height:1.5">${coreText}</span>
+          <span style="display:block;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);margin-top:6px">Feb · Mar · Apr</span>`;
+        if (inWindowB) {
+          referralContent = referralContent.replace('Feb · Mar · Apr','Aug · Sep · Oct');
+        }
+        referralCell = `<td rowspan="3" style="padding:14px 12px;vertical-align:middle;border-bottom:2px solid var(--border);border-right:1px solid var(--border)">${referralContent}</td>`;
+      } else {
+        // Non-window row — normal single cell
+        const isClosedText = r.referral==='Window closed';
+        referralContent = `<span style="font-size:12px;color:${isClosedText?'var(--mid)':'var(--text)'};${isClosedText?'font-style:italic':''}">${r.referral||'—'}</span>`;
+        referralCell = `<td style="padding:11px 12px;vertical-align:middle;${bottomBorder}">${referralContent}</td>`;
+      }
     }
 
-    const referralCell = `<td style="padding:11px 12px;vertical-align:top;${bottomBorder}">${referralContent}</td>`;
-
     // Monthly offer cell
-    const offerCell = `<td style="padding:11px 12px;vertical-align:top;font-size:12px;color:var(--text);${bottomBorder}">${r.monthly_offer||'—'}</td>`;
+    const offerCell = `<td style="padding:11px 12px;vertical-align:middle;font-size:12px;color:var(--text);line-height:1.5;${bottomBorder}">${r.monthly_offer||'—'}</td>`;
 
     // Flash sale cell
     const flashContent = r.flash_sale
-      ? `<span style="display:inline-block;font-size:11px;font-weight:600;color:#7A5200;background:#FDF3E0;padding:3px 8px;border-radius:5px">${r.flash_sale}</span>`
+      ? `<span style="display:inline-block;font-size:11px;font-weight:600;color:#7A5200;background:#FDF3E0;padding:3px 9px;border-radius:5px;white-space:nowrap">${r.flash_sale}</span>`
       : `<span style="font-size:12px;color:var(--mid)">—</span>`;
-    const flashCell = `<td style="padding:11px 12px;vertical-align:top;${bottomBorder}">${flashContent}</td>`;
+    const flashCell = `<td style="padding:11px 12px;vertical-align:middle;${bottomBorder}">${flashContent}</td>`;
 
     html += `<tr style="${rowBg}">${monthCell}${referralCell}${offerCell}${flashCell}</tr>`;
   });
