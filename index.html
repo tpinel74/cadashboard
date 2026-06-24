@@ -1345,9 +1345,14 @@ function buildPromoView(){
 
   // Legend removed — window tinting dropped
 
-  // Strip parenthesized URLs that Google Sheets CSV export adds for hyperlinked cells
-  function stripUrls(text) {
-    return (text || '').replace(/\s*\(https?:\/\/[^)]+\)/g, '').trim();
+  // Convert Google Sheets hyperlink export format "Display Text(https://url)" into a clickable link.
+  // Falls back to plain text if no URL pattern found.
+  function linkify(text) {
+    if (!text) return '—';
+    return text.replace(/^(.*?)\((https?:\/\/[^)]+)\)(.*)$/, (_, before, url, after) => {
+      const label = (before + after).trim() || url;
+      return `<a href="${url}" target="_blank" rel="noopener" style="color:var(--navy);text-decoration:underline;text-underline-offset:2px">${label}</a>`;
+    });
   }
 
   // ── Build table ──
@@ -1415,16 +1420,16 @@ function buildPromoView(){
       } else {
         // Non-window row — normal single cell
         const isClosedText = r.referral==='Window closed';
-        referralContent = `<span style="font-size:12px;color:${isClosedText?'var(--mid)':'var(--text)'};${isClosedText?'font-style:italic':''}">${stripUrls(r.referral)||'—'}</span>`;
+        referralContent = `<span style="font-size:12px;color:${isClosedText?'var(--mid)':'var(--text)'};${isClosedText?'font-style:italic':''}">${linkify(r.referral)||'—'}</span>`;
         referralCell = `<td style="padding:11px 12px;vertical-align:middle;${bottomBorder}">${referralContent}</td>`;
       }
     }
 
     // Monthly offer cell
-    const offerCell = `<td style="padding:11px 12px;vertical-align:middle;font-size:12px;color:var(--text);line-height:1.5;${bottomBorder}">${stripUrls(r.monthly_offer)||'—'}</td>`;
+    const offerCell = `<td style="padding:11px 12px;vertical-align:middle;font-size:12px;color:var(--text);line-height:1.5;${bottomBorder}">${linkify(r.monthly_offer)||'—'}</td>`;
 
     // Flash sale cell
-    const flashText = stripUrls(r.flash_sale);
+    const flashText = linkify(r.flash_sale);
     const flashContent = flashText
       ? `<span style="display:inline-block;font-size:11px;font-weight:600;color:#7A5200;background:#FDF3E0;padding:3px 9px;border-radius:5px;white-space:nowrap">${flashText}</span>`
       : `<span style="font-size:12px;color:var(--mid)">—</span>`;
