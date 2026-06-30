@@ -134,6 +134,43 @@ body {
 }
 .nav-tab:hover { color: var(--navy); }
 .nav-tab.on { color: var(--navy); border-bottom-color: var(--navy); }
+
+/* ── MARKETING PLANS DROPDOWN ── */
+.nav-dropdown { position: relative; display: inline-flex; align-items: stretch; }
+.nav-dropdown-menu {
+  display: none;
+  position: absolute; top: 100%; left: 0; margin-top: 4px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(14,31,61,.14);
+  min-width: 240px;
+  padding: 6px 0;
+  z-index: 150;
+}
+.nav-dropdown.open .nav-dropdown-menu { display: block; }
+.nav-dropdown.open > .nav-tab { color: var(--navy); }
+.dropdown-item {
+  display: block;
+  padding: 9px 16px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.dropdown-item:hover { background: var(--light); color: var(--navy); }
+.dropdown-item.pinned { font-weight: 700; color: var(--navy); }
+.dropdown-item.archive-link { color: var(--mid); font-size: 12px; }
+.dropdown-divider { height: 1px; background: var(--border); margin: 6px 0; }
+.dropdown-empty {
+  padding: 9px 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--mid);
+}
+
 .main { max-width: 1560px; margin: 0 auto; padding: 24px 28px 48px; }
 .grid-2   { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
 .grid-3   { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 18px; margin-bottom: 18px; }
@@ -337,6 +374,17 @@ body {
   <button class="nav-tab"    onclick="switchView('spend',this)">Spend & CPL</button>
   <button class="nav-tab"    onclick="switchView('utm',this)">UTM Taxonomy</button>
   <button class="nav-tab"    onclick="switchView('promo',this)">Promotions Calendar</button>
+
+  <div class="nav-dropdown" id="plansDropdown">
+    <button class="nav-tab" id="plansDropdownBtn" onclick="togglePlansDropdown(event)">Marketing Plans ▾</button>
+    <div class="nav-dropdown-menu" id="plansDropdownMenu">
+      <a href="playbook.html" class="dropdown-item pinned">📌 Operating Model</a>
+      <div class="dropdown-divider"></div>
+      <div id="plansMonthLinks"></div>
+      <div class="dropdown-divider"></div>
+      <a href="plans-archive.html" class="dropdown-item archive-link">Archive →</a>
+    </div>
+  </div>
 </nav>
 
 <div class="main">
@@ -650,6 +698,36 @@ body {
 </div><!-- /main -->
 
 <script>
+// ============================================================
+// MARKETING PLANS DROPDOWN
+// ============================================================
+// Hand-maintained list — update this each time a month is published or
+// a new draft is opened. status: 'published' shows in the dropdown,
+// anything else (e.g. 'draft') stays hidden until flipped.
+const MARKETING_PLANS = [
+  { label: 'July 2026', url: 'https://rain-lantana-3e3.notion.site/July-2026-38ff650427d181428b74c980316f8d89', status: 'published' },
+  // { label: 'August 2026', url: '', status: 'draft' },
+];
+
+function populatePlansDropdown(){
+  const container = document.getElementById('plansMonthLinks');
+  if(!container) return;
+  const published = MARKETING_PLANS.filter(p => p.status === 'published' && p.url);
+  container.innerHTML = published.length
+    ? published.map(p => `<a href="${p.url}" class="dropdown-item" target="_blank" rel="noopener">${p.label}</a>`).join('')
+    : `<div class="dropdown-empty">No published plans yet</div>`;
+}
+
+function togglePlansDropdown(e){
+  e.stopPropagation();
+  document.getElementById('plansDropdown').classList.toggle('open');
+}
+
+document.addEventListener('click', (e) => {
+  const dd = document.getElementById('plansDropdown');
+  if(dd && !dd.contains(e.target)) dd.classList.remove('open');
+});
+
 // ============================================================
 // COLOR SYSTEM
 // ============================================================
@@ -1449,6 +1527,7 @@ function init(){
   selectedYM=D.meta.current_ym;
   populateMonthPicker();
   updateHeaderMeta();
+  populatePlansDropdown();
   buildMonthView();
   buildRollingView();
   renderFYChart();
