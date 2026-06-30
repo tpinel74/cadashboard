@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Membership Acquisition Operating Model — Columbia Association</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Barlow:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:   #1C3A6E;
+  --navy2:  #0E1F3D;
+  --green:  #3A7D3A;
+  --gold:   #E8A020;
+  --gold2:  #C47F10;
+  --red:    #C0392B;
+  --orange: #E05B20;
+  --light:  #F2F5F9;
+  --white:  #FFFFFF;
+  --border: #D4DCE8;
+  --mid:    #7A8FA8;
+  --slate:  #5A6E82;
+  --text:   #1C2B3A;
+  --purple: #9B59B6;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Barlow', sans-serif; background: var(--light); color: var(--text); font-size: 14px; line-height: 1.6; }
+
+/* HEADER */
+.hdr { background: var(--navy2); padding: 16px 28px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; }
+.hdr-left { display: flex; align-items: center; gap: 14px; }
+.ca-mark { background: var(--gold); color: var(--navy2); font-weight: 900; font-size: 13px; letter-spacing: -.3px; width: 34px; height: 34px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.hdr-title { color: #fff; font-size: 16px; font-weight: 700; }
+.hdr-sub { color: var(--mid); font-size: 11px; font-family: 'DM Mono', monospace; margin-top: 1px; }
+.hdr-right { display: flex; align-items: center; gap: 10px; }
+.hdr-badge { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 20px; padding: 4px 12px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--mid); }
+.hdr-badge b { color: var(--gold); font-weight: 500; }
+.hdr-link { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.18); border-radius: 8px; padding: 6px 14px; font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 600; color: rgba(255,255,255,.65); text-decoration: none; letter-spacing: .3px; transition: all .15s; }
+.hdr-link:hover { background: rgba(255,255,255,.13); color: #fff; }
+
+/* LAYOUT */
+.shell { display: grid; grid-template-columns: 240px 1fr; max-width: 1400px; margin: 0 auto; min-height: calc(100vh - 66px); }
+
+/* SIDEBAR */
+.sidebar { background: var(--white); border-right: 1px solid var(--border); padding: 28px 0 48px; position: sticky; top: 66px; height: calc(100vh - 66px); overflow-y: auto; }
+.sidebar-label { font-size: 9px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mid); padding: 0 20px; margin-bottom: 8px; margin-top: 20px; }
+.sidebar-label:first-child { margin-top: 0; }
+.sidebar a { display: block; padding: 7px 20px; font-size: 12px; font-weight: 500; color: var(--slate); text-decoration: none; border-left: 3px solid transparent; transition: all .12s; line-height: 1.4; }
+.sidebar a:hover { color: var(--navy); background: var(--light); }
+.sidebar a.active { color: var(--navy); border-left-color: var(--navy); font-weight: 700; background: #EEF3FF; }
+
+/* CONTENT */
+.content { padding: 36px 48px 80px; max-width: 900px; }
+
+/* PAGE INTRO */
+.page-intro { margin-bottom: 40px; padding-bottom: 28px; border-bottom: 2px solid var(--border); }
+.page-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold2); margin-bottom: 8px; }
+.page-title { font-size: 32px; font-weight: 900; color: var(--navy2); line-height: 1.1; margin-bottom: 12px; }
+.page-desc { font-size: 15px; color: var(--slate); line-height: 1.7; max-width: 660px; }
+.meta-strip { display: flex; align-items: center; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+.meta-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--slate); }
+.meta-pill b { color: var(--navy); font-weight: 700; }
+
+/* SECTIONS */
+.section { margin-bottom: 52px; scroll-margin-top: 84px; }
+.section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.section-num { background: var(--navy); color: #fff; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700; width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.section-title { font-size: 20px; font-weight: 800; color: var(--navy); line-height: 1.2; }
+.prose { font-size: 14px; line-height: 1.75; color: var(--text); }
+.prose p { margin-bottom: 14px; }
+.prose p:last-child { margin-bottom: 0; }
+.prose strong { font-weight: 700; color: var(--navy2); }
+.prose em { font-style: italic; }
+
+/* CALLOUTS */
+.callout { border-radius: 10px; padding: 18px 20px; margin: 20px 0; border-left: 4px solid var(--navy); background: #EEF3FF; }
+.callout.green { border-left-color: var(--green); background: #E8F5E9; }
+.callout.gold  { border-left-color: var(--gold);  background: #FFF8E1; }
+.callout.purple{ border-left-color: var(--purple); background: #F3E8FF; }
+.callout.red   { border-left-color: var(--red);    background: #FFF5F5; }
+.callout-label { font-size: 9px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mid); margin-bottom: 6px; }
+.callout-body  { font-size: 13px; line-height: 1.65; color: var(--text); }
+
+/* RATIO VISUAL */
+.ratio-visual { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 24px 0; }
+.ratio-bar { display: flex; height: 56px; border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.ratio-seg { display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; color: #fff; letter-spacing: -.3px; }
+.ratio-seg.exec  { background: var(--orange); flex: 75; }
+.ratio-seg.build { background: var(--navy);   flex: 25; }
+.ratio-labels { display: flex; gap: 20px; flex-wrap: wrap; }
+.ratio-label-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--slate); }
+.ratio-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+/* DIAGRAM */
+.diagram-wrap { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin: 24px 0; overflow-x: auto; }
+.diagram-svg-wrap { min-width: 600px; }
+
+/* STREAM CARDS */
+.stream-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 20px 0; }
+.stream-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 18px; position: relative; overflow: hidden; }
+.stream-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+.stream-card.s1::before { background: var(--navy); }
+.stream-card.s2::before { background: var(--green); }
+.stream-card.s3::before { background: var(--gold); }
+.stream-num  { font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--mid); margin-bottom: 6px; }
+.stream-name { font-size: 14px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+.stream-desc { font-size: 12px; line-height: 1.6; color: var(--slate); }
+
+/* TABLES */
+.doc-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+.doc-table th { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mid); padding: 8px 14px; text-align: left; border-bottom: 2px solid var(--border); background: var(--light); }
+.doc-table td { padding: 12px 14px; border-bottom: 1px solid var(--light); vertical-align: top; line-height: 1.55; }
+.doc-table tr:last-child td { border-bottom: none; }
+.doc-table tr:hover td { background: #FAFBFD; }
+.doc-table td strong { font-weight: 700; color: var(--navy2); }
+
+/* PROMO LAYERS */
+.promo-layers { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
+.promo-layer { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; display: grid; grid-template-columns: 140px 1fr 1fr 1fr; gap: 16px; align-items: start; }
+.promo-layer-name { font-size: 12px; font-weight: 800; color: var(--navy); line-height: 1.3; }
+.promo-layer-tag { display: inline-block; margin-top: 4px; font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 8px; border-radius: 10px; }
+.tag-green  { background: #E8F5E9; color: #1B5E20; }
+.tag-navy   { background: #EEF3FF; color: #1C3A6E; }
+.tag-gold   { background: #FFF8E1; color: #916A00; }
+.tag-red    { background: #FFEBEE; color: #B71C1C; }
+.tag-purple { background: #F3E8FF; color: #6B21A8; }
+.promo-col-label { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mid); margin-bottom: 4px; }
+.promo-col-val   { font-size: 12px; line-height: 1.55; color: var(--slate); }
+
+/* METRIC CARDS */
+.metric-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+.metric-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 20px; position: relative; overflow: hidden; }
+.metric-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.metric-card.primary::before   { background: var(--navy); }
+.metric-card.secondary::before { background: var(--green); }
+.metric-label { font-size: 9px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mid); margin-bottom: 6px; }
+.metric-name  { font-size: 16px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+.metric-desc  { font-size: 12px; line-height: 1.6; color: var(--slate); }
+.metric-note  { margin-top: 10px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--mid); padding-top: 10px; border-top: 1px solid var(--border); }
+
+/* CAT BADGES */
+.cat-badge { display: inline-flex; align-items: center; gap: 5px; border-radius: 6px; padding: 3px 10px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700; margin-right: 6px; }
+.cat-0 { background: rgba(224,91,32,.12); color: #B04010; border: 1px solid rgba(224,91,32,.25); }
+.cat-1 { background: rgba(28,58,110,.10); color: var(--navy); border: 1px solid rgba(28,58,110,.2); }
+.cat-2 { background: var(--navy); color: #fff; border: 1px solid var(--navy2); }
+
+/* DOC HIERARCHY */
+.doc-hierarchy { display: flex; flex-direction: column; margin: 20px 0; }
+.doc-tier { background: var(--white); border: 1px solid var(--border); padding: 18px 20px; position: relative; }
+.doc-tier:first-child  { border-radius: 10px 10px 0 0; border-bottom: none; }
+.doc-tier:last-child   { border-radius: 0 0 10px 10px; }
+.doc-tier:not(:first-child):not(:last-child) { border-bottom: none; }
+.doc-tier-connector { position: absolute; left: 32px; bottom: -1px; width: 2px; height: 18px; background: var(--border); z-index: 1; }
+.doc-tier-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.doc-tier-name     { font-size: 14px; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+.doc-tier-audience { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--mid); }
+.doc-tier-desc     { font-size: 12px; line-height: 1.6; color: var(--slate); margin-top: 6px; }
+.doc-tier-badge    { flex-shrink: 0; font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 10px; white-space: nowrap; }
+.tier-this     { background: var(--navy); color: #fff; }
+.tier-monthly  { background: #E8F5E9; color: #1B5E20; }
+.tier-internal { background: var(--light); color: var(--slate); border: 1px solid var(--border); }
+
+.sec-divider { height: 1px; background: var(--border); margin: 40px 0; }
+
+@media (max-width: 960px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); padding: 16px 0; }
+  .content { padding: 24px; }
+  .stream-grid { grid-template-columns: 1fr; }
+  .promo-layer { grid-template-columns: 1fr 1fr; }
+  .metric-cards { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-left">
+    <div class="ca-mark">CA</div>
+    <div>
+      <div class="hdr-title">Membership Acquisition Operating Model</div>
+      <div class="hdr-sub">Columbia Association — Marketing Department</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-badge">Version <b>2.0</b></div>
+    <div class="hdr-badge">Updated <b>June 2026</b></div>
+    <a href="index.html" class="hdr-link">&#8592; Dashboard</a>
+  </div>
+</header>
+
+<div class="shell">
+
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-label">Overview</div>
+    <a href="#purpose" class="active">Purpose</a>
+    <a href="#objective">Team Objective</a>
+    <div class="sidebar-label">Resource Framework</div>
+    <a href="#allocation">Resource Allocation</a>
+    <a href="#model-diagram">Planning Model</a>
+    <div class="sidebar-label">Execution Layer (75%)</div>
+    <a href="#cat0">Cat 0 — Current Execution</a>
+    <a href="#streams">The Three Streams</a>
+    <a href="#cat1">Cat 1 — Improvement</a>
+    <div class="sidebar-label">Capability Layer (25%)</div>
+    <a href="#cat2">Cat 2 — Build Projects</a>
+    <a href="#graduation">Graduation &amp; Backlog</a>
+    <div class="sidebar-label">Accountability</div>
+    <a href="#metrics">Metrics &amp; Outcomes</a>
+    <a href="#dashboard-ref">The Dashboard</a>
+    <div class="sidebar-label">Promotions</div>
+    <a href="#promo-framework">Five-Layer Framework</a>
+    <div class="sidebar-label">Planning</div>
+    <a href="#monthly-plan">Monthly Planning</a>
+    <a href="#doc-hierarchy">Document Hierarchy</a>
+  </nav>
+
+  <main class="content">
+
+    <div class="page-intro">
+      <div class="page-eyebrow">Columbia Association &middot; Membership Marketing</div>
+      <div class="page-title">Membership Acquisition<br>Operating Model</div>
+      <div class="page-desc">This document describes how the CA Membership Acquisition team operates — how it allocates resources, structures its work, builds monthly plans, and holds itself accountable to results.</div>
+      <div class="meta-strip">
+        <div class="meta-pill">Owner <b>Director of Marketing</b></div>
+        <div class="meta-pill">Team Lead <b>Membership Acquisition</b></div>
+        <div class="meta-pill">Version <b>2.0</b></div>
+        <div class="meta-pill">Updated <b>June 2026</b></div>
+      </div>
+    </div>
+
+    <!-- 1. PURPOSE -->
+    <div class="section" id="purpose">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div class="section-title">Purpose of This Document</div>
+      </div>
+      <div class="prose">
+        <p>This document describes how the CA <em>Membership Acquisition</em> (Marketing Department) team operates — how it allocates resources, structures its work, builds monthly plans, and holds itself accountable to results.</p>
+      </div>
+    </div>
+
+    <!-- 2. OBJECTIVE -->
+    <div class="section" id="objective">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div class="section-title">Team Objective</div>
+      </div>
+      <div class="prose">
+        <p>The Membership Acquisition team exists to generate membership demand — qualified leads, online conversions, and full-funnel engagement — and to build the capabilities that make that demand engine stronger over time.</p>
+      </div>
+      <div class="metric-cards">
+        <div class="metric-card primary">
+          <div class="metric-label">Immediate Delivery</div>
+          <div class="metric-name">Lead Pipeline</div>
+          <div class="metric-desc">Generating the lead pipeline that the Sales team depends on each month to meet organizational membership goals.</div>
+        </div>
+        <div class="metric-card secondary">
+          <div class="metric-label">Long-Term Investment</div>
+          <div class="metric-name">Capability Building</div>
+          <div class="metric-desc">Investing in the channels, systems, and practices that make future delivery more effective and less expensive.</div>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Core principle</div>
+        <div class="callout-body">Both parts of this objective must be held in balance. The operating model described here is designed to protect both — not optimize for one at the expense of the other.</div>
+      </div>
+    </div>
+
+    <div class="sec-divider"></div>
+
+    <!-- 3. RESOURCE ALLOCATION -->
+    <div class="section" id="allocation">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <div class="section-title">Resource Allocation Framework</div>
+      </div>
+      <div class="prose">
+        <p>The team allocates its collective effort — focus, attention, and time — across two primary lanes in a deliberate and protected ratio.</p>
+      </div>
+      <div class="ratio-visual">
+        <div class="ratio-bar">
+          <div class="ratio-seg exec">75% Execution</div>
+          <div class="ratio-seg build">25% Build</div>
+        </div>
+        <div class="ratio-labels">
+          <div class="ratio-label-item"><div class="ratio-dot" style="background:var(--orange)"></div>Current Execution — Cat 0 + Cat 1</div>
+          <div class="ratio-label-item"><div class="ratio-dot" style="background:var(--navy)"></div>Capability Building — Cat 2</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p><strong>75%</strong> of the team's collective effort is directed toward current execution — running the campaigns, channels, and tactics that generate leads and support membership sales in the present month.</p>
+        <p><strong>25%</strong> of the team's collective effort is protected for capability-building projects that improve the long-term performance of the acquisition engine. These projects are not expected to generate leads in the current month. They build the machine that generates more leads in future months.</p>
+      </div>
+      <div class="callout gold">
+        <div class="callout-label">Important distinction</div>
+        <div class="callout-body">This split reflects <strong>effort and focus — not budget</strong>. With small exceptions, Marketing Acquisition spend remains directed toward paid acquisition channels. Budget and resource support for capability projects are considered independently for each project.<br><br>Note that this ratio is a guide, not a rigid timesheet requirement. Team members will be guided by internal team workplans and oversight provided by the division manager.</div>
+      </div>
+      <div class="prose">
+        <p><strong>Why this balance matters:</strong> Without the 75% execution commitment, the organization fails to meet its membership targets today. Without the 25% capability investment, the team's ability to meet those targets erodes over time as market conditions change, new competitors emerge, and existing channels become less efficient.</p>
+        <p>The 25% lane also protects the team from an accumulation of underdeveloped ideas and partially implemented projects. By maintaining a managed backlog and limiting active capability projects to one or two at a time, the team can build new capabilities thoroughly rather than spreading effort across too many initiatives simultaneously.</p>
+      </div>
+    </div>
+
+    <!-- 4. PLANNING MODEL DIAGRAM -->
+    <div class="section" id="model-diagram">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <div class="section-title">Planning Model — Visual Overview</div>
+      </div>
+      <div class="diagram-wrap">
+        <div class="diagram-svg-wrap">
+          <svg viewBox="0 0 720 296" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'Barlow',sans-serif;">
+            <!-- Left block bg -->
+            <rect x="10" y="8" width="460" height="278" rx="10" fill="#E05B20" opacity="0.07" stroke="#E05B20" stroke-width="1.5"/>
+            <!-- Cat labels -->
+            <text transform="rotate(-90,22,160)" x="22" y="164" font-size="9" font-weight="700" fill="#E05B20" letter-spacing="1.5" text-anchor="middle">CAT 0</text>
+            <text transform="rotate(-90,22,248)" x="22" y="252" font-size="9" font-weight="700" fill="#1C3A6E" letter-spacing="1.5" text-anchor="middle">CAT 1</text>
+            <!-- Top exec bar -->
+            <rect x="36" y="16" width="424" height="44" rx="7" fill="#E05B20"/>
+            <text x="248" y="35" font-size="13" font-weight="800" fill="white" text-anchor="middle">Membership Marketing Execution</text>
+            <text x="248" y="51" font-size="10" font-weight="600" fill="rgba(255,255,255,0.82)" text-anchor="middle">75% of team effort</text>
+            <!-- Stream 1 -->
+            <rect x="36" y="72" width="128" height="118" rx="7" fill="#1C3A6E"/>
+            <text x="100" y="118" font-size="11" font-weight="800" fill="white" text-anchor="middle">Direct</text>
+            <text x="100" y="133" font-size="11" font-weight="800" fill="white" text-anchor="middle">Acquisition</text>
+            <text x="100" y="153" font-size="9" fill="rgba(255,255,255,0.68)" text-anchor="middle">Stream 1</text>
+            <text x="100" y="167" font-size="9" fill="rgba(255,255,255,0.68)" text-anchor="middle">Lead volume &amp; attribution</text>
+            <text x="100" y="180" font-size="9" fill="rgba(255,255,255,0.68)" text-anchor="middle">primary pipeline</text>
+            <!-- Stream 2 -->
+            <rect x="178" y="72" width="128" height="118" rx="7" fill="#3A7D3A"/>
+            <text x="242" y="125" font-size="11" font-weight="800" fill="white" text-anchor="middle">Organic</text>
+            <text x="242" y="140" font-size="11" font-weight="800" fill="white" text-anchor="middle">Growth</text>
+            <text x="242" y="160" font-size="9" fill="rgba(255,255,255,0.68)" text-anchor="middle">Stream 2</text>
+            <text x="242" y="174" font-size="9" fill="rgba(255,255,255,0.68)" text-anchor="middle">SEO &amp; content</text>
+            <text x="242" y="187" font-size="9" fill="rgba(255,255,255,0.68)" text-anchor="middle">earned leads</text>
+            <!-- Stream 3 -->
+            <rect x="320" y="72" width="140" height="118" rx="7" fill="#C47F10"/>
+            <text x="390" y="118" font-size="11" font-weight="800" fill="white" text-anchor="middle">Brand</text>
+            <text x="390" y="133" font-size="11" font-weight="800" fill="white" text-anchor="middle">Storytelling</text>
+            <text x="390" y="153" font-size="9" fill="rgba(255,255,255,0.68)" text-anchor="middle">Stream 3</text>
+            <text x="390" y="167" font-size="9" fill="rgba(255,255,255,0.68)" text-anchor="middle">Awareness</text>
+            <text x="390" y="180" font-size="9" fill="rgba(255,255,255,0.68)" text-anchor="middle">top-of-funnel</text>
+            <!-- Cat 1 bar -->
+            <rect x="36" y="202" width="424" height="38" rx="7" fill="#1C3A6E" opacity="0.78"/>
+            <text x="248" y="218" font-size="11" font-weight="700" fill="white" text-anchor="middle">Cat 1 — Improvement Initiatives</text>
+            <text x="248" y="232" font-size="9" fill="rgba(255,255,255,0.72)" text-anchor="middle">experiments &amp; optimizations within the existing execution layer</text>
+            <!-- Bottom labels -->
+            <text x="248" y="264" font-size="10" fill="#E05B20" text-anchor="middle" font-weight="700">Lead Generation Objectives</text>
+            <text x="248" y="278" font-size="9" fill="#7A8FA8" text-anchor="middle">(lead volume, aggregate CPL)</text>
+            <!-- Right block bg -->
+            <rect x="488" y="8" width="222" height="278" rx="10" fill="#1C3A6E" opacity="0.06" stroke="#1C3A6E" stroke-width="1.5"/>
+            <!-- Cat 2 label -->
+            <text x="598" y="26" font-size="10" font-weight="800" fill="#1C3A6E" text-anchor="middle" letter-spacing=".5">Cat 2</text>
+            <!-- Build bar -->
+            <rect x="498" y="32" width="202" height="40" rx="7" fill="#1C3A6E"/>
+            <text x="599" y="48" font-size="12" font-weight="800" fill="white" text-anchor="middle">Build (25%)</text>
+            <text x="599" y="62" font-size="9" fill="rgba(255,255,255,0.72)" text-anchor="middle">capability investment lane</text>
+            <!-- Active projects -->
+            <rect x="498" y="82" width="202" height="34" rx="6" fill="#E8A020"/>
+            <text x="599" y="104" font-size="11" font-weight="700" fill="white" text-anchor="middle">Active Project</text>
+            <rect x="498" y="122" width="202" height="34" rx="6" fill="#E8A020" opacity="0.82"/>
+            <text x="599" y="144" font-size="11" font-weight="700" fill="white" text-anchor="middle">Active Project</text>
+            <!-- Divider -->
+            <line x1="498" y1="166" x2="700" y2="166" stroke="#D4DCE8" stroke-width="1" stroke-dasharray="4,3"/>
+            <text x="599" y="180" font-size="9" fill="#7A8FA8" text-anchor="middle" font-style="italic">backlog</text>
+            <!-- Backlog items -->
+            <rect x="498" y="186" width="202" height="26" rx="5" fill="#EEF3FF" stroke="#D4DCE8" stroke-width="1"/>
+            <text x="599" y="203" font-size="10" fill="#5A6E82" text-anchor="middle">Backlog Project</text>
+            <rect x="498" y="218" width="202" height="26" rx="5" fill="#EEF3FF" stroke="#D4DCE8" stroke-width="1"/>
+            <text x="599" y="235" font-size="10" fill="#5A6E82" text-anchor="middle">Backlog Project</text>
+            <text x="599" y="259" font-size="14" fill="#7A8FA8" text-anchor="middle">&#8226; &#8226; &#8226;</text>
+            <rect x="498" y="266" width="202" height="12" rx="3" fill="#EEF3FF" stroke="#D4DCE8" stroke-width="1" opacity="0.55"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-divider"></div>
+
+    <!-- 5. CAT 0 -->
+    <div class="section" id="cat0">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <div class="section-title">Cat 0 — Current Execution</div>
+      </div>
+      <div style="margin-bottom:14px"><span class="cat-badge cat-0">Cat 0</span><span style="font-size:13px;color:var(--slate)">Part of the 75% execution lane</span></div>
+      <div class="prose">
+        <p>Cat 0 is the existing execution layer. It represents the channels, campaigns, and tactics that have demonstrated consistent lead generation performance.</p>
+        <p>Cat 0 is organized across three campaign "streams" that operate in parallel throughout the year. Each stream has a distinct strategic purpose. Together they represent the full range of marketing activities the team deploys in pursuit of lead generation and membership growth across the full customer journey and nurturing funnel.</p>
+        <p>Each stream contains two types of activity: <em>always-on tactics</em> that run continuously regardless of the month, and <em>active campaigns</em> that are time-bound activations deployed in service of specific seasonal or promotional objectives.</p>
+      </div>
+    </div>
+
+    <!-- 6. THREE STREAMS -->
+    <div class="section" id="streams">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <div class="section-title">The Three Streams</div>
+      </div>
+      <div class="stream-grid">
+        <div class="stream-card s1">
+          <div class="stream-num">Stream 1</div>
+          <div class="stream-name">Direct Acquisition</div>
+          <div class="stream-desc">Generate marketing-sourced leads and drive membership conversions through demand capture, paid social, CRM cold lead reactivation, and member referral activation. This stream carries the primary lead volume and clearest attribution information.</div>
+        </div>
+        <div class="stream-card s2">
+          <div class="stream-num">Stream 2</div>
+          <div class="stream-name">Organic Growth</div>
+          <div class="stream-desc">Build sustainable earned lead generation through search visibility, website content, and organic discoverability. This stream grows over time as content and SEO investment compounds.</div>
+        </div>
+        <div class="stream-card s3">
+          <div class="stream-num">Stream 3</div>
+          <div class="stream-name">Brand Storytelling</div>
+          <div class="stream-desc">Build awareness and consideration among community members who are not yet in the marketing ecosystem. This stream feeds the top of the funnel that Streams 1 and 2 convert.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. CAT 1 -->
+    <div class="section" id="cat1">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <div class="section-title">Cat 1 — Improvement Initiatives</div>
+      </div>
+      <div style="margin-bottom:14px"><span class="cat-badge cat-1">Cat 1</span><span style="font-size:13px;color:var(--slate)">Part of the 75% execution lane</span></div>
+      <div class="prose">
+        <p>Cat 1 is the improvement layer within the 75% execution allocation. It represents focused experiments, analyses, and optimizations within the existing marketing system — designed to make the current machine perform better without adding new channels or capabilities.</p>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Examples of Cat 1 work</div>
+        <div class="callout-body">A/B testing a campaign creative or CTA &nbsp;&middot;&nbsp; Analyzing audience segment performance within an existing channel &nbsp;&middot;&nbsp; Testing a new landing page structure &nbsp;&middot;&nbsp; Running a cohort analysis on lapsed leads &nbsp;&middot;&nbsp; Optimizing the timing or sequencing of a nurture workflow</div>
+      </div>
+      <div class="prose">
+        <p>Cat 1 initiatives are scoped, time-boxed, and measured against a defined hypothesis. They have a start, a period of observation, and a conclusion that either gets implemented into Cat 0 or informs a future iteration. The team maintains a backlog of Cat 1 candidates and typically runs one or two at a time to ensure meaningful conclusions can be drawn.</p>
+        <p>Cat 1 work sits within the 75% allocation — it does not add to it. Running a Cat 1 initiative means making a deliberate choice about where within the execution lane to invest improvement effort.</p>
+      </div>
+    </div>
+
+    <div class="sec-divider"></div>
+
+    <!-- 8. CAT 2 -->
+    <div class="section" id="cat2">
+      <div class="section-header">
+        <div class="section-num">8</div>
+        <div class="section-title">Cat 2 — Capability Building</div>
+      </div>
+      <div style="margin-bottom:14px"><span class="cat-badge cat-2">Cat 2</span><span style="font-size:13px;color:var(--slate)">The 25% build lane</span></div>
+      <div class="prose">
+        <p>The 25% capability lane is reserved for Cat 2 projects: strategic investments that add new features to the marketing system. New channels, new platforms, new data infrastructure, new partner programs — things that do not yet exist in the current execution layer and that require deliberate building before they can perform.</p>
+        <p>Cat 2 projects are distinct from Cat 1 in that they are <strong>building something net new</strong> rather than improving something that already exists. They require a defined project scope, a clear rationale, and explicit completion conditions.</p>
+      </div>
+      <div class="callout green">
+        <div class="callout-label">Standard project documentation (required before entering the active lane)</div>
+        <div class="callout-body"><strong>One-line objective</strong> — what is this for and what problem does it solve<br><strong>Completion conditions</strong> — how will we know when this project has finished its time in the Cat 2 lane<br><strong>Dependencies</strong> — what does this project depend on, and what depends on it<br><strong>Resourcing</strong> — estimated effort required from the team<br><strong>Performance signals</strong> — what will we watch during the Cat 2 phase to understand whether it is on track</div>
+      </div>
+    </div>
+
+    <!-- 9. GRADUATION & BACKLOG -->
+    <div class="section" id="graduation">
+      <div class="section-header">
+        <div class="section-num">9</div>
+        <div class="section-title">Graduation &amp; Backlog</div>
+      </div>
+      <div class="prose">
+        <p><strong>Graduation</strong> occurs when a Cat 2 project meets its defined conditions — typically a combination of operational readiness and demonstrated sustainability within the team's existing capacity. Graduation means the project moves into the Cat 0/1 execution layer as an ongoing channel or tactic, freeing the Cat 2 lane for the next backlog project.</p>
+        <p>If a project does not meet its graduation conditions, it either extends or is closed out. <strong>Closing a project is not a failure</strong> — it is the system working correctly. A closed Cat 2 project means the team learned something and can redirect that capacity toward a more promising investment.</p>
+        <p><strong>The backlog</strong> is a managed list of capability-building candidates that have been identified and prioritized. Projects do not enter the active Cat 2 lane directly from an idea — they move through the backlog as prior projects graduate or close.</p>
+      </div>
+      <div class="callout gold">
+        <div class="callout-label">Active project limit</div>
+        <div class="callout-body">Typically, <strong>no more than two Cat 2 projects are active at any time</strong>. More than two active projects dilutes focus, slows progress, and reduces the likelihood that any single project is built to the standard required for successful graduation.</div>
+      </div>
+      <div class="prose">
+        <p>The backlog is owned jointly by the team lead and the Director of Marketing. The team lead manages the sequencing and implementation of active projects. The Director retains influence over prioritization — particularly for projects with budget implications, cross-team dependencies, or organizational visibility requirements.</p>
+      </div>
+    </div>
+
+    <div class="sec-divider"></div>
+
+    <!-- 10. METRICS -->
+    <div class="section" id="metrics">
+      <div class="section-header">
+        <div class="section-num">10</div>
+        <div class="section-title">Accountability &amp; Measurement</div>
+      </div>
+      <div class="prose">
+        <p>The team is held accountable to two primary outcomes that apply to the 75% execution lane.</p>
+      </div>
+      <div class="metric-cards">
+        <div class="metric-card primary">
+          <div class="metric-label">Primary Outcome</div>
+          <div class="metric-name">Lead Volume</div>
+          <div class="metric-desc">The number of marketing-sourced leads generated in a given month. This is the primary volume target and takes priority over cost efficiency. The monthly target is set in relation to the organizational sales goal using an 80% marketing attribution ratio.</div>
+          <div class="metric-note">Lead volume &gt; cost efficiency</div>
+        </div>
+        <div class="metric-card secondary">
+          <div class="metric-label">Efficiency Signal</div>
+          <div class="metric-name">Aggregate Cost Per Lead</div>
+          <div class="metric-desc">The blended cost per lead across all marketing-sourced leads — paid, organic, CRM-activated, and referral. This is an efficiency signal, not a ceiling that should cause the team to sacrifice lead volume. A target CPL and a review threshold are set each month.</div>
+          <div class="metric-note">Signal, not a sacrifice trigger</div>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Self-regulating control mechanism</div>
+        <div class="callout-body">These two outcomes function as a system. If the team invests too heavily in Streams 2 or 3 at the expense of Stream 1, lead volume will signal it quickly. If the team over-relies on expensive paid channels without building organic and referral sources, CPL will signal it.</div>
+      </div>
+    </div>
+
+    <!-- 11. DASHBOARD -->
+    <div class="section" id="dashboard-ref">
+      <div class="section-header">
+        <div class="section-num">11</div>
+        <div class="section-title">The Dashboard</div>
+      </div>
+      <div class="prose">
+        <p>Lead pace and aggregate CPL are tracked daily through the membership acquisition dashboard, accessible to the team and to marketing leadership on demand.</p>
+      </div>
+      <table class="doc-table">
+        <thead><tr><th>Cadence</th><th>Activity</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Daily</strong></td><td>Monitoring — no formal review unless pace or CPL signals warrant attention.</td></tr>
+          <tr><td><strong>Weekly</strong></td><td>Channel review covers lead volume by source, CPL by channel, and campaign performance.</td></tr>
+          <tr><td><strong>Monthly</strong></td><td>Full-period results against targets, informing the following month's plan.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sec-divider"></div>
+
+    <!-- 12. PROMO FRAMEWORK -->
+    <div class="section" id="promo-framework">
+      <div class="section-header">
+        <div class="section-num">12</div>
+        <div class="section-title">Five-Layer Promotional Framework</div>
+      </div>
+      <div class="prose">
+        <p>The team operates a fixed, five-layer promotional framework that provides structure and predictability for both the acquisition team and the sales team. This framework establishes a set of standing promotional mechanisms that activate based on defined conditions.</p>
+        <p><strong>Monthly plans describe which layers are active and how they are being deployed — they do not redesign the framework.</strong></p>
+      </div>
+
+      <div class="promo-layers">
+        <div class="promo-layer" style="border-left:4px solid var(--green)">
+          <div><div class="promo-layer-name">Layer 1<br>Always On</div><div class="promo-layer-tag tag-green">Permanent</div></div>
+          <div><div class="promo-col-label">Description</div><div class="promo-col-val">The standing membership value proposition — what CA offers and why it is worth joining — available at all times without expiration pressure.</div></div>
+          <div><div class="promo-col-label">Activation</div><div class="promo-col-val">Runs continuously — no trigger required.</div></div>
+          <div><div class="promo-col-label">Audience</div><div class="promo-col-val">All prospects</div></div>
+        </div>
+        <div class="promo-layer" style="border-left:4px solid var(--navy)">
+          <div><div class="promo-layer-name">Layer 2<br>Full-Month Offer</div><div class="promo-layer-tag tag-navy">Monthly</div></div>
+          <div><div class="promo-col-label">Description</div><div class="promo-col-val">A monthly incentive tied to a specific membership type or commitment level. Creates meaningful value without deep discounting. Changes seasonally based on strategic context.</div></div>
+          <div><div class="promo-col-label">Activation</div><div class="promo-col-val">Set at the start of each month — runs the full month.</div></div>
+          <div><div class="promo-col-label">Audience</div><div class="promo-col-val">Non-members in consideration</div></div>
+        </div>
+        <div class="promo-layer" style="border-left:4px solid var(--gold)">
+          <div><div class="promo-layer-name">Layer 3<br>Referral Offer</div><div class="promo-layer-tag tag-gold">Standing</div></div>
+          <div><div class="promo-col-label">Description</div><div class="promo-col-val">A standing incentive for existing members who refer new members. Runs concurrently with the monthly offer. Activates the advocacy-to-acquisition funnel.</div></div>
+          <div><div class="promo-col-label">Activation</div><div class="promo-col-val">Permanent within defined referral windows — may be enhanced seasonally.</div></div>
+          <div><div class="promo-col-label">Audience</div><div class="promo-col-val">Existing members</div></div>
+        </div>
+        <div class="promo-layer" style="border-left:4px solid var(--red)">
+          <div><div class="promo-layer-name">Layer 4<br>Flash Sale</div><div class="promo-layer-tag tag-red">Mid-Month</div></div>
+          <div><div class="promo-col-label">Description</div><div class="promo-col-val">A short-duration, high-urgency offer creating a conversion spike mid-month. Typically 24–48 hours. Limited quantity or time-bound to drive immediacy.</div></div>
+          <div><div class="promo-col-label">Activation</div><div class="promo-col-val">Mid-month, typically around day 14–15.</div></div>
+          <div><div class="promo-col-label">Audience</div><div class="promo-col-val">Active leads and warm prospects in pipeline</div></div>
+        </div>
+        <div class="promo-layer" style="border-left:4px solid var(--purple)">
+          <div><div class="promo-layer-name">Layer 5<br>Surge Offer</div><div class="promo-layer-tag tag-purple">Conditional</div></div>
+          <div><div class="promo-col-label">Description</div><div class="promo-col-val">A pace-triggered contingency offer that activates only if the team is tracking significantly below target at a defined mid-month checkpoint. Not deployed unless the trigger condition is met.</div></div>
+          <div><div class="promo-col-label">Activation</div><div class="promo-col-val">Triggered by pace — activates only when needed.</div></div>
+          <div><div class="promo-col-label">Audience</div><div class="promo-col-val">Broadest available audience</div></div>
+        </div>
+      </div>
+
+      <div class="callout purple">
+        <div class="callout-label">Framework design intent</div>
+        <div class="callout-body">The five-layer framework is designed to work as a system. The always-on layer provides a permanent foundation. The full-month offer creates a seasonal context and a reason to act. The referral layer generates lower-cost leads from the existing member base. The flash sale creates urgency within the month. The surge offer provides a managed response to underperformance without requiring an ad hoc decision in the moment.</div>
+      </div>
+    </div>
+
+    <div class="sec-divider"></div>
+
+    <!-- 13. MONTHLY PLANNING -->
+    <div class="section" id="monthly-plan">
+      <div class="section-header">
+        <div class="section-num">13</div>
+        <div class="section-title">Monthly Planning Process</div>
+      </div>
+      <div class="prose">
+        <p>Each month's marketing plan is built against this operating model. The monthly plan is a distinct document — not a section of this one.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0">
+        <div class="callout green" style="margin:0">
+          <div class="callout-label">What a monthly plan contains</div>
+          <div class="callout-body" style="font-size:12px;line-height:1.7">
+            Monthly business objectives (lead volume &amp; CPL targets) &nbsp;&middot;&nbsp;
+            Monthly strategic themes (seasonal context, messaging hierarchy, offer architecture) &nbsp;&middot;&nbsp;
+            Current execution layer — Cat 0 streams with always-on and active campaigns &nbsp;&middot;&nbsp;
+            Active Cat 1 improvement initiatives &nbsp;&middot;&nbsp;
+            Active Cat 2 capability projects
+          </div>
+        </div>
+        <div class="callout red" style="margin:0">
+          <div class="callout-label">What a monthly plan does NOT contain</div>
+          <div class="callout-body" style="font-size:12px;line-height:1.7">
+            Internal workplan details — who does what, task assignments &nbsp;&middot;&nbsp;
+            Channel-level tactical specifications — keywords, audience parameters, creative specs, platform settings. These live in channel-level operating documents.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 14. DOC HIERARCHY -->
+    <div class="section" id="doc-hierarchy">
+      <div class="section-header">
+        <div class="section-num">14</div>
+        <div class="section-title">Document Hierarchy</div>
+      </div>
+      <div class="prose">
+        <p>Three documents serve three audiences and three purposes. Keeping them distinct is what allows each one to do its job cleanly.</p>
+      </div>
+      <div class="doc-hierarchy">
+        <div class="doc-tier">
+          <div class="doc-tier-top">
+            <div>
+              <div class="doc-tier-name">Operating Model <span style="font-size:11px;font-weight:400;color:var(--mid)">(this document)</span></div>
+              <div class="doc-tier-audience">Audience — stakeholders and team leadership</div>
+              <div class="doc-tier-desc">Explains how the team works, how resources are allocated, and how plans are structured. Updated periodically as the model evolves.</div>
+            </div>
+            <div class="doc-tier-badge tier-this">You are here</div>
+          </div>
+          <div class="doc-tier-connector"></div>
+        </div>
+        <div class="doc-tier">
+          <div class="doc-tier-top">
+            <div>
+              <div class="doc-tier-name">Monthly Marketing Plan</div>
+              <div class="doc-tier-audience">Audience — organizational stakeholders, leadership, adjacent teams, partners</div>
+              <div class="doc-tier-desc">Describes what the team is doing in a specific month and why. References this model rather than repeating it. Refreshed every month — lives in Notion, with connections to implementation activities.</div>
+            </div>
+            <div class="doc-tier-badge tier-monthly">Notion — monthly refresh</div>
+          </div>
+          <div class="doc-tier-connector"></div>
+        </div>
+        <div class="doc-tier">
+          <div class="doc-tier-top">
+            <div>
+              <div class="doc-tier-name">Internal Workplan</div>
+              <div class="doc-tier-audience">Audience — the membership acquisition team only</div>
+              <div class="doc-tier-desc">Describes who is doing what, how effort is distributed across projects, and how the team manages its day-to-day execution. Not distributed to external stakeholders.</div>
+            </div>
+            <div class="doc-tier-badge tier-internal">Internal only</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const sections = document.querySelectorAll('.section');
+const links = document.querySelectorAll('.sidebar a');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      links.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.sidebar a[href="#${id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-15% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
