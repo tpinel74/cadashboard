@@ -1154,7 +1154,7 @@ function buildCPLStrip(isCurrent) {
   // ── Homepage CPL chart (same data as Spend tab chart) ──
   dc('cplHome');
   if(hasAnyCPL && D.cpl_daily.length > 0) {
-    const cplRows = D.cpl_daily.filter(r => r.day_date);
+    const cplRows = D.cpl_daily.filter(r => r.day_date).slice(-30);
     const cplLabels = cplRows.map(r => {
       const d = new Date(r.day_date);
       return (d.getMonth()+1)+'/'+(d.getDate());
@@ -1274,7 +1274,7 @@ function buildSpendView() {
 
   // ── CPL TREND CHART ──
   dc('cplTrend');
-  const cplRows=D.cpl_daily.filter(r=>r.day_date);
+  const cplRows=D.cpl_daily.filter(r=>r.day_date).slice(-30);
   const cplLabels=cplRows.map(r=>{
     const d=new Date(r.day_date);
     return(d.getMonth()+1)+'/'+(d.getDate());
