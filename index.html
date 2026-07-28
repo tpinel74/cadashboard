@@ -1441,6 +1441,7 @@ function buildPromoView(){
     <table style="width:100%;border-collapse:collapse;table-layout:fixed">
       <colgroup>
         <col style="width:110px">
+        <col style="width:140px">
         <col>
         <col>
         <col>
@@ -1448,6 +1449,7 @@ function buildPromoView(){
       <thead>
         <tr style="border-bottom:2px solid var(--border)">
           <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left;border-right:1px solid var(--border)">Month</th>
+          <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left;border-right:1px solid var(--border)">MTM Enrollment Fee</th>
           <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left;border-right:1px solid var(--border)">Layer 2 — Referral</th>
           <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left;border-right:1px solid var(--border)">Layer 3 — Monthly Offer</th>
           <th style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);padding:8px 12px;text-align:left;border-right:1px solid var(--border)">Layer 4 — Flash Sale</th>
@@ -1503,6 +1505,12 @@ function buildPromoView(){
       }
     }
 
+    // MTM enrollment fee cell — resident / non-resident
+    const feeCell = `<td style="padding:11px 12px;vertical-align:middle;border-right:1px solid var(--border);${bottomBorder}">
+        <span style="display:block;font-size:12px;color:var(--text)">Resident: ${fmt$(r.mtm_resident)}</span>
+        <span style="display:block;font-size:12px;color:var(--text)">Non-Res: ${fmt$(r.mtm_nonresident)}</span>
+      </td>`;
+
     // Monthly offer cell
     const offerCell = `<td style="padding:11px 12px;vertical-align:middle;font-size:12px;color:var(--text);line-height:1.5;border-right:1px solid var(--border);${bottomBorder}">${linkify(r.monthly_offer)||''}</td>`;
 
@@ -1513,7 +1521,7 @@ function buildPromoView(){
       : '';
     const flashCell = `<td style="padding:11px 12px;vertical-align:middle;border-right:1px solid var(--border);${bottomBorder}">${flashContent}</td>`;
 
-    html += `<tr style="${rowBg}">${monthCell}${referralCell}${offerCell}${flashCell}</tr>`;
+    html += `<tr style="${rowBg}">${monthCell}${feeCell}${referralCell}${offerCell}${flashCell}</tr>`;
   });
 
   html += `</tbody></table>`;
@@ -1762,7 +1770,7 @@ function parseSummaries(rows){
 
   // SECTION 15 — promotions calendar
   const s15rows=getSectionRows(rows,findSection(rows,15));
-  LD.promo_months=s15rows.map(r=>({month_num:num(r[0]),month_name:str(r[1]),referral:str(r[2]),monthly_offer:str(r[3]),flash_sale:str(r[4])})).filter(p=>p.month_num>0);
+  LD.promo_months=s15rows.map(r=>({month_num:num(r[0]),month_name:str(r[1]),referral:str(r[2]),monthly_offer:str(r[3]),flash_sale:str(r[4]),mtm_resident:num(r[5]),mtm_nonresident:num(r[6])})).filter(p=>p.month_num>0);
 
   // SECTION 16 — CPL rolling daily
   // columns: day_date | spend_7d | leads_7d | cpl_7d | spend_30d | leads_30d | cpl_30d | spend_90d | leads_90d | cpl_90d
