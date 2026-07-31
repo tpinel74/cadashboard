@@ -367,13 +367,13 @@ body {
 </header>
 
 <nav class="nav">
-  <button class="nav-tab on" onclick="switchView('month',this)">This Month</button>
-  <button class="nav-tab"    onclick="switchView('rolling',this)">Rolling 12 Months</button>
-  <button class="nav-tab"    onclick="switchView('fy',this)">Fiscal Year</button>
-  <button class="nav-tab"    onclick="switchView('samemonth',this)">Year-over-Year</button>
-  <button class="nav-tab"    onclick="switchView('spend',this)">Spend & CPL</button>
-  <button class="nav-tab"    onclick="switchView('utm',this)">UTM Taxonomy</button>
-  <button class="nav-tab"    onclick="switchView('promo',this)">Promotions Calendar</button>
+  <button class="nav-tab on" data-view="month"     onclick="switchView('month')">This Month</button>
+  <button class="nav-tab"    data-view="rolling"   onclick="switchView('rolling')">Rolling 12 Months</button>
+  <button class="nav-tab"    data-view="fy"        onclick="switchView('fy')">Fiscal Year</button>
+  <button class="nav-tab"    data-view="samemonth" onclick="switchView('samemonth')">Year-over-Year</button>
+  <button class="nav-tab"    data-view="spend"     onclick="switchView('spend')">Spend & CPL</button>
+  <button class="nav-tab"    data-view="utm"       onclick="switchView('utm')">UTM Taxonomy</button>
+  <button class="nav-tab"    data-view="promo"     onclick="switchView('promo')">Promotions Calendar</button>
 
   <div class="nav-dropdown" id="plansDropdown">
     <button class="nav-tab" id="plansDropdownBtn" onclick="togglePlansDropdown(event)">Marketing Plans ▾</button>
@@ -850,8 +850,8 @@ function onMonthChange(ym) {
   else{banner.classList.remove('show');}
   if(isCurrent){document.getElementById('hdr-day').textContent=D.meta.days_elapsed;document.getElementById('hdr-dim').textContent=D.meta.days_in_month;}
   else{const dim=daysInMonth(ym);document.getElementById('hdr-day').textContent=dim;document.getElementById('hdr-dim').textContent=dim;}
-  const monthTab=document.querySelector('.nav-tab');
-  if(!monthTab.classList.contains('on')) switchView('month',monthTab);
+  const monthTab=document.querySelector('.nav-tab[data-view="month"]');
+  if(!monthTab.classList.contains('on')) switchView('month');
   buildMonthView();
 }
 function jumpToCurrentMonth(){const sel=document.getElementById('month-select');sel.value=D.meta.current_ym;onMonthChange(D.meta.current_ym);}
@@ -903,12 +903,22 @@ const baseScale={x:{grid:{display:false},ticks:{font:{family:MONO,size:10}}},y:{
 const paceScale={x:{grid:{display:false},ticks:{font:{family:MONO,size:10},callback:function(val,idx){const day=idx+1;return(day===1||day%5===0)?day:'';}}},y:{grid:{color:'#E8EDF5'},ticks:{font:{family:MONO,size:10}}}};
 const basePlugins={legend:{labels:{font:{family:MONO,size:10},boxWidth:8,padding:12}},tooltip:{titleFont:{family:SANS,size:12},bodyFont:{family:MONO,size:11}}};
 
-function switchView(id,btn){
+function switchView(id,updateHash){
+  const btn=document.querySelector('.nav-tab[data-view="'+id+'"]');
+  const view=document.getElementById('view-'+id);
+  if(!btn||!view) return;
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('on'));
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
   btn.classList.add('on');
-  document.getElementById('view-'+id).classList.add('on');
+  view.classList.add('on');
+  if(updateHash!==false && location.hash.slice(1)!==id) history.pushState(null,'','#'+id);
 }
+
+function applyViewFromHash(){
+  const id=location.hash.slice(1);
+  if(id && document.querySelector('.nav-tab[data-view="'+id+'"]')) switchView(id,false);
+}
+window.addEventListener('popstate',applyViewFromHash);
 
 function pctToPar(toDate,par){if(!par||par<=0) return 0;return Math.round(toDate/par*1000)/10;}
 function vsParFooter(toDate,par,daysElapsed,daysInMonth,goal,vsPar){
@@ -1549,6 +1559,7 @@ function init(){
   buildSpendView();
   buildUTMView();
   buildPromoView();
+  applyViewFromHash();
 }
 
 document.addEventListener('DOMContentLoaded',fetchAndInit);
