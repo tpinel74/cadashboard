@@ -864,6 +864,12 @@ function getMonthMeta(ym) {
   const row=D.rolling_12.find(r=>r.yearmo===ym)||{};
   const dim=daysInMonth(ym);
   const actuals=row.actuals||0, goal=row.goal||0;
+  const monthDaily=D.daily_all.filter(r=>r.yearmo===ym);
+  const lastDay=monthDaily.length?monthDaily.reduce((a,b)=>b.day>a.day?b:a):null;
+  const epGoal=lastDay?(lastDay.ep_par_cumulative||0):0;
+  const epActuals=lastDay?(lastDay.ep_cumulative_leads||0):0;
+  const msGoal=lastDay?(lastDay.ms_par_cumulative||0):0;
+  const msActuals=lastDay?(lastDay.ms_cumulative_sales||0):0;
   return {
     current_ym:ym, current_month_label:ymToFullLabel(ym),
     days_in_month:dim, days_elapsed:dim,
@@ -871,8 +877,14 @@ function getMonthMeta(ym) {
     vs_par:actuals-goal,
     pct_of_goal:goal>0?Math.round(actuals/goal*1000)/10:0,
     projected_month_total:actuals,
-    ep_goal:0,ep_leads_to_date:0,ep_par_to_date:0,ep_vs_par:0,ep_pct_of_goal:0,ep_projected_total:0,
-    ms_goal:0,ms_sales_to_date:0,ms_par_to_date:0,ms_vs_par:0,ms_pct_of_goal:0,ms_projected_total:0,
+    ep_goal:epGoal, ep_leads_to_date:epActuals, ep_par_to_date:epGoal,
+    ep_vs_par:epActuals-epGoal,
+    ep_pct_of_goal:epGoal>0?Math.round(epActuals/epGoal*1000)/10:0,
+    ep_projected_total:epActuals,
+    ms_goal:msGoal, ms_sales_to_date:msActuals, ms_par_to_date:msGoal,
+    ms_vs_par:msActuals-msGoal,
+    ms_pct_of_goal:msGoal>0?Math.round(msActuals/msGoal*1000)/10:0,
+    ms_projected_total:msActuals,
   };
 }
 function getDailyMTD(ym){return D.daily_all.filter(r=>r.yearmo===ym);}
