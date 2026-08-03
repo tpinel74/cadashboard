@@ -164,6 +164,16 @@ body {
 .dropdown-item.pinned { font-weight: 700; color: var(--navy); }
 .dropdown-item.archive-link { color: var(--mid); font-size: 12px; }
 .dropdown-divider { height: 1px; background: var(--border); margin: 6px 0; }
+.dropdown-heading {
+  padding: 4px 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+.dropdown-item.archived { color: var(--mid); }
 .dropdown-empty {
   padding: 9px 16px;
   font-family: 'DM Mono', monospace;
@@ -381,6 +391,7 @@ body {
       <a href="playbook.html" class="dropdown-item pinned">📌 Operating Model</a>
       <div class="dropdown-divider"></div>
       <div id="plansMonthLinks"></div>
+      <div id="plansArchivedLinks"></div>
       <div class="dropdown-divider"></div>
       <a href="plans-archive.html" class="dropdown-item archive-link">Archive →</a>
     </div>
@@ -702,20 +713,27 @@ body {
 // MARKETING PLANS DROPDOWN
 // ============================================================
 // Hand-maintained list — update this each time a month is published or
-// a new draft is opened. status: 'published' shows in the dropdown,
+// a new draft is opened. status: 'published' shows at the top of the
+// dropdown, 'archived' shows in the muted "Archived" section beneath it,
 // anything else (e.g. 'draft') stays hidden until flipped.
 const MARKETING_PLANS = [
-  { label: 'July 2026', url: 'https://rain-lantana-3e3.notion.site/July-2026-38ff650427d181428b74c980316f8d89', status: 'published' },
-  { label: 'August 2026 (Draft)', url: 'https://rain-lantana-3e3.notion.site/August-2026-Draft-390f650427d18127a1fdc1a89e071d93', status: 'published' },
+  { label: 'July 2026', url: 'https://rain-lantana-3e3.notion.site/July-2026-38ff650427d181428b74c980316f8d89', status: 'archived' },
+  { label: 'August 2026', url: 'https://rain-lantana-3e3.notion.site/August-2026-Draft-390f650427d18127a1fdc1a89e071d93', status: 'published' },
 ];
 
 function populatePlansDropdown(){
   const container = document.getElementById('plansMonthLinks');
-  if(!container) return;
+  const archivedContainer = document.getElementById('plansArchivedLinks');
+  if(!container || !archivedContainer) return;
   const published = MARKETING_PLANS.filter(p => p.status === 'published' && p.url);
+  const archived = MARKETING_PLANS.filter(p => p.status === 'archived' && p.url);
   container.innerHTML = published.length
     ? published.map(p => `<a href="${p.url}" class="dropdown-item" target="_blank" rel="noopener">${p.label}</a>`).join('')
     : `<div class="dropdown-empty">No published plans yet</div>`;
+  archivedContainer.innerHTML = archived.length
+    ? `<div class="dropdown-divider"></div><div class="dropdown-heading">Archived</div>` +
+      archived.map(p => `<a href="${p.url}" class="dropdown-item archived" target="_blank" rel="noopener">${p.label}</a>`).join('')
+    : '';
 }
 
 function togglePlansDropdown(e){
